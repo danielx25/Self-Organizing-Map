@@ -9,10 +9,11 @@ function escalaGrises(act, min, max)
     var canvas = document.getElementById('hexmap');
 	var titulo = document.getElementById('red');
 	var info = document.getElementById('infoRed');
+	var pesos = document.getElementById('peso');
 	
 	var min = Math.min.apply(null,lista_red);
 	var max = Math.max.apply(null,lista_red);
-	info.innerHTML = "filas: "+ ancho+ " columna: "+largo+ " min Act: "+min+ " max Act: "+max;
+	info.innerHTML = "filas: "+ ancho+ " | columna: "+largo+ " | min Act: "+min+ " | max Act: "+max;
     canvas.width = 1920;
 	canvas.height = 1080;
     
@@ -65,8 +66,9 @@ function escalaGrises(act, min, max)
             drawBoard(ctx, boardWidth, boardHeight);
 
             // Check if the mouse's coords are on the board
-            if(hexX >= 0 && hexX < boardWidth) {
-                if(hexY >= 0 && hexY < boardHeight) {
+            if(hexX >= 0 && hexX < boardHeight) {
+                if(hexY >= 0 && hexY <  boardWidth) {
+					pesos.innerHTML= "["+hexX+" ,"+hexY+"]";
                     ctx.fillStyle = "#000000";
                     drawHexagon(ctx, screenX, screenY, true);
                 }
@@ -90,8 +92,8 @@ function escalaGrises(act, min, max)
 				
                 drawHexagon(
                     ctx, 
-                    i * hexRectangleWidth + ((j % 2) * hexRadius), 
-                    j * (sideLength + hexHeight), 
+                    j * hexRectangleWidth + ((i % 2) * hexRadius), 
+                    i * (sideLength + hexHeight), 
                     true
                 );
             }
