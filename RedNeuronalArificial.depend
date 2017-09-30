@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1506743657 source:c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\main.cpp
+	<iostream>
+	<stdio.h>
+	<limits>
+	"som.h"
+	"neurona.h"
+
+1505004262 source:c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\src\neurona.cpp
+	"neurona.h"
+
+1506039878 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\neurona.h
+	"som.h"
+	"configuracion.h"
+	<stdio.h>
+
+1506743100 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\som.h
+	<stdlib.h>
+	<math.h>
+	<limits>
+	"NeuronaHex.h"
+	"configuracion.h"
+	"arreglos.h"
+	"ficherorna.h"
+
+1506743997 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\configuracion.h
+
+1506199170 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\arreglos.h
+
+1506743861 source:c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\src\som.cpp
+	"som.h"
+	<stdio.h>
+
+1506731903 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\neuronahex.h
+	"configuracion.h"
+	<stdio.h>
+
+1506710154 source:c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\src\ficherorna.cpp
+	"ficherorna.h"
+
+1506722613 c:\users\danie\desktop\nueva carpeta (2)\redneuronalarificial\include\ficherorna.h
+	<string>
+	<iostream>
+	<fstream>
+	<vector>
+	<windows.h>
+	<stdlib.h>
+	<sstream>
+	"NeuronaHex.h"
+
