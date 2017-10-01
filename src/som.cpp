@@ -258,7 +258,7 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        distancia = distanciaManhattan(entrada, neurona);//distanciaEuclidea(entrada, neurona);
+        distancia = distanciaEuclidea(entrada, neurona);
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;
@@ -298,7 +298,7 @@ void SOM::ejemplo1()
         contador+=1;
         printf("|\n");
     }
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex);
+    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
 
 void SOM::entrenamiento()
@@ -326,7 +326,7 @@ void SOM::entrenamiento()
 
 
     }
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex);
+    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
 
 

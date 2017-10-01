@@ -17,6 +17,10 @@ function escalaGrises(act, min, max)
     canvas.width = 1920;
 	canvas.height = 1080;
     
+	
+	var fila = 0;
+	var columna = 0;
+	
 	//titulo.style.color = escalaGrises(80, min, max);
 	
 	var hexHeight,
@@ -68,8 +72,28 @@ function escalaGrises(act, min, max)
             // Check if the mouse's coords are on the board
             if(hexX >= 0 && hexX < boardHeight) {
                 if(hexY >= 0 && hexY <  boardWidth) {
-					pesos.innerHTML= "["+hexX+" ,"+hexY+"]";
-                    ctx.fillStyle = "#000000";
+					fila = hexY;
+					columna = hexX;
+					indiceList = largo*fila+columna;
+					pesos.innerHTML= "["+fila+" ,"+columna+"]="+indiceList+" | "+lista_Pesos[indiceList]+"\n";
+					cafe = lista_Pesos[indiceList][0]*(12)+1;
+					tostada = lista_Pesos[indiceList][1]*(8)+1;
+					galleta = lista_Pesos[indiceList][2]*(7)+1;
+					total = lista_Pesos[indiceList][3]*(20160-2800)+2800;
+					pesos.innerHTML+= "cafe = "+cafe+ " | tostada = "+ tostada+ " | galleta = "+galleta+" | total = "+total;
+					/*
+					min:  1.0
+					max:  13.0
+					min:  1.0
+					max:  9.0
+					min:  1.0
+					max:  8.0
+					min:  2800.0
+					max:  20160.0
+					*/
+					//Configuracion::LARGO*neurona->lado6.fila+neurona->lado6.columna
+                    
+					ctx.fillStyle = "#000000";
                     drawHexagon(ctx, screenX, screenY, true);
                 }
             }

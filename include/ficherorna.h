@@ -27,7 +27,7 @@ class FicheroRNA
 
 
 
-        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO])
+        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO], double redNeuronal[][Configuracion::NUMERO_NEURONAS])
         {
             std::string cadena;
             std::stringstream ss2;
@@ -49,6 +49,26 @@ class FicheroRNA
                     cadena+= ss2.str()+", ";
                 }
                 cadena+="\n";
+            }
+            cadena+="];\n\n";
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_NEURONAS;
+            cadena+="var numeroNeurona= "+ss2.str()+"\n";
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_ENTRADAS;
+            cadena+="var numeroEntrada= "+ss2.str()+"\n";
+            cadena+="var lista_Pesos= [ \n";
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+                cadena+="[ ";
+                for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                {
+                    ss2.str("");
+                    ss2<<redNeuronal[indicePeso][indiceNeurona];
+                    cadena+=ss2.str()+ ", ";
+
+                }
+                cadena+="],\n";
             }
             cadena+="];\n";
             std::ofstream fichero(NOMBRE_FICHERO, std::ios::ate);
