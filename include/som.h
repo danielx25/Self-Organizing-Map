@@ -54,10 +54,10 @@ class SOM
         int ancho;
 
         //tasa de aprendizaje
-        double alfa = 0.2;
+        double alfa = 0.3;
 
         //decrecimiento de la tasa de aprendizaje
-        double beta = 0.0005;
+        double beta = 0.00000461538;//0.0005;
 
         double alfas[Configuracion::NUMERO_ENTRADAS];
         double betas[Configuracion::NUMERO_ENTRADAS];
