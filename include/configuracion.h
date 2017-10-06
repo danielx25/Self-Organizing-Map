@@ -8,10 +8,10 @@ class Configuracion
         Configuracion() {}
         virtual ~Configuracion() {}
 
-        static const int NUMERO_ENTRADAS = 5;
+        static const int NUMERO_ENTRADAS = 38;
         static const int NUMERO_NEURONAS = 400;
         static const int RANGO_VECINDAD = 4;
-        static const int NUMERO_DATOS = 150;
+        static const int NUMERO_DATOS = 62385;
         /**el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal puede unirse en sus limites)
         como un balon de futbol con caras hexagonales*/
         static const int ANCHO = 20;
