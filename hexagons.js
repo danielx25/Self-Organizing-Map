@@ -76,12 +76,12 @@ function escalaGrises(act, min, max)
 					columna = hexX;
 					indiceList = largo*fila+columna;
 					pesos.innerHTML= "["+fila+" ,"+columna+"]="+indiceList+" | "+lista_Pesos[indiceList]+"\n";
-					cafe = lista_Pesos[indiceList][0]*(12)+1;
+					/*cafe = lista_Pesos[indiceList][0]*(12)+1;
 					tostada = lista_Pesos[indiceList][1]*(8)+1;
 					galleta = lista_Pesos[indiceList][2]*(7)+1;
 					total = lista_Pesos[indiceList][3]*(20160-2800)+2800;
 					pesos.innerHTML+= "cafe = "+cafe+ " | tostada = "+ tostada+ " | galleta = "+galleta+" | total = "+total;
-					/*
+					
 					min:  1.0
 					max:  13.0
 					min:  1.0

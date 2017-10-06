@@ -253,7 +253,7 @@ static void crearMatrizConexionHex(NeuronaHex mapaHex[Configuracion::ANCHO][Conf
         par*=-1;
     }
 
-
+    /*
      for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {
         for(int columna=0; columna<Configuracion::LARGO; columna++)
@@ -261,7 +261,7 @@ static void crearMatrizConexionHex(NeuronaHex mapaHex[Configuracion::ANCHO][Conf
             printf("[%d, %d] = (%d, %d) | ", fila, columna, mapaHex[fila][columna].lado6.fila, mapaHex[fila][columna].lado6.columna);
         }
         printf("\n");
-    }
+    }*/
 
 
 }

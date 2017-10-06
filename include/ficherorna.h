@@ -76,6 +76,38 @@ class FicheroRNA
             fichero.close();
         }
 
+        static void leerCSV(std::string rutaArchivo,double datosEntrenamiento[][Configuracion::NUMERO_ENTRADAS] )
+        {
+            std::ifstream in(rutaArchivo);
+            std::vector<std::vector<double>> fields;
+            if (in) {
+                std::string line;
+                while (getline(in, line)) {
+                        std::cout << "lineas\n";
+                    std::stringstream sep(line);
+                    std::string field;
+                    fields.push_back(std::vector<double>());
+                    while (getline(sep, field, ';')) {
+                            std::cout << field;
+                        fields.back().push_back(atof(field.c_str()));
+                    }
+                }
+            }
+            std::cout << "hollaaaaa ";
+            int fila = 0;
+            int columna = 0;
+            for (auto row : fields) {
+                columna = 0;
+                for (auto field : row) {
+                    std::cout << field << '-';
+                    datosEntrenamiento[fila][columna] = field;
+                    columna+=1;
+                }
+                fila+=1;
+                std::cout << '\n';
+            }
+        }
+
     protected:
 
     private:
