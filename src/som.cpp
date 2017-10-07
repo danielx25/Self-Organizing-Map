@@ -14,7 +14,7 @@ static void iniciarMapa(bool marcasMapa[Configuracion::ANCHO][Configuracion::LAR
     }
 }
 
-SOM::SOM(double datos[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS])
+SOM::SOM(double **datos)
 {
     numeroEntradas = Configuracion::NUMERO_ENTRADAS;
     numeroNeuronas = Configuracion::NUMERO_NEURONAS;
@@ -22,14 +22,15 @@ SOM::SOM(double datos[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADA
     numeroIteraciones = alfa/beta;
     iteracion = 0;
     crearMatrizConexionHex(mapaHex);
-
+    /*
     for(int fila=0; fila<Configuracion::NUMERO_DATOS; fila++)
     {
         for(int columna=0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
         {
             datosEntrenamiento[fila][columna] = datos[fila][columna];
         }
-    }
+    }*/
+    datosEntrenamiento = datos;
 
 
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
@@ -315,15 +316,15 @@ void SOM::entrenamiento()
             indiceNeuronaGanadora = seleccionNeuronaGanadora();
             aprendizaje(indiceNeuronaGanadora);
 
-
-            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-            {
-                olvidoProgresivo(&alfas[i], beta);
-            }
-            iteracion+=1;
+            //if(iteracion > numeroIteraciones)
+            //    break;
 
         }
-
+        for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+        {
+            olvidoProgresivo(&alfas[i], beta);
+        }
+        iteracion+=1;
 
     }
     FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);

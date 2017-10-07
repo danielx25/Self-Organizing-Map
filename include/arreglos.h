@@ -27,7 +27,7 @@ class Arreglos
             }
         }
 
-        static void getFila(double *arreglo1, double matriz[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS], int fila)
+        static void getFila(double *arreglo1, double **matriz, int fila)
         {
 
             for(int columna=0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
