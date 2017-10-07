@@ -14,7 +14,7 @@
 class SOM
 {
     public:
-        SOM(double datos[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS]);
+        SOM(double **datos);
         virtual ~SOM();
 
         double distanciaEuclidea(double *entrada, double *pesos);
@@ -43,7 +43,7 @@ class SOM
     private:
         //malla de la red neuronal
         //neurona redNeuronal[Configuracion::NUMERO_NEURONAS];
-        double datosEntrenamiento[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS];
+        double **datosEntrenamiento;
         double entrada[Configuracion::NUMERO_ENTRADAS];
         double neurona[Configuracion::NUMERO_ENTRADAS];
         double redNeuronal[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
@@ -54,10 +54,11 @@ class SOM
         int ancho;
 
         //tasa de aprendizaje
-        double alfa = 0.3;
+
+        double alfa = 0.35;
 
         //decrecimiento de la tasa de aprendizaje
-        double beta = 0.00000461538;//0.0005;
+        double beta = 0.005;
 
         double alfas[Configuracion::NUMERO_ENTRADAS];
         double betas[Configuracion::NUMERO_ENTRADAS];

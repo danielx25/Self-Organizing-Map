@@ -76,7 +76,8 @@ class FicheroRNA
             fichero.close();
         }
 
-        static void leerCSV(std::string rutaArchivo,double datosEntrenamiento[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS] )
+
+        static void leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
         {
             std::ifstream in(rutaArchivo);
             std::vector<std::vector<double>> fields;
@@ -84,30 +85,29 @@ class FicheroRNA
                 std::string line;
 
                 while (getline(in, line)) {
-
                     std::stringstream sep(line);
                     std::string field;
                     fields.push_back(std::vector<double>());
-                    //while (getline(sep, field, ';')) {
-                    //        std::cout << field;
-                    //    fields.back().push_back(atof(field.c_str()));
-                    //}
+                    while (getline(sep, field, ';')) {
+                        fields.back().push_back(atof(field.c_str()));
+                    }
                 }
             }
-            /*
+
             std::cout << "hollaaaaa ";
             int fila = 0;
             int columna = 0;
+            //printf("numero filas: %d\n", fields.size());
             for (auto row : fields) {
+                //printf("numero filas: %d\n", row.size());
                 columna = 0;
                 for (auto field : row) {
-                    std::cout << field << '-';
+                    //printf("[%d, %d]\n", fila, columna);
                     datosEntrenamiento[fila][columna] = field;
                     columna+=1;
                 }
                 fila+=1;
-                std::cout << '\n';
-            }*/
+            }
         }
 
     protected:
