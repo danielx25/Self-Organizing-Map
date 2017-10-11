@@ -1,7 +1,5 @@
 #ifndef FICHERORNA_H
 #define FICHERORNA_H
-
-
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -10,9 +8,9 @@
 #include <stdlib.h>
 #include <sstream>
 #include "NeuronaHex.h"
+#include "som.h"
 
 const char NOMBRE_FICHERO[100] = "valores.js";
-
 class FicheroRNA
 {
     public:
@@ -93,6 +91,8 @@ class FicheroRNA
                     }
                 }
             }
+            else
+                {printf("no ahi archivo\n");}
 
             std::cout << "hollaaaaa ";
             int fila = 0;
@@ -109,7 +109,24 @@ class FicheroRNA
                 fila+=1;
             }
         }
+        /*
+        static void guardarEstadoRed(SOM som2)
+        {
+            std::ofstream salida;
+            salida.open("Som.dat", std::ios::binary|std::ios::app);
+            salida.write(&som2,sizeof(som2));
+            salida.close();
+        }
 
+        static void leerEstadoRed()
+        {
+            std::ifstream entrada;
+            //Cliente cliente;
+            entrada.open("Som.dat", std::ios::binary|std::ios::app);
+            entrada.seekg(0,std::ios::end);
+            long longitudFichero=entrada.tellg();
+            entrada.seekg(0, std::ios::beg);
+        }*/
     protected:
 
     private:

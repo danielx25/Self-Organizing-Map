@@ -38,6 +38,9 @@ class SOM
 
         void ejemplo1();
 
+        int numeroIteraciones;
+        int iteracion;
+
     protected:
 
     private:
@@ -55,16 +58,14 @@ class SOM
 
         //tasa de aprendizaje
 
-        double alfa = 0.35;
+        double alfa = 0.5;
 
         //decrecimiento de la tasa de aprendizaje
-        double beta = 0.005;
+        double beta = 0.0005;
 
         double alfas[Configuracion::NUMERO_ENTRADAS];
         double betas[Configuracion::NUMERO_ENTRADAS];
 
-        int numeroIteraciones;
-        int iteracion;
         int indiceNeuronaGanadora;
 
         /**Estructura hexagonal del mapa de kohonen*/

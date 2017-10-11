@@ -305,27 +305,21 @@ void SOM::ejemplo1()
 void SOM::entrenamiento()
 {
     pesosAleatorios();
+    //numeroIteraciones =1;
     printf("numero iter: %d\n", numeroIteraciones);
-
-    while(iteracion < numeroIteraciones)
+    while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
-
         for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
         {
             Arreglos::getFila(entrada, datosEntrenamiento, fila);
             indiceNeuronaGanadora = seleccionNeuronaGanadora();
             aprendizaje(indiceNeuronaGanadora);
-
-            //if(iteracion > numeroIteraciones)
-            //    break;
-
+            iteracion+=1;
         }
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
             olvidoProgresivo(&alfas[i], beta);
         }
-        iteracion+=1;
-
     }
     FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }

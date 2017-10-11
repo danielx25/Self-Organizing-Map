@@ -7,25 +7,37 @@
 #include "configuracion.h"
 #include <stdlib.h>     /* atof */
 #include <time.h>
-
-
+#include <pthread.h>
+#include <cstdlib>
+#include <windows.h>
+#include <conio.h>
 using namespace std;
 
 
+#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+#define PBWIDTH 60
 
+void printProgress (double percentage, int totalIter, int iter)
+{
+    int val = (int) (percentage * 100);
+    int lpad = (int) (percentage * PBWIDTH);
+    int rpad = PBWIDTH - lpad;
+    printf("total: %d | iteracion: %d | por: %f", totalIter, iter, percentage);
+    printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
+    fflush (stdout);
+}
 
-double ** createByteMatrix(unsigned int rows, unsigned int cols) {
-/*
-	double ** matrix;
-	matrix = (double **) calloc(cols, sizeof(double *));
-	for(unsigned int i = 0; i < cols; i++)
-		matrix[i] = (double *) calloc(rows, sizeof(double));
-	return matrix;
-*/
+void *proceso_hilos(void *funcion)
+{
+    SOM *som1 = (SOM*)funcion;
+    som1->entrenamiento();
+    pthread_exit(NULL);
+}
+
+double ** createByteMatrix(unsigned int rows, unsigned int cols)
+{
     // declaration
 	double ** a;
-    printf("fila: %d\n", rows);
-    printf("columna: %d\n", cols);
 	// allocation
 	a = new double*[rows];
 	for(int i = 0; i < rows; i++)
@@ -35,35 +47,25 @@ double ** createByteMatrix(unsigned int rows, unsigned int cols) {
 
 int main()
 {
-    //double ejemplo[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS];
-    clock_t start, end;
-    start = clock();
-
-
-    //double arreglo[Configuracion::NUMERO_DATOS][Configuracion::NUMERO_ENTRADAS];
-    //double arreglo1[65000][90000];
-
+    pthread_t hilo;
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
 
-    //NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO];
-    //crearMatrizConexionHex(mapaHex);
-    //cout << "Hello world!" << endl;
+    FicheroRNA::leerCSV("Libro2.csv", BitmapArray);
 
-    FicheroRNA::leerCSV("DatosEntrenamiento.csv", BitmapArray);
-    double a[2]={1,1};
-    double b[2]={2,2};
     SOM som1(BitmapArray);
     //som1.entrenamiento();
-    //som1.ejemplo1();
-    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex);
+    pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
-
-
-    /* fin de las instrucciones*/
-
-    end = clock();
-    printf("The time was: %f\n", (end - start) / CLK_TCK);
+    double porcentaje = 0;
+    system("cls");
+    for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
+    {
+        porcentaje = (som1.iteracion)/(double)(som1.numeroIteraciones*Configuracion::NUMERO_DATOS);
+        printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
+        Sleep(2000);
+        //FicheroRNA::guardarEstadoRed(som1);
+    }
 
     return 0;
 }
