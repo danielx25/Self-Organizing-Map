@@ -78,6 +78,22 @@ double SOM::distanciaMinkowski(double *entrada, double *pesos, double p)
     }
     return pow(sumatoria, 1/p);
 }
+
+double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
+{
+    double sumatoria = 0;
+
+    for(int i=0; i < numeroEntradas; i++)
+    {
+        if(i!=7)
+            sumatoria+= (2/(numeroEntradas-1))*pow(entrada[i]- pesos[i], 2);
+        else{
+            sumatoria+= (8)*pow(entrada[i]- pesos[i], 2);
+        }
+    }
+    return sqrt(sumatoria);
+}
+
 /**-------------------------------------------------------------------------------*/
 
 
@@ -259,7 +275,10 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        distancia = distanciaEuclidea(entrada, neurona);
+        //distancia = distanciaEuclidea(entrada, neurona);
+        //distancia = distanciaManhattan(entrada, neurona);
+        distancia = distanciaEuclidea_1(entrada, neurona);
+
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;

@@ -21,6 +21,8 @@ class SOM
         double distanciaManhattan(double *entrada, double *pesos);
         double distanciaMinkowski(double *entrada, double *pesos, double p);
 
+        double distanciaEuclidea_1(double *entrada, double *pesos);
+
         void olvidoProgresivo(double *alfa, double beta);
         void olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter);
 
@@ -61,7 +63,7 @@ class SOM
         double alfa = 0.5;
 
         //decrecimiento de la tasa de aprendizaje
-        double beta = 0.0005;
+        double beta = 0.005;
 
         double alfas[Configuracion::NUMERO_ENTRADAS];
         double betas[Configuracion::NUMERO_ENTRADAS];
