@@ -75,7 +75,7 @@ class FicheroRNA
         }
 
 
-        static void leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
+        static bool leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
         {
             std::ifstream in(rutaArchivo);
             std::vector<std::vector<double>> fields;
@@ -90,9 +90,10 @@ class FicheroRNA
                         fields.back().push_back(atof(field.c_str()));
                     }
                 }
+                in.close();
             }
             else
-                {printf("no ahi archivo\n");}
+                return false;
 
             std::cout << "hollaaaaa ";
             int fila = 0;
@@ -108,6 +109,7 @@ class FicheroRNA
                 }
                 fila+=1;
             }
+            return true;
         }
         /*
         static void guardarEstadoRed(SOM som2)

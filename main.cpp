@@ -51,21 +51,27 @@ int main()
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
 
-    FicheroRNA::leerCSV("Libro2.csv", BitmapArray);
-
-    SOM som1(BitmapArray);
-    //som1.entrenamiento();
-    pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
-
-    double porcentaje = 0;
-    system("cls");
-    for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
+    if(FicheroRNA::leerCSV("Libro2.csv", BitmapArray))
     {
-        porcentaje = (som1.iteracion)/(double)(som1.numeroIteraciones*Configuracion::NUMERO_DATOS);
-        printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
-        Sleep(2000);
-        //FicheroRNA::guardarEstadoRed(som1);
+        SOM som1(BitmapArray);
+        //som1.entrenamiento();
+        pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
+
+        double porcentaje = 0;
+        system("cls");
+        for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
+        {
+            porcentaje = (som1.iteracion)/(double)(som1.numeroIteraciones*Configuracion::NUMERO_DATOS);
+            printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
+            Sleep(2000);
+            //FicheroRNA::guardarEstadoRed(som1);
+        }
     }
+    else{
+        printf("fichero no encontrado\n");
+    }
+
+
 
     return 0;
 }

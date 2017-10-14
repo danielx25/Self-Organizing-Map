@@ -85,11 +85,14 @@ double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
 
     for(int i=0; i < numeroEntradas; i++)
     {
+        sumatoria+= pow(entrada[i]- pesos[i], 2);
+
         if(i!=7)
-            sumatoria+= (2/(numeroEntradas-1))*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= 0.005054*pow(entrada[i]- pesos[i], 2);
         else{
-            sumatoria+= (8)*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= 80*pow(entrada[i]- pesos[i], 2);
         }
+
     }
     return sqrt(sumatoria);
 }
@@ -326,6 +329,7 @@ void SOM::entrenamiento()
     pesosAleatorios();
     //numeroIteraciones =1;
     printf("numero iter: %d\n", numeroIteraciones);
+    int ciclo = 0;
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
@@ -337,8 +341,10 @@ void SOM::entrenamiento()
         }
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
-            olvidoProgresivo(&alfas[i], beta);
+            //olvidoProgresivo(&alfas[i], beta);
+            olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
+        ciclo +=1;
     }
     FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
