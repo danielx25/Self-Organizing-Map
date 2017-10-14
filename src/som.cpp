@@ -88,9 +88,12 @@ double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
         sumatoria+= pow(entrada[i]- pesos[i], 2);
 
         if(i!=7)
-            sumatoria+= 0.005054*pow(entrada[i]- pesos[i], 2);
+        {
+
+        }
+            //sumatoria+= 0.005054*pow(entrada[i]- pesos[i], 2);
         else{
-            sumatoria+= 80*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= pow(entrada[i]- pesos[i], 2);
         }
 
     }
