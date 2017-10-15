@@ -274,7 +274,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=Arreglos::fRand(-0.5, 0.5);
+            redNeuronal[j][i]=Arreglos::fRand(0, 1);
         }
     }
 }
@@ -350,8 +350,8 @@ void SOM::entrenamiento()
         }
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
-            //olvidoProgresivo(&alfas[i], beta);
-            olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
+            olvidoProgresivo(&alfas[i], beta);
+            //olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
         ciclo +=1;
     }
