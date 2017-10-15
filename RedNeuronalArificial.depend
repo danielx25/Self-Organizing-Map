@@ -63,7 +63,7 @@
 	<windows.h>
 	<conio.h>
 
-1507851759 c:\users\danie\desktop\self-organizing-map\include\som.h
+1508010021 c:\users\danie\desktop\self-organizing-map\include\som.h
 	<stdlib.h>
 	<math.h>
 	<limits>
@@ -80,7 +80,7 @@
 
 1507349052 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 
-1507916815 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1508010021 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>
