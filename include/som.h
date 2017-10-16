@@ -26,6 +26,9 @@ class SOM
         void olvidoProgresivo(double *alfa, double beta);
         void olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter);
 
+        /**actualizando lo peso de la neurona*/
+        void actualizarPesosNeurona(int distanciaVecin, int indiceNeurona);
+
         void pesosAleatorios();
         int seleccionNeuronaGanadora();
         void entrenamiento();
