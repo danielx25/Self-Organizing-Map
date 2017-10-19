@@ -335,12 +335,13 @@ void SOM::entrenamiento()
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
             olvidoProgresivo(&alfas[i], beta);
-            if(i == 7)
-                olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
+            //if(i == 7)
+            //    olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
         ciclo +=1;
     }
     FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    FicheroRNA::guardarPesosRNA(redNeuronal);
 }
 
 

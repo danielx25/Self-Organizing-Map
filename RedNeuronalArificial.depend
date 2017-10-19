@@ -80,7 +80,7 @@
 
 1507349052 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 
-1508089211 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1508368913 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>
@@ -102,7 +102,7 @@
 1505004262 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
 	"neurona.h"
 
-1507868141 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
+1508368830 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 

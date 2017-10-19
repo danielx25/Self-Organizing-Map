@@ -74,6 +74,32 @@ class FicheroRNA
             fichero.close();
         }
 
+        static void guardarPesosRNA (double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            ss2.str("");
+
+            //cadena+="var lista_Pesos= [ \n";
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+                //cadena+="[ ";
+                for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                {
+                    ss2.str("");
+                    ss2<<redNeuronal[indicePeso][indiceNeurona];
+                    cadena+=ss2.str()+ "; ";
+
+                }
+                cadena+="\n";
+            }
+            //cadena+="];\n";
+            std::ofstream fichero("pesosRNA.csv", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+
 
         static bool leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
         {
@@ -95,15 +121,11 @@ class FicheroRNA
             else
                 return false;
 
-            std::cout << "hollaaaaa ";
             int fila = 0;
             int columna = 0;
-            //printf("numero filas: %d\n", fields.size());
             for (auto row : fields) {
-                //printf("numero filas: %d\n", row.size());
                 columna = 0;
                 for (auto field : row) {
-                    //printf("[%d, %d]\n", fila, columna);
                     datosEntrenamiento[fila][columna] = field;
                     columna+=1;
                 }
