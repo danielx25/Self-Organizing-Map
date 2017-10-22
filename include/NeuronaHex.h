@@ -15,7 +15,7 @@ typedef struct
 {
     int id;
     double numero_activaciones;
-    double pesos[Configuracion::NUMERO_ENTRADAS];
+    double *pesos = new double[Configuracion::NUMERO_ENTRADAS];
 
     conexion lado1;//derecha
     conexion lado2;//derecha-abajo

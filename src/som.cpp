@@ -16,6 +16,11 @@ static void iniciarMapa(bool marcasMapa[Configuracion::ANCHO][Configuracion::LAR
 
 SOM::SOM(double **datos)
 {
+
+    redNeuronal=new double*[Configuracion::NUMERO_NEURONAS];
+    for(int i=0; i<Configuracion::NUMERO_NEURONAS; i++)
+        redNeuronal[i] = new double[Configuracion::NUMERO_ENTRADAS];
+
     numeroEntradas = Configuracion::NUMERO_ENTRADAS;
     numeroNeuronas = Configuracion::NUMERO_NEURONAS;
     rangoVecindad = Configuracion::RANGO_VECINDAD;

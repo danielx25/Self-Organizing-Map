@@ -19,7 +19,7 @@ class Arreglos
             return fMin + f * (fMax - fMin);
         }
 
-        static void getNeurona(double *arreglo1, double matriz[][Configuracion::NUMERO_NEURONAS], int columna)
+        static void getNeurona(double *arreglo1, double **matriz, int columna)
         {
             for(int fila=0; fila<Configuracion::NUMERO_ENTRADAS; fila++)
             {

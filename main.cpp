@@ -47,7 +47,8 @@ double ** createByteMatrix(unsigned int rows, unsigned int cols)
 
 int main()
 {
-    int Configuracion::NUMERO_ENTRADAS = 38;
+
+    //Configuracion::NUMERO_NEURONAS = 1600;
     pthread_t hilo;
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);

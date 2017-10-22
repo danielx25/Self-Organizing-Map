@@ -52,9 +52,9 @@ class SOM
         //malla de la red neuronal
         //neurona redNeuronal[Configuracion::NUMERO_NEURONAS];
         double **datosEntrenamiento;
-        double entrada[Configuracion::NUMERO_ENTRADAS];
-        double neurona[Configuracion::NUMERO_ENTRADAS];
-        double redNeuronal[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+        double *entrada = new double[Configuracion::NUMERO_ENTRADAS];
+        double *neurona = new double[Configuracion::NUMERO_ENTRADAS];
+        double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
         int numeroNeuronas;
         int numeroEntradas;
         int rangoVecindad;
@@ -67,8 +67,8 @@ class SOM
         //decrecimiento de la tasa de aprendizaje
         double beta = Configuracion::BETA;
 
-        double alfas[Configuracion::NUMERO_ENTRADAS];
-        double betas[Configuracion::NUMERO_ENTRADAS];
+        double *alfas = new double [Configuracion::NUMERO_ENTRADAS];
+        double *betas = new double [Configuracion::NUMERO_ENTRADAS];
 
         int indiceNeuronaGanadora;
 

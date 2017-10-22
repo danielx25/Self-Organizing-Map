@@ -25,7 +25,7 @@ class Configuracion
 
     private:
 };
-
+int Configuracion::NUMERO_ENTRADAS = 38;
 
 
 #endif // CONFIGURACION_H

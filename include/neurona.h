@@ -274,7 +274,7 @@ static void mapeo(int indiceNeurona)
     int y = indiceNeurona%Configuracion::LARGO;
 
 }
-*/
+
 
 class neurona
 {
@@ -293,5 +293,5 @@ class neurona
         int numeroActivacion;
         bool detener;
 };
-
+*/
 #endif // NEURONA_H

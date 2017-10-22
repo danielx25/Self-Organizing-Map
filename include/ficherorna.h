@@ -25,7 +25,7 @@ class FicheroRNA
 
 
 
-        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO], double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO], double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
@@ -74,7 +74,7 @@ class FicheroRNA
             fichero.close();
         }
 
-        static void guardarPesosRNA (double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        static void guardarPesosRNA (double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
