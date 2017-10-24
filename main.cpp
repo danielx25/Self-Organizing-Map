@@ -47,12 +47,11 @@ double ** createByteMatrix(unsigned int rows, unsigned int cols)
 
 int main()
 {
-    int Configuracion::NUMERO_ENTRADAS = 38;
     pthread_t hilo;
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     FicheroRNA::crearConfiguracion();
-    if(FicheroRNA::leerCSV("Libro2.csv", BitmapArray))
+    if(FicheroRNA::leerCSV("DatosEntrenamiento.csv", BitmapArray))
     {
         SOM som1(BitmapArray);
         //som1.entrenamiento();

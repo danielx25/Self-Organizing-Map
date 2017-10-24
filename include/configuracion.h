@@ -8,7 +8,7 @@ class Configuracion
         Configuracion() {}
         virtual ~Configuracion() {}
 
-        static int NUMERO_ENTRADAS;// = 38;
+        static const int NUMERO_ENTRADAS = 38;
         static const int NUMERO_NEURONAS = 1600;
         static const int RANGO_VECINDAD = 4;
         static const int NUMERO_DATOS = 62385;
