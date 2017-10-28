@@ -48,7 +48,7 @@
 	<sstream>
 	"NeuronaHex.h"
 
-1508635075 source:c:\users\danie\desktop\self-organizing-map\main.cpp
+1509146155 source:c:\users\danie\desktop\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -63,7 +63,8 @@
 	<windows.h>
 	<conio.h>
 
-1508635767 c:\users\danie\desktop\self-organizing-map\include\som.h
+
+1508726902 c:\users\danie\desktop\self-organizing-map\include\som.h
 	<stdlib.h>
 	<math.h>
 	<limits>
@@ -72,15 +73,16 @@
 	"arreglos.h"
 	"ficherorna.h"
 
-1508637218 c:\users\danie\desktop\self-organizing-map\include\neuronahex.h
+
+1508726902 c:\users\danie\desktop\self-organizing-map\include\neuronahex.h
 	"configuracion.h"
 	<stdio.h>
 
-1508635610 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
+1509153381 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
 
-1508633648 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
+1508726902 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 
-1508633729 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1508726902 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>
@@ -91,7 +93,8 @@
 	"NeuronaHex.h"
 	"som.h"
 
-1508633886 c:\users\danie\desktop\self-organizing-map\include\neurona.h
+
+1508726902 c:\users\danie\desktop\self-organizing-map\include\neurona.h
 	"som.h"
 	"configuracion.h"
 	<stdio.h>
@@ -99,10 +102,11 @@
 1506710154 source:c:\users\danie\desktop\self-organizing-map\src\ficherorna.cpp
 	"ficherorna.h"
 
-1508633905 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
+
+1508726902 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
 	"neurona.h"
 
-1508633609 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
+1509149617 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 

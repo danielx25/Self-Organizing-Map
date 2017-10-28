@@ -83,10 +83,10 @@ double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
 
     for(int i=0; i < numeroEntradas; i++)
     {
-        if(i!=7)
-            sumatoria+= (2/(numeroEntradas-1))*pow(entrada[i]- pesos[i], 2);
+        if(i!=37)
+            sumatoria+= 0.021052631*pow(entrada[i]- pesos[i], 2);
         else{
-            sumatoria+= (8)*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= 0.221052631*pow(entrada[i]- pesos[i], 2);
         }
     }
     return sqrt(sumatoria);
@@ -278,7 +278,7 @@ int SOM::seleccionNeuronaGanadora()
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
         //distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
-        distancia = distanciaEuclidea(entrada, neurona);
+        distancia = distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
@@ -340,8 +340,8 @@ void SOM::entrenamiento()
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
             olvidoProgresivo(&alfas[i], beta);
-            //if(i == 7)
-            //    olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
+            if(i == 37)
+                olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
         ciclo +=1;
     }
