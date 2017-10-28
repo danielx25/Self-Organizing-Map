@@ -73,7 +73,7 @@ class SOM
         int indiceNeuronaGanadora;
 
         /**Estructura hexagonal del mapa de kohonen*/
-        NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO];
+        NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
 
 };
 

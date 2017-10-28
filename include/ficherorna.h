@@ -25,7 +25,7 @@ class FicheroRNA
 
 
 
-        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO], double **redNeuronal)
+        static void escribirJS(int ancho , int largo, NeuronaHex **mapaHex, double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
@@ -42,9 +42,11 @@ class FicheroRNA
             {
                 for(int columna =0; columna<largo; columna++)
                 {
+                    //printf("ancho: %d largo: %d\n", fila, columna);
                     ss2.str("");
                     ss2<<mapaHex[fila][columna].numero_activaciones;
                     cadena+= ss2.str()+", ";
+
                 }
                 cadena+="\n";
             }

@@ -54,8 +54,9 @@ int main()
     if(FicheroRNA::leerCSV("DatosEntrenamiento.csv", BitmapArray))
     {
         SOM som1(BitmapArray);
-        //som1.entrenamiento();
-        pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
+        printf("iniciando entrenamiento\n");
+        som1.entrenamiento();
+        /*pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
         double porcentaje = 0;
         system("cls");
@@ -65,7 +66,8 @@ int main()
             printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
             Sleep(2000);
             //FicheroRNA::guardarEstadoRed(som1);
-        }
+        }*/
+
     }
     else{
         printf("fichero no encontrado\n");

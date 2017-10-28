@@ -4,6 +4,9 @@
 #include "configuracion.h"
 #include <stdio.h>
 
+
+
+
 struct conexion
 {
     bool conectado;
@@ -26,34 +29,71 @@ typedef struct
 
 }  NeuronaHex;
 
-static NeuronaHex inicNeuronaHex()
+static void inicNeuronaHex(NeuronaHex **mapaHex, int fila, int columna)
 {
-    NeuronaHex neu;
-    neu.id = -1;
-    neu.numero_activaciones = 0;
-    neu.lado1.columna = neu.lado1.fila = -1;
-    neu.lado2.columna = neu.lado2.fila = -1;
-    neu.lado3.columna = neu.lado3.fila = -1;
-    neu.lado4.columna = neu.lado4.fila = -1;
-    neu.lado5.columna = neu.lado5.fila = -1;
-    neu.lado6.columna = neu.lado6.fila = -1;
-    neu.lado1.conectado = false;
-    neu.lado2.conectado = false;
-    neu.lado3.conectado = false;
-    neu.lado4.conectado = false;
-    neu.lado5.conectado = false;
-    neu.lado6.conectado = false;
-    return neu;
+    mapaHex[fila][columna].id = -1;
+    mapaHex[fila][columna].numero_activaciones = 0;
+    mapaHex[fila][columna].lado1.columna = mapaHex[fila][columna].lado1.fila = -1;
+    mapaHex[fila][columna].lado2.columna = mapaHex[fila][columna].lado2.fila = -1;
+    mapaHex[fila][columna].lado3.columna = mapaHex[fila][columna].lado3.fila = -1;
+    mapaHex[fila][columna].lado4.columna = mapaHex[fila][columna].lado4.fila = -1;
+    mapaHex[fila][columna].lado5.columna = mapaHex[fila][columna].lado5.fila = -1;
+    mapaHex[fila][columna].lado6.columna = mapaHex[fila][columna].lado6.fila = -1;
+    mapaHex[fila][columna].lado1.conectado = false;
+    mapaHex[fila][columna].lado2.conectado = false;
+    mapaHex[fila][columna].lado3.conectado = false;
+    mapaHex[fila][columna].lado4.conectado = false;
+    mapaHex[fila][columna].lado5.conectado = false;
+    mapaHex[fila][columna].lado6.conectado = false;
 }
-//“odd-r” horizontal layout
-static void crearMatrizConexionHex(NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO])
+static void mostrarConxHex(NeuronaHex **mapaHex)
 {
+    for(int fila=0; fila<Configuracion::ANCHO; fila++)
+    {
+        for(int columna=0; columna<Configuracion::LARGO; columna++)
+        {
+            printf("[%d, %d] = (%d, %d) | ", fila, columna, mapaHex[fila][columna].lado6.fila, mapaHex[fila][columna].lado6.columna);
+        }
+        printf("\n");
+    }
+}
+
+
+//“odd-r” horizontal layout
+static void crearMatrizConexionHex(NeuronaHex **mapaHex)
+{
+    /*
+    NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
+    redNeuronal=new double*[Configuracion::NUMERO_NEURONAS];
+    for(int i=0; i<Configuracion::NUMERO_NEURONAS; i++)
+        redNeuronal[i] = new double[Configuracion::NUMERO_ENTRADAS];
+
+
+    mapaHex = new NeuronaHex*[Configuracion::ANCHO];
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        mapaHex[i] = new NeuronaHex[Configuracion::LARGO];
+        */
+
     int genID = 0;
     for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {
         for(int columna=0; columna<Configuracion::LARGO; columna++)
         {
-            mapaHex[fila][columna] = inicNeuronaHex();
+            //inicNeuronaHex(mapaHex, fila, columna);
+            mapaHex[fila][columna].numero_activaciones = 0;
+            mapaHex[fila][columna].lado1.columna = mapaHex[fila][columna].lado1.fila = -1;
+            mapaHex[fila][columna].lado2.columna = mapaHex[fila][columna].lado2.fila = -1;
+            mapaHex[fila][columna].lado3.columna = mapaHex[fila][columna].lado3.fila = -1;
+            mapaHex[fila][columna].lado4.columna = mapaHex[fila][columna].lado4.fila = -1;
+            mapaHex[fila][columna].lado5.columna = mapaHex[fila][columna].lado5.fila = -1;
+            mapaHex[fila][columna].lado6.columna = mapaHex[fila][columna].lado6.fila = -1;
+            mapaHex[fila][columna].lado1.conectado = false;
+            mapaHex[fila][columna].lado2.conectado = false;
+            mapaHex[fila][columna].lado3.conectado = false;
+            mapaHex[fila][columna].lado4.conectado = false;
+            mapaHex[fila][columna].lado5.conectado = false;
+            mapaHex[fila][columna].lado6.conectado = false;
+
             mapaHex[fila][columna].id = genID;
             genID++;
         }
@@ -252,7 +292,7 @@ static void crearMatrizConexionHex(NeuronaHex mapaHex[Configuracion::ANCHO][Conf
         }
         par*=-1;
     }
-
+    mostrarConxHex(mapaHex);
     /*
      for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {
@@ -265,6 +305,8 @@ static void crearMatrizConexionHex(NeuronaHex mapaHex[Configuracion::ANCHO][Conf
 
 
 }
+
+
 
 static void mapeo(int indiceNeurona)
 {
