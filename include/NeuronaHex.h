@@ -292,7 +292,7 @@ static void crearMatrizConexionHex(NeuronaHex **mapaHex)
         }
         par*=-1;
     }
-    mostrarConxHex(mapaHex);
+    //mostrarConxHex(mapaHex);
     /*
      for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {

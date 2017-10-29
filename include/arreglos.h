@@ -21,13 +21,9 @@ class Arreglos
         //double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
         static void getNeurona(double *arreglo1, double **matriz, int indiceNeurona)
         {
-            double a =0;
             for(int fila=0; fila<Configuracion::NUMERO_ENTRADAS; fila++)
             {
-                printf("fila---> %d\n",fila);
-                a = matriz[fila][indiceNeurona];
-                printf("end\n");
-                arreglo1[fila] = a;
+                arreglo1[fila] =  matriz[fila][indiceNeurona];
             }
         }
 

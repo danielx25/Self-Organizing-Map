@@ -22,9 +22,10 @@ SOM::SOM(double **datos)
     for(int i=0; i<Configuracion::ANCHO; i++)
         mapaHex[i] = new NeuronaHex[Configuracion::LARGO];
 
-    redNeuronal=new double*[Configuracion::NUMERO_NEURONAS];
-    for(int i=0; i<Configuracion::NUMERO_NEURONAS; i++)
-        redNeuronal[i] = new double[Configuracion::NUMERO_ENTRADAS];
+    //double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+    redNeuronal=new double*[Configuracion::NUMERO_ENTRADAS];
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+        redNeuronal[i] = new double[Configuracion::NUMERO_NEURONAS];
 
     numeroEntradas = Configuracion::NUMERO_ENTRADAS;
     numeroNeuronas = Configuracion::NUMERO_NEURONAS;
@@ -268,7 +269,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[i][j]=Arreglos::fRand(0, 1);
+            redNeuronal[j][i]=Arreglos::fRand(0, 1);
         }
     }
 }
@@ -280,7 +281,7 @@ int SOM::seleccionNeuronaGanadora()
     int indiceNeuronaGanadora = 0;
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
-        printf("indice Neu: %d\n", indiceNeu);
+        //printf("indice Neu: %d\n", indiceNeu);
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
         distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
@@ -343,7 +344,7 @@ void SOM::entrenamiento()
         {
             Arreglos::getFila(entrada, datosEntrenamiento, fila);
             indiceNeuronaGanadora = seleccionNeuronaGanadora();
-            //aprendizaje(indiceNeuronaGanadora);
+            aprendizaje(indiceNeuronaGanadora);
             iteracion+=1;
         }
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
@@ -353,12 +354,11 @@ void SOM::entrenamiento()
             //    olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
         ciclo +=1;
-        break;
     }
 
-    mostrarConxHex(mapaHex);
-    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
-    //FicheroRNA::guardarPesosRNA(redNeuronal);
+    //mostrarConxHex(mapaHex);
+    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    FicheroRNA::guardarPesosRNA(redNeuronal);
 }
 
 
