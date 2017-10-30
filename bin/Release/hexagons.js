@@ -13,7 +13,7 @@ function escalaGrises(act, min, max)
 	
 	var min = Math.min.apply(null,lista_red);
 	var max = Math.max.apply(null,lista_red);
-	info.innerHTML = "filas: "+ ancho+ " | columna: "+largo+ " | min Act: "+min+ " | max Act: "+max;
+	info.innerHTML = "fil5as: "+ ancho+ " | columna: "+largo+ " | min Act: "+min+ " | max Act: "+max;
     canvas.width = 1920;
 	canvas.height = 1080;
     
@@ -144,3 +144,7 @@ function escalaGrises(act, min, max)
     }
 
 })();
+
+$setTimeout(function() {
+  location.reload();
+}, 3000);
