@@ -267,6 +267,11 @@ void SOM::aprendizaje(int indiceNeurona)
     }
 
     propagacionAprendizaje(2, marcasMapa, fila, columna);
+
+    /**Liberando memoria de la matriz marcasMapa*/
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        delete[] marcasMapa[i];
+    delete []marcasMapa;
 }
 void SOM::pesosAleatorios()
 {
