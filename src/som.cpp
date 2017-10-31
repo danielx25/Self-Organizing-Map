@@ -3,7 +3,7 @@
 
 
 
-static void iniciarMapa(bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO])
+static void iniciarMapa(bool **marcasMapa)
 {
     for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {
@@ -130,7 +130,7 @@ void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
     }
 }
 
-void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO], int fila, int columna)
+void SOM::propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila, int columna)
 {
     NeuronaHex *neurona = &(mapaHex[fila][columna]);
     double listaNeurona[6];
@@ -248,7 +248,12 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuraci
 
 void SOM::aprendizaje(int indiceNeurona)
 {
-    bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO];
+    bool **marcasMapa;//[Configuracion::ANCHO][Configuracion::LARGO];
+    marcasMapa = new bool*[Configuracion::ANCHO];
+
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        marcasMapa[i] = new bool[Configuracion::LARGO];
+
     iniciarMapa(marcasMapa);
     int fila = indiceNeurona/Configuracion::LARGO;
     int columna = indiceNeurona%Configuracion::LARGO;

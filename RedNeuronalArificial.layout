@@ -4,22 +4,22 @@
 	<ActiveTarget name="Release" />
 	<File name="include\NeuronaHex.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11383" topLine="287" />
+			<Cursor1 position="11383" topLine="17" />
 		</Cursor>
 	</File>
-	<File name="src\neurona.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="24" topLine="0" />
+			<Cursor1 position="1491" topLine="42" />
 		</Cursor>
 	</File>
-	<File name="include\ficherorna.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\configuracion.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4252" topLine="99" />
+			<Cursor1 position="253" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\som.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1742" topLine="46" />
+			<Cursor1 position="1248" topLine="13" />
 		</Cursor>
 	</File>
 	<File name="include\arreglos.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -27,23 +27,22 @@
 			<Cursor1 position="774" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\neurona.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1491" topLine="42" />
-		</Cursor>
-	</File>
-	<File name="include\configuracion.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="251" topLine="0" />
+			<Cursor1 position="24" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\som.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11420" topLine="160" />
+			<Cursor1 position="3545" topLine="109" />
 		</Cursor>
 		<Folding>
-			<Collapse line="133" />
-			<Collapse line="299" />
+			<Collapse line="304" />
 		</Folding>
+	</File>
+	<File name="include\ficherorna.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3627" topLine="72" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -39,7 +39,7 @@ class SOM
 
         double aprendizajeHebb(double alfa, double distanciaVecindario, double e, double u);
         void aprendizaje(int indiceNeurona);
-        void propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO], int fila, int columna);
+        void propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila, int columna);
 
         void ejemplo1();
 
