@@ -37,6 +37,7 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="main.cpp" />
+		<Unit filename="src/configuracion.cpp" />
 		<Unit filename="src/ficherorna.cpp" />
 		<Unit filename="src/neurona.cpp" />
 		<Unit filename="src/som.cpp" />

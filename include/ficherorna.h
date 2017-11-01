@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <sstream>
+#include "configuracion.h"
 #include "NeuronaHex.h"
 #include "som.h"
 
