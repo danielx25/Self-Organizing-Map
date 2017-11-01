@@ -63,7 +63,7 @@
 	<windows.h>
 	<conio.h>
 
-1509417308 c:\users\danie\desktop\self-organizing-map\include\som.h
+1509496651 c:\users\danie\desktop\self-organizing-map\include\som.h
 	<stdlib.h>
 	<math.h>
 	<limits>
@@ -102,7 +102,7 @@
 1509235317 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
 	"neurona.h"
 
-1509417275 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
+1509496136 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 

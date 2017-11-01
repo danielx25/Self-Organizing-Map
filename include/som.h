@@ -39,7 +39,7 @@ class SOM
 
         double aprendizajeHebb(double alfa, double distanciaVecindario, double e, double u);
         void aprendizaje(int indiceNeurona);
-        void propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila, int columna);
+        void propagacionAprendizaje(int distanciaVecin, int fila, int columna);
 
         void ejemplo1();
 
@@ -74,6 +74,8 @@ class SOM
 
         /**Estructura hexagonal del mapa de kohonen*/
         NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
+        /**marcar los hexagonos de la neuronas que ya aprendieron en una iteracion*/
+        bool **marcasMapa;
 
 };
 

@@ -27,6 +27,10 @@ SOM::SOM(double **datos)
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         redNeuronal[i] = new double[Configuracion::NUMERO_NEURONAS];
 
+    marcasMapa = new bool*[Configuracion::ANCHO];
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        marcasMapa[i] = new bool[Configuracion::LARGO];
+
     numeroEntradas = Configuracion::NUMERO_ENTRADAS;
     numeroNeuronas = Configuracion::NUMERO_NEURONAS;
     rangoVecindad = Configuracion::RANGO_VECINDAD;
@@ -43,6 +47,10 @@ SOM::SOM(double **datos)
 SOM::~SOM()
 {
     //dtor
+    /**Liberando memoria de la matriz marcasMapa*/
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        delete[] marcasMapa[i];
+    delete []marcasMapa;
 }
 
 /**
@@ -130,7 +138,7 @@ void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
     }
 }
 
-void SOM::propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila, int columna)
+void SOM::propagacionAprendizaje(int distanciaVecin, int fila, int columna)
 {
     NeuronaHex *neurona = &(mapaHex[fila][columna]);
     double listaNeurona[6];
@@ -208,37 +216,37 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila
         if(listaBool[0])
         {
             mapaHex[neurona->lado1.fila][neurona->lado1.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado1.fila, neurona->lado1.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado1.fila, neurona->lado1.columna);
         }
 
         if(listaBool[1])
         {
             mapaHex[neurona->lado2.fila][neurona->lado2.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado2.fila, neurona->lado2.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado2.fila, neurona->lado2.columna);
         }
 
         if(listaBool[2])
         {
             mapaHex[neurona->lado3.fila][neurona->lado3.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado3.fila, neurona->lado3.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado3.fila, neurona->lado3.columna);
         }
 
         if(listaBool[3])
         {
             mapaHex[neurona->lado4.fila][neurona->lado4.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado4.fila, neurona->lado4.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado4.fila, neurona->lado4.columna);
         }
 
         if(listaBool[4])
         {
             mapaHex[neurona->lado5.fila][neurona->lado5.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado5.fila, neurona->lado5.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado5.fila, neurona->lado5.columna);
         }
 
         if(listaBool[5])
         {
             mapaHex[neurona->lado6.fila][neurona->lado6.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado6.fila, neurona->lado6.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado6.fila, neurona->lado6.columna);
         }
 
 
@@ -248,11 +256,8 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool **marcasMapa, int fila
 
 void SOM::aprendizaje(int indiceNeurona)
 {
-    bool **marcasMapa;//[Configuracion::ANCHO][Configuracion::LARGO];
-    marcasMapa = new bool*[Configuracion::ANCHO];
+    //bool **marcasMapa;//[Configuracion::ANCHO][Configuracion::LARGO];
 
-    for(int i=0; i<Configuracion::ANCHO; i++)
-        marcasMapa[i] = new bool[Configuracion::LARGO];
 
     iniciarMapa(marcasMapa);
     int fila = indiceNeurona/Configuracion::LARGO;
@@ -266,12 +271,9 @@ void SOM::aprendizaje(int indiceNeurona)
         redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], 1, entrada[i], redNeuronal[i][indiceNeurona]);
     }
 
-    propagacionAprendizaje(2, marcasMapa, fila, columna);
+    propagacionAprendizaje(2, fila, columna);
 
-    /**Liberando memoria de la matriz marcasMapa*/
-    for(int i=0; i<Configuracion::ANCHO; i++)
-        delete[] marcasMapa[i];
-    delete []marcasMapa;
+
 }
 void SOM::pesosAleatorios()
 {
