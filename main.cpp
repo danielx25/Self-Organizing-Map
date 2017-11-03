@@ -50,7 +50,10 @@ int main()
     pthread_t hilo;
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
-    FicheroRNA::crearConfiguracion();
+
+    if(!FicheroRNA::leerConfiguracion())
+        FicheroRNA::crearConfiguracion();
+
     if(FicheroRNA::leerCSV("DatosEntrenamiento.csv", BitmapArray))
     {
         SOM som1(BitmapArray);
@@ -72,6 +75,8 @@ int main()
     else{
         printf("fichero no encontrado\n");
     }
+
+    //FicheroRNA::crearConfiguracion();
 
 
 

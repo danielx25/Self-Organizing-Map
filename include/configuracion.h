@@ -1,10 +1,11 @@
 #ifndef CONFIGURACION_H
 #define CONFIGURACION_H
 
-
+#include <iostream>
 class Configuracion
 {
     public:
+        static std::string RUTA_ARCHIVO;
         static unsigned int NUMERO_ENTRADAS; //= 38;
         static int NUMERO_NEURONAS;// = 1600;
         static int RANGO_VECINDAD;// = 4;

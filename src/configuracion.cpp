@@ -1,5 +1,5 @@
 #include "configuracion.h"
-
+#include <iostream>
 Configuracion::Configuracion()
 {
     //ctor
@@ -10,6 +10,8 @@ Configuracion::~Configuracion()
 {
     //dtor
 }
+
+std::string Configuracion::RUTA_ARCHIVO = "DatosEntrenamiento.csv";
 unsigned int Configuracion::NUMERO_ENTRADAS=38;
 int Configuracion::NUMERO_NEURONAS = 1600;
 int Configuracion::RANGO_VECINDAD = 4;

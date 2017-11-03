@@ -4,9 +4,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <map>
 #include <windows.h>
 #include <stdlib.h>
 #include <sstream>
+#include <algorithm>
 #include "configuracion.h"
 #include "NeuronaHex.h"
 #include "som.h"
@@ -136,31 +138,135 @@ class FicheroRNA
             return true;
         }
         /*
-        static void guardarEstadoRed(SOM som2)
+        RUTA_ARCHIVO = DatosEntrenamiento.csv
+NUMERO_ENTRADAS = 38
+NUMERO_DATOS = 62385
+NUMERO_NEURONAS = 1600
+LARGO = 40
+el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal pueda unirse en sus limites)
+como un balon de futbol con caras hexagonales
+ANCHO = 40
+ALFA = 0.5
+BETA = 0.005
+RANGO_VECINDAD = 4*/
+        static std::string RemoveChar(std::string str, char c)
         {
-            std::ofstream salida;
-            salida.open("Som.dat", std::ios::binary|std::ios::app);
-            salida.write(&som2,sizeof(som2));
-            salida.close();
+           std::string result;
+           for (size_t i = 0; i < str.size(); i++)
+           {
+                  char currentChar = str[i];
+                  if (currentChar != c)
+                      result += currentChar;
+           }
+               return result;
         }
 
-        static void leerEstadoRed()
+        static bool leerConfiguracion()
         {
-            std::ifstream entrada;
-            //Cliente cliente;
-            entrada.open("Som.dat", std::ios::binary|std::ios::app);
-            entrada.seekg(0,std::ios::end);
-            long longitudFichero=entrada.tellg();
-            entrada.seekg(0, std::ios::beg);
-        }*/
+            std::ifstream in("ConfiguracionRNA.conf");
+            if (in) {
+                std::string line;
+
+                bool rutaArchivo = false;
+                bool numeroEntrada = false;
+                bool numeroDatos = false;
+                bool numeroNeuronas = false;
+                bool largo = false;
+                bool ancho = false;
+                bool beta = false;
+                bool rangoVecindad = false;
+
+                while (getline(in, line)) {
+                    std::stringstream sep(line);
+                    std::string field;
+
+
+                    int contador = 0;
+                    while (getline(sep, field, '=')) {
+                        if(contador == 1)
+                        {
+                            if (line.find("RUTA_ARCHIVO") != std::string::npos)
+                            {
+                                rutaArchivo = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::RUTA_ARCHIVO = field;
+                            }
+
+                            if (line.find("NUMERO_ENTRADAS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_ENTRADAS = atof(field.c_str());
+                            }
+
+                            if (line.find("NUMERO_DATOS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_DATOS = atof(field.c_str());
+                            }
+
+                            if (line.find("NUMERO_NEURONAS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_NEURONAS = atof(field.c_str());
+                            }
+
+                            if (line.find("LARGO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::LARGO = atof(field.c_str());
+                            }
+
+                            if (line.find("ANCHO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ANCHO = atof(field.c_str());
+                            }
+
+                            if (line.find("ALFA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ALFA = atof(field.c_str());
+                            }
+
+                            if (line.find("BETA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::BETA = atof(field.c_str());
+                            }
+
+                            if (line.find("RANGO_VECINDAD") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::RANGO_VECINDAD = atof(field.c_str());
+                            }
+                        }
+                        contador+=1;
+                    }
+                }
+                in.close();
+                return true;
+            }
+            else
+                return false;
+        }
         static void crearConfiguracion()
         {
             std::string cadena;
             std::stringstream ss2;
 
+            cadena = "RUTA_ARCHIVO = "+Configuracion::RUTA_ARCHIVO+"\n";
+
             ss2.str("");
             ss2<<Configuracion::NUMERO_ENTRADAS;
-            cadena = "NUMERO_ENTRADAS = "+ss2.str()+"\n";
+            cadena += "NUMERO_ENTRADAS = "+ss2.str()+"\n";
 
             ss2.str("");
             ss2<<Configuracion::NUMERO_DATOS;
