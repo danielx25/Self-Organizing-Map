@@ -373,4 +373,14 @@ void SOM::entrenamiento()
     FicheroRNA::guardarPesosRNA(redNeuronal);
 }
 
+double** SOM::getRedNeuronal()
+{
+    return redNeuronal;
+}
+
+
+NeuronaHex** SOM::getMapaHex()
+{
+    return mapaHex;
+}
 

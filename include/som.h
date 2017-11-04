@@ -42,6 +42,8 @@ class SOM
         void propagacionAprendizaje(int distanciaVecin, int fila, int columna);
 
         void ejemplo1();
+        double **getRedNeuronal();
+        NeuronaHex **getMapaHex();
 
         int numeroIteraciones;
         int iteracion;
