@@ -120,6 +120,7 @@ class FicheroRNA
                         fields.back().push_back(atof(field.c_str()));
                     }
                 }
+
                 in.close();
             }
             else
@@ -127,7 +128,10 @@ class FicheroRNA
 
             int fila = 0;
             int columna = 0;
+            printf("filas: %d\n", fields.size());
+            printf("colum: %d\n", fields[0].size());
             for (auto row : fields) {
+
                 columna = 0;
                 for (auto field : row) {
                     datosEntrenamiento[fila][columna] = field;
@@ -135,6 +139,7 @@ class FicheroRNA
                 }
                 fila+=1;
             }
+            printf("se cayo!!");
             return true;
         }
         /*

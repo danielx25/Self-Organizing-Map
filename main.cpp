@@ -47,17 +47,19 @@ double ** createByteMatrix(unsigned int rows, unsigned int cols)
 
 int main()
 {
+    //iniciando la configuracion desde el archivo
+    if(!FicheroRNA::leerConfiguracion())
+        FicheroRNA::crearConfiguracion();
+
     pthread_t hilo;
     double ** BitmapArray;
 	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
 
-    if(!FicheroRNA::leerConfiguracion())
-        FicheroRNA::crearConfiguracion();
-
-    if(FicheroRNA::leerCSV("DatosEntrenamiento.csv", BitmapArray))
+    if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, BitmapArray))
     {
-        SOM som1(BitmapArray);
         printf("iniciando entrenamiento\n");
+        SOM som1(BitmapArray);
+
         //som1.entrenamiento();
         pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
