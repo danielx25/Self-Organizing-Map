@@ -61,6 +61,8 @@ int main()
         SOM som1(BitmapArray);
 
         //som1.entrenamiento();
+        FicheroRNA::guardarStatusRNA(&som1);
+        /*
         pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
         double porcentaje = 0;
@@ -70,8 +72,11 @@ int main()
             porcentaje = (som1.iteracion)/(double)(som1.numeroIteraciones*Configuracion::NUMERO_DATOS);
             printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
             Sleep(2000);
-            //FicheroRNA::guardarEstadoRed(som1);
+
+            FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1.getMapaHex(), som1.getRedNeuronal());
+            FicheroRNA::guardarPesosRNA(som1.getRedNeuronal());
         }
+        */
 
     }
     else{

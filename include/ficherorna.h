@@ -85,11 +85,8 @@ class FicheroRNA
             std::stringstream ss2;
 
             ss2.str("");
-
-            //cadena+="var lista_Pesos= [ \n";
             for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
             {
-                //cadena+="[ ";
                 for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
                 {
                     ss2.str("");
@@ -99,10 +96,44 @@ class FicheroRNA
                 }
                 cadena+="\n";
             }
-            //cadena+="];\n";
             std::ofstream fichero("pesosRNA.csv", std::ios::ate);
             fichero << cadena;
             fichero.close();
+        }
+
+        static bool leerPesosRNA(double **datosEntrenamiento )
+        {
+            std::ifstream in("pesosRNA.csv");
+            std::vector<std::vector<double>> fields;
+            if (in) {
+                std::string line;
+
+                while (getline(in, line)) {
+                    std::stringstream sep(line);
+                    std::string field;
+                    fields.push_back(std::vector<double>());
+                    while (getline(sep, field, ';')) {
+                        fields.back().push_back(atof(field.c_str()));
+                    }
+                }
+
+                in.close();
+            }
+            else
+                return false;
+
+            int fila = 0;
+            int columna = 0;
+            for (auto row : fields) {
+
+                columna = 0;
+                for (auto field : row) {
+                    datosEntrenamiento[fila][columna] = field;
+                    columna+=1;
+                }
+                fila+=1;
+            }
+            return true;
         }
 
         static bool leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
@@ -128,8 +159,6 @@ class FicheroRNA
 
             int fila = 0;
             int columna = 0;
-            printf("filas: %d\n", fields.size());
-            printf("colum: %d\n", fields[0].size());
             for (auto row : fields) {
 
                 columna = 0;
@@ -139,21 +168,9 @@ class FicheroRNA
                 }
                 fila+=1;
             }
-            printf("se cayo!!");
             return true;
         }
-        /*
-        RUTA_ARCHIVO = DatosEntrenamiento.csv
-NUMERO_ENTRADAS = 38
-NUMERO_DATOS = 62385
-NUMERO_NEURONAS = 1600
-LARGO = 40
-el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal pueda unirse en sus limites)
-como un balon de futbol con caras hexagonales
-ANCHO = 40
-ALFA = 0.5
-BETA = 0.005
-RANGO_VECINDAD = 4*/
+
         static std::string RemoveChar(std::string str, char c)
         {
            std::string result;
@@ -263,6 +280,52 @@ RANGO_VECINDAD = 4*/
                 return false;
         }
         static void crearConfiguracion()
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            cadena = "RUTA_ARCHIVO = "+Configuracion::RUTA_ARCHIVO+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_ENTRADAS;
+            cadena += "NUMERO_ENTRADAS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_DATOS;
+            cadena += "NUMERO_DATOS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_NEURONAS;
+            cadena += "NUMERO_NEURONAS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::LARGO;
+            cadena += "LARGO = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::ANCHO;
+            cadena += "el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal pueda unirse en sus limites)\n";
+            cadena +="como un balon de futbol con caras hexagonales\n";
+            cadena += "ANCHO = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::ALFA;
+            cadena += "ALFA = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::BETA;
+            cadena += "BETA = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::RANGO_VECINDAD;
+            cadena += "RANGO_VECINDAD = "+ss2.str()+"\n";
+
+
+            std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+        static void guardarStatusRNA(SOM *som1)
         {
             std::string cadena;
             std::stringstream ss2;

@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <limits>
-//#include "neurona.h"
 #include "NeuronaHex.h"
 #include "configuracion.h"
 #include "arreglos.h"
-#include "ficherorna.h"
+//#include "ficherorna.h"
 
 
 class SOM
@@ -45,6 +44,10 @@ class SOM
         double **getRedNeuronal();
         NeuronaHex **getMapaHex();
 
+        void setRedNeuronal(double **red);
+        void setPausar(bool pause);
+        bool getListoGuardar();
+
         int numeroIteraciones;
         int iteracion;
 
@@ -78,6 +81,13 @@ class SOM
         NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
         /**marcar los hexagonos de la neuronas que ya aprendieron en una iteracion*/
         bool **marcasMapa;
+
+        /**pause*/
+        bool pausarEntrenamiento;
+        /**terminar el entrenamiento forsozamente*/
+        bool terminar;
+        /**señal para que guarde el estado de la red neuronal*/
+        bool listoGuardar;
 
 };
 

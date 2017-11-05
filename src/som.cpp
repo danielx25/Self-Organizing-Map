@@ -16,7 +16,8 @@ static void iniciarMapa(bool **marcasMapa)
 
 SOM::SOM(double **datos)
 {
-
+    pausarEntrenamiento = false;
+    terminar = false;
 
     mapaHex = new NeuronaHex*[Configuracion::ANCHO];
     for(int i=0; i<Configuracion::ANCHO; i++)
@@ -293,7 +294,6 @@ int SOM::seleccionNeuronaGanadora()
     int indiceNeuronaGanadora = 0;
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
-        //printf("indice Neu: %d\n", indiceNeu);
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
         //distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
@@ -338,39 +338,43 @@ void SOM::ejemplo1()
         contador+=1;
         printf("|\n");
     }
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
 
 void SOM::entrenamiento()
 {
     pesosAleatorios();
-    //numeroIteraciones =1;
     printf("numero iter: %d\n", numeroIteraciones);
-    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
-    //printf("termino de guardar\n");
+
     int ciclo = 0;
 
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
-        for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
+        if(!pausarEntrenamiento)
         {
-            Arreglos::getFila(entrada, datosEntrenamiento, fila);
-            indiceNeuronaGanadora = seleccionNeuronaGanadora();
-            aprendizaje(indiceNeuronaGanadora);
-            iteracion+=1;
+            listoGuardar = false;
+            for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
+            {
+                Arreglos::getFila(entrada, datosEntrenamiento, fila);
+                indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                aprendizaje(indiceNeuronaGanadora);
+                iteracion+=1;
+            }
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                olvidoProgresivo(&alfas[i], beta);
+                if(i == 36)
+                    olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
+            }
+            ciclo +=1;
+            listoGuardar = true;
         }
-        for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-        {
-            olvidoProgresivo(&alfas[i], beta);
-            if(i == 36)
-                olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
-        }
-        ciclo +=1;
+
     }
 
     //mostrarConxHex(mapaHex);
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
-    FicheroRNA::guardarPesosRNA(redNeuronal);
+    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    //FicheroRNA::guardarPesosRNA(redNeuronal);
 }
 
 double** SOM::getRedNeuronal()
@@ -384,3 +388,17 @@ NeuronaHex** SOM::getMapaHex()
     return mapaHex;
 }
 
+void SOM::setRedNeuronal(double **red)
+{
+    redNeuronal = red;
+}
+
+void SOM::setPausar(bool pause)
+{
+    pausarEntrenamiento = pause;
+}
+
+bool SOM::getListoGuardar()
+{
+    return listoGuardar;
+}
