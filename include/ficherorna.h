@@ -74,8 +74,33 @@ class FicheroRNA
             fichero.close();
         }
 
+        static void guardarPesosRNA (double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        {
+            std::string cadena;
+            std::stringstream ss2;
 
-        static void leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
+            ss2.str("");
+
+            //cadena+="var lista_Pesos= [ \n";
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+                //cadena+="[ ";
+                for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                {
+                    ss2.str("");
+                    ss2<<redNeuronal[indicePeso][indiceNeurona];
+                    cadena+=ss2.str()+ "; ";
+
+                }
+                cadena+="\n";
+            }
+            //cadena+="];\n";
+            std::ofstream fichero("pesosRNA.csv", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+
+        static bool leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
         {
             std::ifstream in(rutaArchivo);
             std::vector<std::vector<double>> fields;
@@ -90,24 +115,22 @@ class FicheroRNA
                         fields.back().push_back(atof(field.c_str()));
                     }
                 }
+                in.close();
             }
             else
-                {printf("no ahi archivo\n");}
+                return false;
 
-            std::cout << "hollaaaaa ";
             int fila = 0;
             int columna = 0;
-            //printf("numero filas: %d\n", fields.size());
             for (auto row : fields) {
-                //printf("numero filas: %d\n", row.size());
                 columna = 0;
                 for (auto field : row) {
-                    //printf("[%d, %d]\n", fila, columna);
                     datosEntrenamiento[fila][columna] = field;
                     columna+=1;
                 }
                 fila+=1;
             }
+            return true;
         }
         /*
         static void guardarEstadoRed(SOM som2)
@@ -127,6 +150,50 @@ class FicheroRNA
             long longitudFichero=entrada.tellg();
             entrada.seekg(0, std::ios::beg);
         }*/
+        static void crearConfiguracion()
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_ENTRADAS;
+            cadena = "NUMERO_ENTRADAS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_DATOS;
+            cadena += "NUMERO_DATOS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_NEURONAS;
+            cadena += "NUMERO_NEURONAS = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::LARGO;
+            cadena += "LARGO = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::ANCHO;
+            cadena += "el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal pueda unirse en sus limites)\n";
+            cadena +="como un balon de futbol con caras hexagonales\n";
+            cadena += "ANCHO = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::ALFA;
+            cadena += "ALFA = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::BETA;
+            cadena += "BETA = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::RANGO_VECINDAD;
+            cadena += "RANGO_VECINDAD = "+ss2.str()+"\n";
+
+
+            std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
     protected:
 
     private:

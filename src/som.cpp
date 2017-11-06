@@ -22,14 +22,6 @@ SOM::SOM(double **datos)
     numeroIteraciones = alfa/beta;
     iteracion = 0;
     crearMatrizConexionHex(mapaHex);
-    /*
-    for(int fila=0; fila<Configuracion::NUMERO_DATOS; fila++)
-    {
-        for(int columna=0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
-        {
-            datosEntrenamiento[fila][columna] = datos[fila][columna];
-        }
-    }*/
     datosEntrenamiento = datos;
 
 
@@ -78,6 +70,22 @@ double SOM::distanciaMinkowski(double *entrada, double *pesos, double p)
     }
     return pow(sumatoria, 1/p);
 }
+
+/**establece un nivel de importancia mayor en algunas de la dimensiones*/
+double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
+{
+    double sumatoria = 0;
+
+    for(int i=0; i < numeroEntradas; i++)
+    {
+        if(i!=7)
+            sumatoria+= (2/(numeroEntradas-1))*pow(entrada[i]- pesos[i], 2);
+        else{
+            sumatoria+= (8)*pow(entrada[i]- pesos[i], 2);
+        }
+    }
+    return sqrt(sumatoria);
+}
 /**-------------------------------------------------------------------------------*/
 
 
@@ -102,6 +110,14 @@ double SOM::aprendizajeHebb(double alfa, double distanciaVecindario, double e, d
     return (alfa/(double)distanciaVecindario)*(e- u);
 }
 
+/**actualizando lo peso de la neurona*/
+void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
+{
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    {
+        redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
+    }
+}
 
 void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO], int fila, int columna)
 {
@@ -171,11 +187,7 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuraci
             indiceNeurona = listaNeurona[i_vecino];
             if(listaBool[i_vecino]==true)
             {
-                for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-                {
-                    //mapaHex[i][columna].numero_activaciones+=1;
-                    redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
-                }
+                actualizarPesosNeurona(distanciaVecin, indiceNeurona);
             }
 
         }
@@ -246,7 +258,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=Arreglos::fRand(-0.5, 0.5);
+            redNeuronal[j][i]=Arreglos::fRand(0, 1);
         }
     }
 }
@@ -259,7 +271,10 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
+        //distancia = distanciaEuclidea(entrada, neurona);
+        //distancia = distanciaManhattan(entrada, neurona);
         distancia = distanciaEuclidea(entrada, neurona);
+
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;
@@ -307,6 +322,7 @@ void SOM::entrenamiento()
     pesosAleatorios();
     //numeroIteraciones =1;
     printf("numero iter: %d\n", numeroIteraciones);
+    int ciclo = 0;
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
@@ -319,9 +335,13 @@ void SOM::entrenamiento()
         for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
         {
             olvidoProgresivo(&alfas[i], beta);
+            //if(i == 7)
+            //    olvidoLogaritmico(&alfas[i], alfa, ciclo, numeroIteraciones);
         }
+        ciclo +=1;
     }
     FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    FicheroRNA::guardarPesosRNA(redNeuronal);
 }
 
 

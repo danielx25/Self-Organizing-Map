@@ -21,8 +21,13 @@ class SOM
         double distanciaManhattan(double *entrada, double *pesos);
         double distanciaMinkowski(double *entrada, double *pesos, double p);
 
+        double distanciaEuclidea_1(double *entrada, double *pesos);
+
         void olvidoProgresivo(double *alfa, double beta);
         void olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter);
+
+        /**actualizando lo peso de la neurona*/
+        void actualizarPesosNeurona(int distanciaVecin, int indiceNeurona);
 
         void pesosAleatorios();
         int seleccionNeuronaGanadora();
@@ -57,11 +62,10 @@ class SOM
         int ancho;
 
         //tasa de aprendizaje
-
-        double alfa = 0.5;
+        double alfa = Configuracion::ALFA;
 
         //decrecimiento de la tasa de aprendizaje
-        double beta = 0.0005;
+        double beta = Configuracion::BETA;
 
         double alfas[Configuracion::NUMERO_ENTRADAS];
         double betas[Configuracion::NUMERO_ENTRADAS];
