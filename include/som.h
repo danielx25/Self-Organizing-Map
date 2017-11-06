@@ -48,8 +48,26 @@ class SOM
         void setPausar(bool pause);
         bool getListoGuardar();
 
+        double getAlfa();
+        double getBeta();
+
+        double setAlfa(double alfa1);
+        double setBeta(double beta1);
+
+        double *getAlfas();
+        double *getBetas();
+
+        double setAlfas(double *alfa1);
+        double setBetas(double *beta1);
+
+        bool getTerminoEntrenarse();
+
+
         int numeroIteraciones;
+        /** iteracion por cada ejemplo entrenado por la red*/
         int iteracion;
+        /** ciclos de entrenamiento del dataset*/
+        int ciclos;
 
     protected:
 
@@ -85,7 +103,7 @@ class SOM
         /**pause*/
         bool pausarEntrenamiento;
         /**terminar el entrenamiento forsozamente*/
-        bool terminar;
+        bool terminoEntrenarse;
         /**señal para que guarde el estado de la red neuronal*/
         bool listoGuardar;
 

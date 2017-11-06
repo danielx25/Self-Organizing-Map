@@ -136,6 +136,28 @@ class FicheroRNA
             return true;
         }
 
+        static void guardarCSV (double **datosEntrenamiento)
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            ss2.str("");
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+                for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                {
+                    ss2.str("");
+                    ss2<<datosEntrenamiento[indicePeso][indiceNeurona];
+                    cadena+=ss2.str()+ "; ";
+
+                }
+                cadena+="\n";
+            }
+            std::ofstream fichero(Configuracion::RUTA_ARCHIVO, std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+
         static bool leerCSV(std::string rutaArchivo,double **datosEntrenamiento )
         {
             std::ifstream in(rutaArchivo);
@@ -330,44 +352,55 @@ class FicheroRNA
             std::string cadena;
             std::stringstream ss2;
 
-            cadena = "RUTA_ARCHIVO = "+Configuracion::RUTA_ARCHIVO+"\n";
+            if (som1->getTerminoEntrenarse())
+                cadena = "termino_entrenarse = si\n";
+            else
+                cadena = "termino_entrenarse = no\n";
+
 
             ss2.str("");
-            ss2<<Configuracion::NUMERO_ENTRADAS;
-            cadena += "NUMERO_ENTRADAS = "+ss2.str()+"\n";
+            ss2<<som1->ciclos;
+            cadena += "ciclos = "+ss2.str()+"\n";
 
             ss2.str("");
-            ss2<<Configuracion::NUMERO_DATOS;
-            cadena += "NUMERO_DATOS = "+ss2.str()+"\n";
+            ss2<<som1->iteracion;
+            cadena += "iteracion = "+ss2.str()+"\n";
 
             ss2.str("");
-            ss2<<Configuracion::NUMERO_NEURONAS;
-            cadena += "NUMERO_NEURONAS = "+ss2.str()+"\n";
+            ss2<<som1->getAlfa();
+            cadena += "alfa = "+ss2.str()+"\n";
 
             ss2.str("");
-            ss2<<Configuracion::LARGO;
-            cadena += "LARGO = "+ss2.str()+"\n";
+            ss2<<som1->getBeta();
+            cadena += "beta = "+ss2.str()+"\n";
 
-            ss2.str("");
-            ss2<<Configuracion::ANCHO;
-            cadena += "el largo puede ser cualquier pero el ancho tiene que ser par(para que la estructura hexagonal pueda unirse en sus limites)\n";
-            cadena +="como un balon de futbol con caras hexagonales\n";
-            cadena += "ANCHO = "+ss2.str()+"\n";
+            //ss2.str("");
+            //ss2<<Configuracion::LARGO;
+            cadena += "alfas = [";
 
-            ss2.str("");
-            ss2<<Configuracion::ALFA;
-            cadena += "ALFA = "+ss2.str()+"\n";
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                ss2.str("");
+                ss2<<som1->getAlfas()[i];
+                if (i != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena += ss2.str()+", ";
+                else
+                    cadena += ss2.str()+"]\n";
+            }
 
-            ss2.str("");
-            ss2<<Configuracion::BETA;
-            cadena += "BETA = "+ss2.str()+"\n";
+            cadena += "betas = [";
 
-            ss2.str("");
-            ss2<<Configuracion::RANGO_VECINDAD;
-            cadena += "RANGO_VECINDAD = "+ss2.str()+"\n";
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                ss2.str("");
+                ss2<<som1->getBetas()[i];
+                if (i != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena += ss2.str()+", ";
+                else
+                    cadena += ss2.str()+"]";
+            }
 
-
-            std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
+            std::ofstream fichero("statusRNA.dat", std::ios::ate);
             fichero << cadena;
             fichero.close();
         }

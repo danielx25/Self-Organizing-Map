@@ -61,8 +61,8 @@ int main()
         SOM som1(BitmapArray);
 
         //som1.entrenamiento();
-        FicheroRNA::guardarStatusRNA(&som1);
-        /*
+
+
         pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
         double porcentaje = 0;
@@ -72,17 +72,28 @@ int main()
             porcentaje = (som1.iteracion)/(double)(som1.numeroIteraciones*Configuracion::NUMERO_DATOS);
             printProgress(porcentaje, som1.numeroIteraciones*Configuracion::NUMERO_DATOS, som1.iteracion);
             Sleep(2000);
+            som1.setPausar(true);
+            while(som1.getListoGuardar() == false)
+            {
+                printf("esperando para guardar\n");
+            }
+            if(som1.getListoGuardar())
+            {
+                printf("guardar\n");
+                FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1.getMapaHex(), som1.getRedNeuronal());
+                FicheroRNA::guardarPesosRNA(som1.getRedNeuronal());
+                FicheroRNA::guardarStatusRNA(&som1);
+            }
+            som1.setPausar(false);
 
-            FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1.getMapaHex(), som1.getRedNeuronal());
-            FicheroRNA::guardarPesosRNA(som1.getRedNeuronal());
         }
-        */
+
 
     }
     else{
         printf("fichero no encontrado\n");
     }
-
+    std::cin.get();
     //FicheroRNA::crearConfiguracion();
 
 
