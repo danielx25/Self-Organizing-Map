@@ -32,6 +32,7 @@
 		<Unit filename="include/arreglos.h" />
 		<Unit filename="include/configuracion.h" />
 		<Unit filename="include/ficherorna.h" />
+		<Unit filename="include/gestionadorsom.h" />
 		<Unit filename="include/som.h" />
 		<Unit filename="include/valores.h">
 			<Option target="&lt;{~None~}&gt;" />
@@ -39,6 +40,7 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="src/configuracion.cpp" />
 		<Unit filename="src/ficherorna.cpp" />
+		<Unit filename="src/gestionadorsom.cpp" />
 		<Unit filename="src/neurona.cpp" />
 		<Unit filename="src/som.cpp" />
 		<Extensions>

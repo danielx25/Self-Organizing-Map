@@ -10,6 +10,13 @@ GestionadorSOM::~GestionadorSOM()
     //dtor
 }
 
+static void *proceso_hilos(void *funcion)
+{
+    SOM *som1 = (SOM*)funcion;
+    som1->entrenamiento();
+    pthread_exit(NULL);
+}
+
 static double ** createByteMatrix(unsigned int rows, unsigned int cols)
 {
     // declaration
@@ -45,17 +52,30 @@ void GestionadorSOM::inicializarSOM(double **datosEntrenamiento1,int numeroDatos
     FicheroRNA::guardarCSV(datosEntrenamiento);// en caso de seguridad
 }
 
+void GestionadorSOM::statusProgresoRNA()
+{
+    progreso = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
+}
+
 
 void GestionadorSOM::empezarEntrenamiento()
 {
-    som1->entrenamiento();
+    pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
+    //som1->entrenamiento();
 }
 
 void GestionadorSOM::reanudarEntrenamiento()
 {
     FicheroRNA::leerConfiguracion();
-    createByteMatrix(datosEntrenamiento, Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
-    som1 = new SOM();
+    datosEntrenamiento = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
+    som1 = new SOM(datosEntrenamiento);
     if(!FicheroRNA::leerPesosRNA(som1->getRedNeuronal()))
         som1->pesosAleatorios();
+
+}
+
+void GestionadorSOM::guardarEstadoRNA()
+{
+    FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
+    FicheroRNA::guardarStatusRNA(som1);
 }

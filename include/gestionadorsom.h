@@ -5,6 +5,22 @@
 #include "ficherorna.h"
 #include "configuracion.h"
 
+#include <pthread.h>
+
+
+#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+#define PBWIDTH 60
+
+static void printProgress (double percentage, int totalIter, int iter)
+{
+    int val = (int) (percentage * 100);
+    int lpad = (int) (percentage * PBWIDTH);
+    int rpad = PBWIDTH - lpad;
+    printf("total: %d | iteracion: %d | por: %f", totalIter, iter, percentage);
+    printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
+    fflush (stdout);
+}
+
 class GestionadorSOM
 {
     public:
@@ -17,11 +33,21 @@ class GestionadorSOM
         void empezarEntrenamiento();
         void reanudarEntrenamiento();
 
+        void statusProgresoRNA();
+
+        void guardarEstadoRNA();
+
+        void main1();
+        //void
+
     protected:
 
     private:
         SOM *som1;
         double **datosEntrenamiento;
+        double progreso;//porcentaje
+
+        pthread_t hilo;//hilo del entrenamiento de la red
 
 
 };
