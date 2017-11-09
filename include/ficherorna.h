@@ -4,9 +4,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <windows.h>
+#include <map>
+//#include <windows.h>
 #include <stdlib.h>
 #include <sstream>
+#include <algorithm>
+#include "configuracion.h"
 #include "NeuronaHex.h"
 #include "som.h"
 
@@ -25,7 +28,7 @@ class FicheroRNA
 
 
 
-        static void escribirJS(int ancho , int largo, NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO], double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        static void escribirJS(int ancho , int largo, NeuronaHex **mapaHex, double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
@@ -42,9 +45,11 @@ class FicheroRNA
             {
                 for(int columna =0; columna<largo; columna++)
                 {
+                    //printf("ancho: %d largo: %d\n", fila, columna);
                     ss2.str("");
                     ss2<<mapaHex[fila][columna].numero_activaciones;
                     cadena+= ss2.str()+", ";
+
                 }
                 cadena+="\n";
             }
@@ -74,17 +79,14 @@ class FicheroRNA
             fichero.close();
         }
 
-        static void guardarPesosRNA (double redNeuronal[][Configuracion::NUMERO_NEURONAS])
+        static void guardarPesosRNA (double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
 
             ss2.str("");
-
-            //cadena+="var lista_Pesos= [ \n";
             for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
             {
-                //cadena+="[ ";
                 for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
                 {
                     ss2.str("");
@@ -94,8 +96,64 @@ class FicheroRNA
                 }
                 cadena+="\n";
             }
-            //cadena+="];\n";
             std::ofstream fichero("pesosRNA.csv", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+
+        static bool leerPesosRNA(double **datosEntrenamiento )
+        {
+            std::ifstream in("pesosRNA.csv");
+            std::vector<std::vector<double>> fields;
+            if (in) {
+                std::string line;
+
+                while (getline(in, line)) {
+                    std::stringstream sep(line);
+                    std::string field;
+                    fields.push_back(std::vector<double>());
+                    while (getline(sep, field, ';')) {
+                        fields.back().push_back(atof(field.c_str()));
+                    }
+                }
+
+                in.close();
+            }
+            else
+                return false;
+
+            int fila = 0;
+            int columna = 0;
+            for (auto row : fields) {
+
+                columna = 0;
+                for (auto field : row) {
+                    datosEntrenamiento[fila][columna] = field;
+                    columna+=1;
+                }
+                fila+=1;
+            }
+            return true;
+        }
+
+        static void guardarCSV (double **datosEntrenamiento)
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            ss2.str("");
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+                for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                {
+                    ss2.str("");
+                    ss2<<datosEntrenamiento[indicePeso][indiceNeurona];
+                    cadena+=ss2.str()+ "; ";
+
+                }
+                cadena+="\n";
+            }
+            std::ofstream fichero(Configuracion::RUTA_ARCHIVO, std::ios::ate);
             fichero << cadena;
             fichero.close();
         }
@@ -115,6 +173,7 @@ class FicheroRNA
                         fields.back().push_back(atof(field.c_str()));
                     }
                 }
+
                 in.close();
             }
             else
@@ -123,6 +182,7 @@ class FicheroRNA
             int fila = 0;
             int columna = 0;
             for (auto row : fields) {
+
                 columna = 0;
                 for (auto field : row) {
                     datosEntrenamiento[fila][columna] = field;
@@ -132,32 +192,125 @@ class FicheroRNA
             }
             return true;
         }
-        /*
-        static void guardarEstadoRed(SOM som2)
+
+        static std::string RemoveChar(std::string str, char c)
         {
-            std::ofstream salida;
-            salida.open("Som.dat", std::ios::binary|std::ios::app);
-            salida.write(&som2,sizeof(som2));
-            salida.close();
+           std::string result;
+           for (size_t i = 0; i < str.size(); i++)
+           {
+                  char currentChar = str[i];
+                  if (currentChar != c)
+                      result += currentChar;
+           }
+               return result;
         }
 
-        static void leerEstadoRed()
+        static bool leerConfiguracion()
         {
-            std::ifstream entrada;
-            //Cliente cliente;
-            entrada.open("Som.dat", std::ios::binary|std::ios::app);
-            entrada.seekg(0,std::ios::end);
-            long longitudFichero=entrada.tellg();
-            entrada.seekg(0, std::ios::beg);
-        }*/
+            std::ifstream in("ConfiguracionRNA.conf");
+            if (in) {
+                std::string line;
+
+                bool rutaArchivo = false;
+                bool numeroEntrada = false;
+                bool numeroDatos = false;
+                bool numeroNeuronas = false;
+                bool largo = false;
+                bool ancho = false;
+                bool beta = false;
+                bool rangoVecindad = false;
+
+                while (getline(in, line)) {
+                    std::stringstream sep(line);
+                    std::string field;
+
+
+                    int contador = 0;
+                    while (getline(sep, field, '=')) {
+                        if(contador == 1)
+                        {
+                            if (line.find("RUTA_ARCHIVO") != std::string::npos)
+                            {
+                                rutaArchivo = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::RUTA_ARCHIVO = field;
+                            }
+
+                            if (line.find("NUMERO_ENTRADAS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_ENTRADAS = atof(field.c_str());
+                            }
+
+                            if (line.find("NUMERO_DATOS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_DATOS = atof(field.c_str());
+                            }
+
+                            if (line.find("NUMERO_NEURONAS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_NEURONAS = atof(field.c_str());
+                            }
+
+                            if (line.find("LARGO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::LARGO = atof(field.c_str());
+                            }
+
+                            if (line.find("ANCHO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ANCHO = atof(field.c_str());
+                            }
+
+                            if (line.find("ALFA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ALFA = atof(field.c_str());
+                            }
+
+                            if (line.find("BETA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::BETA = atof(field.c_str());
+                            }
+
+                            if (line.find("RANGO_VECINDAD") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::RANGO_VECINDAD = atof(field.c_str());
+                            }
+                        }
+                        contador+=1;
+                    }
+                }
+                in.close();
+                return true;
+            }
+            else
+                return false;
+        }
         static void crearConfiguracion()
         {
             std::string cadena;
             std::stringstream ss2;
 
+            cadena = "RUTA_ARCHIVO = "+Configuracion::RUTA_ARCHIVO+"\n";
+
             ss2.str("");
             ss2<<Configuracion::NUMERO_ENTRADAS;
-            cadena = "NUMERO_ENTRADAS = "+ss2.str()+"\n";
+            cadena += "NUMERO_ENTRADAS = "+ss2.str()+"\n";
 
             ss2.str("");
             ss2<<Configuracion::NUMERO_DATOS;
@@ -191,6 +344,63 @@ class FicheroRNA
 
 
             std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+        static void guardarStatusRNA(SOM *som1)
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            if (som1->getTerminoEntrenarse())
+                cadena = "termino_entrenarse = si\n";
+            else
+                cadena = "termino_entrenarse = no\n";
+
+
+            ss2.str("");
+            ss2<<som1->ciclos;
+            cadena += "ciclos = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<som1->iteracion;
+            cadena += "iteracion = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<som1->getAlfa();
+            cadena += "alfa = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<som1->getBeta();
+            cadena += "beta = "+ss2.str()+"\n";
+
+            //ss2.str("");
+            //ss2<<Configuracion::LARGO;
+            cadena += "alfas = [";
+
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                ss2.str("");
+                ss2<<som1->getAlfas()[i];
+                if (i != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena += ss2.str()+", ";
+                else
+                    cadena += ss2.str()+"]\n";
+            }
+
+            cadena += "betas = [";
+
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                ss2.str("");
+                ss2<<som1->getBetas()[i];
+                if (i != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena += ss2.str()+", ";
+                else
+                    cadena += ss2.str()+"]";
+            }
+
+            std::ofstream fichero("statusRNA.dat", std::ios::ate);
             fichero << cadena;
             fichero.close();
         }

@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <limits>
-//#include "neurona.h"
 #include "NeuronaHex.h"
 #include "configuracion.h"
 #include "arreglos.h"
-#include "ficherorna.h"
+//#include "ficherorna.h"
 
 
 class SOM
@@ -39,12 +38,36 @@ class SOM
 
         double aprendizajeHebb(double alfa, double distanciaVecindario, double e, double u);
         void aprendizaje(int indiceNeurona);
-        void propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO], int fila, int columna);
+        void propagacionAprendizaje(int distanciaVecin, int fila, int columna);
 
         void ejemplo1();
+        double **getRedNeuronal();
+        NeuronaHex **getMapaHex();
+
+        void setRedNeuronal(double **red);
+        void setPausar(bool pause);
+        bool getListoGuardar();
+
+        double getAlfa();
+        double getBeta();
+
+        double setAlfa(double alfa1);
+        double setBeta(double beta1);
+
+        double *getAlfas();
+        double *getBetas();
+
+        double setAlfas(double *alfa1);
+        double setBetas(double *beta1);
+
+        bool getTerminoEntrenarse();
+
 
         int numeroIteraciones;
+        /** iteracion por cada ejemplo entrenado por la red*/
         int iteracion;
+        /** ciclos de entrenamiento del dataset*/
+        int ciclos;
 
     protected:
 
@@ -52,9 +75,9 @@ class SOM
         //malla de la red neuronal
         //neurona redNeuronal[Configuracion::NUMERO_NEURONAS];
         double **datosEntrenamiento;
-        double entrada[Configuracion::NUMERO_ENTRADAS];
-        double neurona[Configuracion::NUMERO_ENTRADAS];
-        double redNeuronal[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+        double *entrada = new double[Configuracion::NUMERO_ENTRADAS];
+        double *neurona = new double[Configuracion::NUMERO_ENTRADAS];
+        double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
         int numeroNeuronas;
         int numeroEntradas;
         int rangoVecindad;
@@ -67,13 +90,22 @@ class SOM
         //decrecimiento de la tasa de aprendizaje
         double beta = Configuracion::BETA;
 
-        double alfas[Configuracion::NUMERO_ENTRADAS];
-        double betas[Configuracion::NUMERO_ENTRADAS];
+        double *alfas = new double [Configuracion::NUMERO_ENTRADAS];
+        double *betas = new double [Configuracion::NUMERO_ENTRADAS];
 
         int indiceNeuronaGanadora;
 
         /**Estructura hexagonal del mapa de kohonen*/
-        NeuronaHex mapaHex[Configuracion::ANCHO][Configuracion::LARGO];
+        NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
+        /**marcar los hexagonos de la neuronas que ya aprendieron en una iteracion*/
+        bool **marcasMapa;
+
+        /**pause*/
+        bool pausarEntrenamiento;
+        /**terminar el entrenamiento forsozamente*/
+        bool terminoEntrenarse;
+        /**señal para que guarde el estado de la red neuronal*/
+        bool listoGuardar;
 
 };
 
