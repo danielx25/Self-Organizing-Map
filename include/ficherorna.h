@@ -347,6 +347,7 @@ class FicheroRNA
             fichero << cadena;
             fichero.close();
         }
+
         static void guardarStatusRNA(SOM *som1)
         {
             std::string cadena;
@@ -403,6 +404,101 @@ class FicheroRNA
             std::ofstream fichero("statusRNA.dat", std::ios::ate);
             fichero << cadena;
             fichero.close();
+        }
+
+
+        static bool leerStatusRNA(SOM *som1)
+        {
+            std::ifstream in("statusRNA.dat");
+            if (in) {
+                std::string line;
+
+                while (getline(in, line)) {
+                    std::stringstream sep(line);
+                    std::string field;
+
+
+                    int contador = 0;
+                    while (getline(sep, field, '=')) {
+                        if(contador == 1)
+                        {
+                            if (line.find("termino_entrenarse") != std::string::npos)
+                            {
+                                field = RemoveChar(field, ' ');
+                                if(field.find("si") != std::string::npos)
+                                    som1->setTerminoEntrenarse(true);
+                                else
+                                    som1->setTerminoEntrenarse(false);
+                            }
+
+                            if (line.find("ciclos") != std::string::npos)
+                            {
+                                field = RemoveChar(field, ' ');
+                                som1->ciclos =atof(field.c_str());
+                            }
+
+                            if (line.find("iteracion") != std::string::npos)
+                            {
+                                field = RemoveChar(field, ' ');
+                                som1->iteracion = atof(field.c_str());
+                            }
+
+                            if (line.find("alfas") != std::string::npos)
+                            {
+                                field = RemoveChar(field, '[');
+                                field = RemoveChar(field, ']');
+                                std::stringstream sep1(field);
+                                std::string field1;
+                                while (getline(sep1, field1, ','))
+                                {
+
+                                }
+
+                            }
+
+                            if (line.find("LARGO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::LARGO = atof(field.c_str());
+                            }
+
+                            if (line.find("ANCHO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ANCHO = atof(field.c_str());
+                            }
+
+                            if (line.find("ALFA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::ALFA = atof(field.c_str());
+                            }
+
+                            if (line.find("BETA") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::BETA = atof(field.c_str());
+                            }
+
+                            if (line.find("RANGO_VECINDAD") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::RANGO_VECINDAD = atof(field.c_str());
+                            }
+                        }
+                        contador+=1;
+                    }
+                }
+                in.close();
+                return true;
+            }
+            else
+                return false;
         }
     protected:
 
