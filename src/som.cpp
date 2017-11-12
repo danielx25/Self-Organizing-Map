@@ -294,9 +294,9 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        //distancia = distanciaEuclidea(entrada, neurona);
+        distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
-        distancia = distanciaEuclidea_1(entrada, neurona);
+        //distancia = distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
@@ -359,8 +359,9 @@ void SOM::entrenamiento()
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
             {
                 olvidoProgresivo(&alfas[i], beta);
-                if(i == Configuracion::NUMERO_ENTRADAS-1)
-                    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
+
+                //if(i == Configuracion::NUMERO_ENTRADAS-1)
+                //    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
             }
             ciclos +=1;
             listoGuardar = true;

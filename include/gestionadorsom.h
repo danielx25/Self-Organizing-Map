@@ -27,8 +27,8 @@ class GestionadorSOM
         GestionadorSOM();
         virtual ~GestionadorSOM();
 
-        void inicializarSOM(double **datosEntrenamiento1, int numeroDatos);
-        void inicializarSOM(double **datosEntrenamiento1, int numeroDatos, int alfa, int beta, int numeroNeuronas, int ancho, int largo);
+        void inicializarSOM(double **datosEntrenamiento1, int numeroDatos, int numEntrada);
+        void inicializarSOM(double **datosEntrenamiento1, int numeroDatos, int numEntrada, int alfa, int beta, int numeroNeuronas, int ancho, int largo);
 
         void empezarEntrenamiento();
         void reanudarEntrenamiento();

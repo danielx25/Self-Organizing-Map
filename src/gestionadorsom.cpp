@@ -28,22 +28,26 @@ static double ** createByteMatrix(unsigned int rows, unsigned int cols)
     return a;
 }
 
-void GestionadorSOM::inicializarSOM(double **datosEntrenamiento1, int numeroDatos)
+void GestionadorSOM::inicializarSOM(double **datosEntrenamiento1, int numeroDatos, int numEntrada)
 {
+    FicheroRNA::leerConfiguracion();
     datosEntrenamiento = datosEntrenamiento1;
     som1 = new SOM(datosEntrenamiento1);
+    Configuracion::NUMERO_ENTRADAS = numEntrada;
+    Configuracion::NUMERO_DATOS = numeroDatos;
     FicheroRNA::crearConfiguracion();
     FicheroRNA::guardarCSV(datosEntrenamiento);// en caso de seguridad
 
 }
 
 /**el largo debe ser un numero par*/
-void GestionadorSOM::inicializarSOM(double **datosEntrenamiento1,int numeroDatos, int alfa, int beta, int numeroNeuronas, int ancho, int largo)
+void GestionadorSOM::inicializarSOM(double **datosEntrenamiento1,int numeroDatos, int numEntrada, int alfa, int beta, int numeroNeuronas, int ancho, int largo)
 {
     datosEntrenamiento = datosEntrenamiento1;
     som1 = new SOM(datosEntrenamiento1);
     Configuracion::ALFA = alfa;
     Configuracion::BETA = beta;
+    Configuracion::NUMERO_ENTRADAS = numEntrada;
     Configuracion::NUMERO_DATOS = numeroDatos;
     Configuracion::NUMERO_NEURONAS = numeroNeuronas;
     Configuracion::ANCHO = ancho;
@@ -70,11 +74,11 @@ void GestionadorSOM::empezarEntrenamiento()
         while(som1->getListoGuardar() == false)
         {
         }
-        if(som1.getListoGuardar())
+        if(som1->getListoGuardar())
         {
             guardarEstadoRNA();
         }
-        som1.setPausar(false);
+        som1->setPausar(false);
     }
 }
 

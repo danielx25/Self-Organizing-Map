@@ -146,13 +146,16 @@ class FicheroRNA
             std::stringstream ss2;
 
             ss2.str("");
-            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_DATOS; indiceNeurona++)
             {
                 for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
                 {
                     ss2.str("");
-                    ss2<<datosEntrenamiento[indicePeso][indiceNeurona];
-                    cadena+=ss2.str()+ "; ";
+                    ss2<<datosEntrenamiento[indiceNeurona][indicePeso];
+                    cadena+=ss2.str();
+
+                    if(indicePeso != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena+="; ";
 
                 }
                 cadena+="\n";
