@@ -46,6 +46,8 @@ SOM::SOM(double **datos)
         betas[i] = beta;
     }
 
+    ciclos = 0;
+
 }
 
 SOM::~SOM()
@@ -343,7 +345,6 @@ void SOM::entrenamiento()
     pesosAleatorios();
     printf("numero iter: %d\n", numeroIteraciones);
 
-    ciclos = 0;
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
@@ -359,7 +360,7 @@ void SOM::entrenamiento()
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
             {
                 olvidoProgresivo(&alfas[i], beta);
-                if(i == 36)
+                if(i == Configuracion::NUMERO_ENTRADAS-1)
                     olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
             }
             ciclos +=1;

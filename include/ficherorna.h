@@ -91,7 +91,9 @@ class FicheroRNA
                 {
                     ss2.str("");
                     ss2<<redNeuronal[indicePeso][indiceNeurona];
-                    cadena+=ss2.str()+ "; ";
+                    cadena+=ss2.str();
+                    if(indicePeso != Configuracion::NUMERO_ENTRADAS-1)
+                    cadena+="; ";
 
                 }
                 cadena+="\n";
@@ -113,6 +115,7 @@ class FicheroRNA
                     std::string field;
                     fields.push_back(std::vector<double>());
                     while (getline(sep, field, ';')) {
+                        //field = RemoveChar(field, ' ');
                         fields.back().push_back(atof(field.c_str()));
                     }
                 }
@@ -121,14 +124,15 @@ class FicheroRNA
             }
             else
                 return false;
-
+            printf("fila: %d\n", fields.size());
+            printf("colm,: %d\n", fields[0].size());
             int fila = 0;
             int columna = 0;
             for (auto row : fields) {
 
                 columna = 0;
                 for (auto field : row) {
-                    datosEntrenamiento[fila][columna] = field;
+                    datosEntrenamiento[columna][fila] = field;
                     columna+=1;
                 }
                 fila+=1;
@@ -449,47 +453,32 @@ class FicheroRNA
                                 field = RemoveChar(field, ']');
                                 std::stringstream sep1(field);
                                 std::string field1;
+                                int indice = 0;
                                 while (getline(sep1, field1, ','))
                                 {
-
+                                    field1 = RemoveChar(field1, ' ');
+                                    som1->getAlfas()[indice] =  atof(field1.c_str());
+                                    printf("alfa: %s\n", field1.c_str());
                                 }
 
                             }
 
-                            if (line.find("LARGO") != std::string::npos)
+                            if (line.find("betas") != std::string::npos)
                             {
-                                numeroEntrada = true;
-                                field = RemoveChar(field, ' ');
-                                Configuracion::LARGO = atof(field.c_str());
+                                field = RemoveChar(field, '[');
+                                field = RemoveChar(field, ']');
+                                std::stringstream sep1(field);
+                                std::string field1;
+                                int indice = 0;
+                                while (getline(sep1, field1, ','))
+                                {
+                                    field1 = RemoveChar(field1, ' ');
+                                    som1->getBetas()[indice] =  atof(field1.c_str());
+                                    printf("beta: %s\n", field1.c_str());
+                                }
+
                             }
 
-                            if (line.find("ANCHO") != std::string::npos)
-                            {
-                                numeroEntrada = true;
-                                field = RemoveChar(field, ' ');
-                                Configuracion::ANCHO = atof(field.c_str());
-                            }
-
-                            if (line.find("ALFA") != std::string::npos)
-                            {
-                                numeroEntrada = true;
-                                field = RemoveChar(field, ' ');
-                                Configuracion::ALFA = atof(field.c_str());
-                            }
-
-                            if (line.find("BETA") != std::string::npos)
-                            {
-                                numeroEntrada = true;
-                                field = RemoveChar(field, ' ');
-                                Configuracion::BETA = atof(field.c_str());
-                            }
-
-                            if (line.find("RANGO_VECINDAD") != std::string::npos)
-                            {
-                                numeroEntrada = true;
-                                field = RemoveChar(field, ' ');
-                                Configuracion::RANGO_VECINDAD = atof(field.c_str());
-                            }
                         }
                         contador+=1;
                     }

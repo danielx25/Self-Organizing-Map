@@ -62,6 +62,10 @@ int main()
 
         //som1.entrenamiento();
 
+        if(FicheroRNA::leerStatusRNA(&som1))
+        {
+            FicheroRNA::leerPesosRNA(som1.getRedNeuronal());
+        }
 
         pthread_create(&hilo, NULL, proceso_hilos, (void*)&som1);
 
@@ -75,20 +79,16 @@ int main()
             som1.setPausar(true);
             while(som1.getListoGuardar() == false)
             {
-                printf("esperando para guardar\n");
+                //printf("esperando para guardar\n");
             }
             if(som1.getListoGuardar())
             {
-                printf("guardar\n");
                 FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1.getMapaHex(), som1.getRedNeuronal());
                 FicheroRNA::guardarPesosRNA(som1.getRedNeuronal());
                 FicheroRNA::guardarStatusRNA(&som1);
             }
             som1.setPausar(false);
-
         }
-
-
     }
     else{
         printf("fichero no encontrado\n");

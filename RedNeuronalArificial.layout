@@ -2,19 +2,29 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="src\neurona.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\NeuronaHex.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="24" topLine="0" />
+			<Cursor1 position="265" topLine="20" />
 		</Cursor>
 	</File>
-	<File name="include\som.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\ficherorna.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1831" topLine="43" />
+			<Cursor1 position="3119" topLine="159" />
 		</Cursor>
+		<Folding>
+			<Collapse line="200" />
+			<Collapse line="212" />
+			<Collapse line="308" />
+		</Folding>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="208" topLine="51" />
+			<Cursor1 position="2437" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="include\arreglos.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="38" topLine="1" />
 		</Cursor>
 	</File>
 	<File name="src\configuracion.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,47 +32,37 @@
 			<Cursor1 position="26" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\ficherorna.h" open="1" top="1" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="15928" topLine="324" />
-		</Cursor>
-		<Folding>
-			<Collapse line="31" />
-			<Collapse line="104" />
-			<Collapse line="161" />
-		</Folding>
-	</File>
-	<File name="include\NeuronaHex.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="265" topLine="20" />
-		</Cursor>
-	</File>
 	<File name="include\configuracion.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="71" topLine="1" />
 		</Cursor>
-	</File>
-	<File name="src\gestionadorsom.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1682" topLine="45" />
-		</Cursor>
-	</File>
-	<File name="src\som.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="12367" topLine="381" />
-		</Cursor>
-		<Folding>
-			<Collapse line="308" />
-		</Folding>
 	</File>
 	<File name="include\gestionadorsom.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1112" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\arreglos.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\som.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="38" topLine="1" />
+			<Cursor1 position="1621" topLine="31" />
+		</Cursor>
+	</File>
+	<File name="src\som.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3851" topLine="256" />
+		</Cursor>
+		<Folding>
+			<Collapse line="310" />
+		</Folding>
+	</File>
+	<File name="src\gestionadorsom.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1682" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\neurona.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="24" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
