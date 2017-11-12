@@ -61,7 +61,21 @@ void GestionadorSOM::statusProgresoRNA()
 void GestionadorSOM::empezarEntrenamiento()
 {
     pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
-    //som1->entrenamiento();
+
+    while(som1->iteracion < som1->numeroIteraciones*Configuracion::NUMERO_DATOS)
+    {
+        statusProgresoRNA();
+        Sleep(tiempoGuardadoRed);
+        som1->setPausar(true);
+        while(som1->getListoGuardar() == false)
+        {
+        }
+        if(som1.getListoGuardar())
+        {
+            guardarEstadoRNA();
+        }
+        som1.setPausar(false);
+    }
 }
 
 void GestionadorSOM::reanudarEntrenamiento()
@@ -69,13 +83,18 @@ void GestionadorSOM::reanudarEntrenamiento()
     FicheroRNA::leerConfiguracion();
     datosEntrenamiento = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     som1 = new SOM(datosEntrenamiento);
-    if(!FicheroRNA::leerPesosRNA(som1->getRedNeuronal()))
-        som1->pesosAleatorios();
+
+    if(FicheroRNA::leerStatusRNA(som1))
+    {
+        //si no hay archivo de pesos deberia resetearse
+        FicheroRNA::leerPesosRNA(som1->getRedNeuronal());
+    }
 
 }
 
 void GestionadorSOM::guardarEstadoRNA()
 {
+    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
     FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
     FicheroRNA::guardarStatusRNA(som1);
 }

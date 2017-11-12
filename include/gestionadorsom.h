@@ -37,6 +37,8 @@ class GestionadorSOM
 
         void guardarEstadoRNA();
 
+        double getProgreso();
+
         void main1();
         //void
 
@@ -48,7 +50,8 @@ class GestionadorSOM
         double progreso;//porcentaje
 
         pthread_t hilo;//hilo del entrenamiento de la red
-
+        //milisegundo
+        int tiempoGuardadoRed = 2000;
 
 };
 

@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <conio.h>
+#include <thread>         // std::thread
 using namespace std;
 
 

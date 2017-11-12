@@ -45,7 +45,7 @@ SOM::SOM(double **datos)
         alfas[i] = alfa;
         betas[i] = beta;
     }
-
+    pesosAleatorios();
     ciclos = 0;
 
 }
@@ -342,7 +342,6 @@ void SOM::ejemplo1()
 
 void SOM::entrenamiento()
 {
-    pesosAleatorios();
     printf("numero iter: %d\n", numeroIteraciones);
 
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
