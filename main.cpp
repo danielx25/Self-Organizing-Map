@@ -99,7 +99,14 @@ static void proceso_principal()
 int main()
 {
 
+    proceso_principal();
 
+    return 0;
+}
+
+
+static void ejemplo()
+{
     double **matriz = new double*[30];
 
     for(int i = 0; i < 30; i++)
@@ -159,5 +166,4 @@ int main()
     */
     //std::cin.get();
 
-    return 0;
 }
