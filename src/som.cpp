@@ -329,23 +329,13 @@ int SOM::seleccionNeuronaGanadora(int inferior, int superior)
 
 void SOM::aprendizajeSupervisado(int neuronaSeleccionada)
 {
-    int mp10_entrada = entrada[Configuracion::NUMERO_ENTRADAS-1]*800;
-    int mp10_neurona = redNeuronal[Configuracion::NUMERO_ENTRADAS-1][neuronaSeleccionada];
-    int rangos[16] = {50, 100, 150, 183, 216, 250, 283, 316, 350, 400, 450, 500, 550, 600, std::numeric_limits<double>::infinity()};
-    int subclaseEntrada = -1;
-    int subclaseNeurona = -1;
+    Arreglos::getNeurona(neurona, redNeuronal, neuronaSeleccionada);
+    bool acercar = CriterioSupervision::criterioMp10(entrada, neurona);
 
-
-    for(int i=0; i < numeroClases; i++)
+    if(acercar)
     {
-        if(rangos[i] < mp10_entrada < rangos[i+1])
-        subclaseEntrada = i;
 
-        if(rangos[i] < mp10_neurona < rangos[i+1])
-        subclaseEntrada = i;
     }
-
-    if(subclaseEntrada != subclaseNeurona)
 
     //sin alerta
     if (mp10 <=50)

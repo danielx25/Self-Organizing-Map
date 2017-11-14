@@ -7,6 +7,7 @@
 #include "NeuronaHex.h"
 #include "configuracion.h"
 #include "arreglos.h"
+#include "CriterioSupervision.h"
 //#include "ficherorna.h"
 
 
