@@ -30,6 +30,15 @@ class SOM
 
         void pesosAleatorios();
         int seleccionNeuronaGanadora();
+
+        /**---------------LVQ----------------------------------------*/
+        //LVQ elegir la neurona de la subclase
+        int seleccionNeuronaGanadora(int inferior, int superior);
+        void aprendizajeSupervisado(int neuronaSeleccionada);
+
+
+
+        /**----------------------------------------------------------*/
         void entrenamiento();
 
 
@@ -94,7 +103,17 @@ class SOM
         double *alfas = new double [Configuracion::NUMERO_ENTRADAS];
         double *betas = new double [Configuracion::NUMERO_ENTRADAS];
 
+
+        //numero de clases objetivo
+        int numeroClases;
+
+        int cantidadNeuronasSubclases;
+
+        int seleccionSubclase;
+
         int indiceNeuronaGanadora;
+
+
 
         /**Estructura hexagonal del mapa de kohonen*/
         NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];

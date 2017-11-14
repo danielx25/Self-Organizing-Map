@@ -307,42 +307,74 @@ int SOM::seleccionNeuronaGanadora()
     return indiceNeuronaGanadora;
 }
 
-void SOM::ejemplo1()
+//seleccion de neurona por subclase: LVQ
+int SOM::seleccionNeuronaGanadora(int inferior, int superior)
 {
-    pesosAleatorios();
-    int contador = 0;
-    for(int columna=0; columna<Configuracion::NUMERO_NEURONAS; columna++)
+    double distancia = 0;
+    double distanciaAux = std::numeric_limits<double>::infinity();
+    int indiceNeuronaGanadora = 0;
+    for(int indiceNeu=inferior; indiceNeu<superior; indiceNeu++)
     {
-        printf("%d: ", contador);
-        for(int fila=0; fila<Configuracion::NUMERO_ENTRADAS; fila++)
+        Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
+        distancia = distanciaEuclidea(entrada, neurona);
+
+        if(distancia < distanciaAux)
         {
-            printf("| %f ", redNeuronal[fila][columna]);
+            distanciaAux = distancia;
+            indiceNeuronaGanadora = indiceNeu;
         }
-        contador+=1;
-        printf("|\n");
     }
-    Arreglos::getFila(entrada, datosEntrenamiento, 0);
-    aprendizaje(20);
-    printf("|\n");
-    printf("|\n");
-    printf("|\n");
-    contador = 0;
-    for(int columna=0; columna<Configuracion::NUMERO_NEURONAS; columna++)
-    {
-        printf("%d: ", contador);
-        for(int fila=0; fila<Configuracion::NUMERO_ENTRADAS; fila++)
-        {
-            printf("| %f ", redNeuronal[fila][columna]);
-        }
-        contador+=1;
-        printf("|\n");
-    }
-    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    return indiceNeuronaGanadora;
 }
+
+void SOM::aprendizajeSupervisado(int neuronaSeleccionada)
+{
+    int mp10_entrada = entrada[Configuracion::NUMERO_ENTRADAS-1]*800;
+    int mp10_neurona = redNeuronal[Configuracion::NUMERO_ENTRADAS-1][neuronaSeleccionada];
+    int rangos[16] = {50, 100, 150, 183, 216, 250, 283, 316, 350, 400, 450, 500, 550, 600, std::numeric_limits<double>::infinity()};
+    int subclaseEntrada = -1;
+    int subclaseNeurona = -1;
+
+
+    for(int i=0; i < numeroClases; i++)
+    {
+        if(rangos[i] < mp10_entrada < rangos[i+1])
+        subclaseEntrada = i;
+
+        if(rangos[i] < mp10_neurona < rangos[i+1])
+        subclaseEntrada = i;
+    }
+
+    if(subclaseEntrada != subclaseNeurona)
+
+    //sin alerta
+    if (mp10 <=50)
+    if (50< mp10 <=100)
+    if (100< mp10 <=150)
+    //alerta 1
+    if (150< mp10 <=183)
+    if (183< mp10 <=216)
+    if (216< mp10 <=250)
+    //alerta 2
+    if (250< mp10 <=283)
+    if (283< mp10 <=316)
+    if (316< mp10 <=350)
+    //alerta 3
+    if (350< mp10 <=400)
+    if (400< mp10 <=450)
+    if (450< mp10 <=500)
+    //alerta 4
+    if (500 < mp10 <=550)
+    if (550 < mp10 <=600)
+    if (600 > mp10)
+
+}
+
 
 void SOM::entrenamiento()
 {
     printf("numero iter: %d\n", numeroIteraciones);
+
 
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
@@ -353,15 +385,16 @@ void SOM::entrenamiento()
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
                 indiceNeuronaGanadora = seleccionNeuronaGanadora();
+
+                //LVQ
+
+
                 aprendizaje(indiceNeuronaGanadora);
                 iteracion+=1;
             }
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
             {
                 olvidoProgresivo(&alfas[i], beta);
-
-                //if(i == Configuracion::NUMERO_ENTRADAS-1)
-                //    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
             }
             ciclos +=1;
             listoGuardar = true;
