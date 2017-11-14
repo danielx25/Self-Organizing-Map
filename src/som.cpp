@@ -45,6 +45,8 @@ SOM::SOM(double **datos)
         alfas[i] = alfa;
         betas[i] = beta;
     }
+    pesosAleatorios();
+    ciclos = 0;
 
 }
 
@@ -292,9 +294,9 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        //distancia = distanciaEuclidea(entrada, neurona);
+        distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
-        distancia = distanciaEuclidea_1(entrada, neurona);
+        //distancia = distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
@@ -340,10 +342,8 @@ void SOM::ejemplo1()
 
 void SOM::entrenamiento()
 {
-    pesosAleatorios();
     printf("numero iter: %d\n", numeroIteraciones);
 
-    ciclos = 0;
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
@@ -359,8 +359,9 @@ void SOM::entrenamiento()
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
             {
                 olvidoProgresivo(&alfas[i], beta);
-                if(i == 36)
-                    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
+
+                //if(i == Configuracion::NUMERO_ENTRADAS-1)
+                //    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
             }
             ciclos +=1;
             listoGuardar = true;
