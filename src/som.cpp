@@ -436,3 +436,8 @@ bool SOM::getTerminoEntrenarse()
 {
     return terminoEntrenarse;
 }
+
+void SOM::setTerminoEntrenarse(bool valor)
+{
+    terminoEntrenarse = valor;
+}

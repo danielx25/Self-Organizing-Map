@@ -61,6 +61,7 @@ class SOM
         double setBetas(double *beta1);
 
         bool getTerminoEntrenarse();
+        void setTerminoEntrenarse(bool valor);
 
 
         int numeroIteraciones;
