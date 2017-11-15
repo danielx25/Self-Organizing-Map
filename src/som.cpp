@@ -413,7 +413,7 @@ void SOM::entrenamiento()
                 //if(Arreglos::fRand(0, 1) > 0.5)
                 if(entrada[Configuracion::NUMERO_ENTRADAS-1]*800<150)
                 {
-                    if(Arreglos::fRand(0, 1) > 0.7)
+                    if(Arreglos::fRand(0, 1) > 0.8)
                         aprendizajeSupervisado(indiceNeuronaGanadora);
                 }
                 else

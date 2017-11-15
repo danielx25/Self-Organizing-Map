@@ -86,6 +86,7 @@ static void proceso_principal()
             {
                 FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1.getMapaHex(), som1.getRedNeuronal());
                 FicheroRNA::guardarPesosRNA(som1.getRedNeuronal());
+                FicheroRNA::guardarPesosRNA_LVQ(som1.getRedNeuronal(), som1.getMapaHex());
                 FicheroRNA::guardarStatusRNA(&som1);
             }
             som1.setPausar(false);

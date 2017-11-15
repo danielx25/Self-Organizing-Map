@@ -103,6 +103,45 @@ class FicheroRNA
             fichero.close();
         }
 
+        static void guardarPesosRNA_LVQ (double **redNeuronal, NeuronaHex **mapaHex)
+        {
+            std::string cadena;
+            std::stringstream ss2;
+
+            int fila = 0;
+            int columna = 0;
+
+            ss2.str("");
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+
+                fila = indiceNeurona/Configuracion::LARGO;
+                columna = indiceNeurona%Configuracion::LARGO;
+
+                if(mapaHex[fila][columna].numero_activaciones > 0)
+                {
+                    for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
+                    {
+                        ss2.str("");
+                        ss2<<redNeuronal[indicePeso][indiceNeurona];
+                        cadena+=ss2.str();
+                        if(indicePeso != Configuracion::NUMERO_ENTRADAS-1)
+                        cadena+="; ";
+
+                    }
+
+                    ss2.str("");
+                    ss2<<mapaHex[fila][columna].numero_activaciones;
+                    cadena+="; "+ss2.str()+"\n";
+                }
+
+
+            }
+            std::ofstream fichero("pesosRNA_LVQ.csv", std::ios::ate);
+            fichero << cadena;
+            fichero.close();
+        }
+
         static bool leerPesosRNA(double **datosEntrenamiento )
         {
             std::ifstream in("pesosRNA.csv");
