@@ -36,7 +36,7 @@ class SOM
         //LVQ elegir la neurona de la subclase
         int seleccionNeuronaGanadora(int inferior, int superior);
         void aprendizajeSupervisado(int neuronaSeleccionada);
-
+        void actualizarPesosNeurona(int distanciaVecin, int indiceNeurona, int bias);
 
 
         /**----------------------------------------------------------*/

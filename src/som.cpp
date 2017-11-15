@@ -48,6 +48,9 @@ SOM::SOM(double **datos)
     pesosAleatorios();
     ciclos = 0;
 
+    numeroClases = 15;
+    cantidadNeuronasSubclases=40;
+
 }
 
 SOM::~SOM()
@@ -141,6 +144,15 @@ void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
     {
         redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
+    }
+}
+
+/**actualizando lo peso de la neurona regla de LVQ*/
+void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona, int bias)
+{
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    {
+        redNeuronal[i][indiceNeurona]+=bias*aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
     }
 }
 
@@ -267,11 +279,12 @@ void SOM::aprendizaje(int indiceNeurona)
 
     mapaHex[fila][columna].numero_activaciones+=1;
     marcasMapa[fila][columna] = true;
-
+    /*
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
     {
         redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], 1, entrada[i], redNeuronal[i][indiceNeurona]);
-    }
+    }*/
+    actualizarPesosNeurona(1, indiceNeurona);
     propagacionAprendizaje(2, fila, columna);
 }
 
@@ -330,13 +343,33 @@ int SOM::seleccionNeuronaGanadora(int inferior, int superior)
 void SOM::aprendizajeSupervisado(int neuronaSeleccionada)
 {
     Arreglos::getNeurona(neurona, redNeuronal, neuronaSeleccionada);
-    bool acercar = CriterioSupervision::criterioMp10(entrada, neurona);
+    bool acercar = CriterioSupervision::criterioMp10(entrada, neurona, seleccionSubclase);
 
     if(acercar)
     {
+        int fila = neuronaSeleccionada/Configuracion::LARGO;
+        int columna = neuronaSeleccionada%Configuracion::LARGO;
+
+        mapaHex[fila][columna].numero_activaciones+=1;
+
+        actualizarPesosNeurona(1, neuronaSeleccionada, 1);
+    }
+    else
+    {
+        actualizarPesosNeurona(1, neuronaSeleccionada, -1);
+        int inferior = seleccionSubclase*cantidadNeuronasSubclases;
+        int superior =(seleccionSubclase+1)*cantidadNeuronasSubclases;
+        int indice_debe_ganar = seleccionNeuronaGanadora(inferior, superior);
+        actualizarPesosNeurona(1, indice_debe_ganar, 1);
+
+        int fila = indice_debe_ganar/Configuracion::LARGO;
+        int columna = indice_debe_ganar%Configuracion::LARGO;
+
+        mapaHex[fila][columna].numero_activaciones+=0.5;
+
 
     }
-
+    /*
     //sin alerta
     if (mp10 <=50)
     if (50< mp10 <=100)
@@ -357,7 +390,7 @@ void SOM::aprendizajeSupervisado(int neuronaSeleccionada)
     if (500 < mp10 <=550)
     if (550 < mp10 <=600)
     if (600 > mp10)
-
+    */
 }
 
 
@@ -377,9 +410,16 @@ void SOM::entrenamiento()
                 indiceNeuronaGanadora = seleccionNeuronaGanadora();
 
                 //LVQ
+                //if(Arreglos::fRand(0, 1) > 0.5)
+                if(entrada[Configuracion::NUMERO_ENTRADAS-1]*800<150)
+                {
+                    if(Arreglos::fRand(0, 1) > 0.7)
+                        aprendizajeSupervisado(indiceNeuronaGanadora);
+                }
+                else
+                    aprendizajeSupervisado(indiceNeuronaGanadora);
 
-
-                aprendizaje(indiceNeuronaGanadora);
+                //aprendizaje(indiceNeuronaGanadora);
                 iteracion+=1;
             }
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)

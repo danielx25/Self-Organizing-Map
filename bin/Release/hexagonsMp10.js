@@ -6,7 +6,7 @@ function escalaGrises(act, min, max)
 
 function coloresMp10(pesos)
 {
-	mp10_1 =  pesos[36];
+	mp10_1 =  pesos[31];
 	mp10 = mp10_1*800;
 	cadena = "rgb(0, 128, 0)";
 	if(mp10 < 150)
