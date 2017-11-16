@@ -69,7 +69,7 @@ double SOM::distanciaEuclidea(double *entrada, double *pesos)
 {
     double sumatoria = 0;
 
-    for(int i=0; i < numeroEntradas; i++)
+    for(int i=0; i < numeroEntradas-1; i++)
     {
         sumatoria+= pow(entrada[i]- pesos[i], 2);
     }
@@ -407,7 +407,7 @@ void SOM::entrenamiento()
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
-                indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                indiceNeuronaGanadora = seleccionNeuronaGanadora(0, 600);
 
                 //LVQ
                 //if(Arreglos::fRand(0, 1) > 0.5)

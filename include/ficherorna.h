@@ -107,23 +107,52 @@ class FicheroRNA
         {
             std::string cadena;
             std::stringstream ss2;
-
+            int cantidadNeuronasSubclases = 40;
             int fila = 0;
             int columna = 0;
 
             ss2.str("");
+            int rangos[16] = {0, 50, 100, 150, 183, 216, 250, 283, 316, 350, 400, 450, 500, 550, 600, 800};
+            int subclase = 0;
+
+
             for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
             {
+
+            }
+
+
+            for(int indiceNeurona =0; indiceNeurona<Configuracion::NUMERO_NEURONAS; indiceNeurona++)
+            {
+
+                double valorMp10;
+                int inferior = subclase*cantidadNeuronasSubclases;
+                int superior =(subclase+1)*cantidadNeuronasSubclases;
+                //printf("no imprime ninguna wea!!!\n");
+                //std::cout <<"i: "<<indiceNeurona<<" "<< inferior<<" < "<<indiceNeurona<<" < "<< superior<<"\n";
+                if(inferior<=indiceNeurona && indiceNeurona<superior)
+                {
+                    valorMp10 = rangos[subclase]+(rangos[subclase+1]-rangos[subclase])/(double)2;
+                    valorMp10 = valorMp10/800;
+
+                }
+                else
+                    subclase+=1;
+
+
 
                 fila = indiceNeurona/Configuracion::LARGO;
                 columna = indiceNeurona%Configuracion::LARGO;
 
-                if(mapaHex[fila][columna].numero_activaciones > 0)
+                if(mapaHex[fila][columna].numero_activaciones > 10)
                 {
                     for(int indicePeso=0; indicePeso<Configuracion::NUMERO_ENTRADAS; indicePeso++)
                     {
                         ss2.str("");
-                        ss2<<redNeuronal[indicePeso][indiceNeurona];
+                        if(indicePeso != Configuracion::NUMERO_ENTRADAS-1)
+                            ss2<<redNeuronal[indicePeso][indiceNeurona];
+                        else
+                            ss2<<valorMp10;
                         cadena+=ss2.str();
                         if(indicePeso != Configuracion::NUMERO_ENTRADAS-1)
                         cadena+="; ";
