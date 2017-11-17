@@ -1,0 +1,4 @@
+#ifndef VALORES_H_INCLUDED
+#define VALORES_H_INCLUDED
+
+#endif // VALORES_H_INCLUDED

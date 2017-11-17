@@ -18,12 +18,12 @@ class Arreglos
             double f = (double)rand() / RAND_MAX;
             return fMin + f * (fMax - fMin);
         }
-
-        static void getNeurona(double *arreglo1, double matriz[][Configuracion::NUMERO_NEURONAS], int columna)
+        //double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+        static void getNeurona(double *arreglo1, double **matriz, int indiceNeurona)
         {
             for(int fila=0; fila<Configuracion::NUMERO_ENTRADAS; fila++)
             {
-                arreglo1[fila] = matriz[fila][columna];
+                arreglo1[fila] =  matriz[fila][indiceNeurona];
             }
         }
 

@@ -3,7 +3,7 @@
 
 
 
-static void iniciarMapa(bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO])
+static void iniciarMapa(bool **marcasMapa)
 {
     for(int fila=0; fila<Configuracion::ANCHO; fila++)
     {
@@ -16,30 +16,47 @@ static void iniciarMapa(bool marcasMapa[Configuracion::ANCHO][Configuracion::LAR
 
 SOM::SOM(double **datos)
 {
+    pausarEntrenamiento = false;
+    terminoEntrenarse = false;
+
+    mapaHex = new NeuronaHex*[Configuracion::ANCHO];
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        mapaHex[i] = new NeuronaHex[Configuracion::LARGO];
+
+    redNeuronal=new double*[Configuracion::NUMERO_ENTRADAS];
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+        redNeuronal[i] = new double[Configuracion::NUMERO_NEURONAS];
+
+    marcasMapa = new bool*[Configuracion::ANCHO];
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        marcasMapa[i] = new bool[Configuracion::LARGO];
+
     numeroEntradas = Configuracion::NUMERO_ENTRADAS;
     numeroNeuronas = Configuracion::NUMERO_NEURONAS;
     rangoVecindad = Configuracion::RANGO_VECINDAD;
     numeroIteraciones = alfa/beta;
     iteracion = 0;
     crearMatrizConexionHex(mapaHex);
-    /*
-    for(int fila=0; fila<Configuracion::NUMERO_DATOS; fila++)
-    {
-        for(int columna=0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
-        {
-            datosEntrenamiento[fila][columna] = datos[fila][columna];
-        }
-    }*/
     datosEntrenamiento = datos;
 
 
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    {
         alfas[i] = alfa;
+        betas[i] = beta;
+    }
+    pesosAleatorios();
+    ciclos = 0;
+
 }
 
 SOM::~SOM()
 {
     //dtor
+    /**Liberando memoria de la matriz marcasMapa*/
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        delete[] marcasMapa[i];
+    delete []marcasMapa;
 }
 
 /**
@@ -78,6 +95,22 @@ double SOM::distanciaMinkowski(double *entrada, double *pesos, double p)
     }
     return pow(sumatoria, 1/p);
 }
+
+/**establece un nivel de importancia mayor en algunas de la dimensiones*/
+double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
+{
+    double sumatoria = 0;
+
+    for(int i=0; i < numeroEntradas; i++)
+    {
+        if(i!=36)
+            sumatoria+= 0.021621621621621623*pow(entrada[i]- pesos[i], 2);
+        else{
+            sumatoria+= 0.22162162162162163*pow(entrada[i]- pesos[i], 2);
+        }
+    }
+    return sqrt(sumatoria);
+}
 /**-------------------------------------------------------------------------------*/
 
 
@@ -102,8 +135,16 @@ double SOM::aprendizajeHebb(double alfa, double distanciaVecindario, double e, d
     return (alfa/(double)distanciaVecindario)*(e- u);
 }
 
+/**actualizando lo peso de la neurona*/
+void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
+{
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    {
+        redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
+    }
+}
 
-void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO], int fila, int columna)
+void SOM::propagacionAprendizaje(int distanciaVecin, int fila, int columna)
 {
     NeuronaHex *neurona = &(mapaHex[fila][columna]);
     double listaNeurona[6];
@@ -171,51 +212,46 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuraci
             indiceNeurona = listaNeurona[i_vecino];
             if(listaBool[i_vecino]==true)
             {
-                for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-                {
-                    //mapaHex[i][columna].numero_activaciones+=1;
-                    redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
-                }
+                actualizarPesosNeurona(distanciaVecin, indiceNeurona);
             }
 
         }
 
-        //printf("iter->> %d\n", iteracion);
 
         if(listaBool[0])
         {
             mapaHex[neurona->lado1.fila][neurona->lado1.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado1.fila, neurona->lado1.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado1.fila, neurona->lado1.columna);
         }
 
         if(listaBool[1])
         {
             mapaHex[neurona->lado2.fila][neurona->lado2.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado2.fila, neurona->lado2.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado2.fila, neurona->lado2.columna);
         }
 
         if(listaBool[2])
         {
             mapaHex[neurona->lado3.fila][neurona->lado3.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado3.fila, neurona->lado3.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado3.fila, neurona->lado3.columna);
         }
 
         if(listaBool[3])
         {
             mapaHex[neurona->lado4.fila][neurona->lado4.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado4.fila, neurona->lado4.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado4.fila, neurona->lado4.columna);
         }
 
         if(listaBool[4])
         {
             mapaHex[neurona->lado5.fila][neurona->lado5.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado5.fila, neurona->lado5.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado5.fila, neurona->lado5.columna);
         }
 
         if(listaBool[5])
         {
             mapaHex[neurona->lado6.fila][neurona->lado6.columna].numero_activaciones+=(1/(double)(distanciaVecin+1));
-            propagacionAprendizaje(distanciaVecin+1, marcasMapa, neurona->lado6.fila, neurona->lado6.columna);
+            propagacionAprendizaje(distanciaVecin+1, neurona->lado6.fila, neurona->lado6.columna);
         }
 
 
@@ -225,7 +261,6 @@ void SOM::propagacionAprendizaje(int distanciaVecin, bool marcasMapa[Configuraci
 
 void SOM::aprendizaje(int indiceNeurona)
 {
-    bool marcasMapa[Configuracion::ANCHO][Configuracion::LARGO];
     iniciarMapa(marcasMapa);
     int fila = indiceNeurona/Configuracion::LARGO;
     int columna = indiceNeurona%Configuracion::LARGO;
@@ -237,29 +272,32 @@ void SOM::aprendizaje(int indiceNeurona)
     {
         redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], 1, entrada[i], redNeuronal[i][indiceNeurona]);
     }
-
-    propagacionAprendizaje(2, marcasMapa, fila, columna);
+    propagacionAprendizaje(2, fila, columna);
 }
+
 void SOM::pesosAleatorios()
 {
     for(int i=0; i<numeroNeuronas; i++)
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=Arreglos::fRand(-0.5, 0.5);
+            redNeuronal[j][i]=Arreglos::fRand(0, 1);
         }
     }
 }
 
 int SOM::seleccionNeuronaGanadora()
 {
-    double distancia = 0;//= M
+    double distancia = 0;
     double distanciaAux = std::numeric_limits<double>::infinity();
     int indiceNeuronaGanadora = 0;
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
         distancia = distanciaEuclidea(entrada, neurona);
+        //distancia = distanciaManhattan(entrada, neurona);
+        //distancia = distanciaEuclidea_1(entrada, neurona);
+
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;
@@ -299,29 +337,108 @@ void SOM::ejemplo1()
         contador+=1;
         printf("|\n");
     }
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
 
 void SOM::entrenamiento()
 {
-    pesosAleatorios();
-    //numeroIteraciones =1;
     printf("numero iter: %d\n", numeroIteraciones);
+
     while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
-        for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
+        if(!pausarEntrenamiento)
         {
-            Arreglos::getFila(entrada, datosEntrenamiento, fila);
-            indiceNeuronaGanadora = seleccionNeuronaGanadora();
-            aprendizaje(indiceNeuronaGanadora);
-            iteracion+=1;
+            listoGuardar = false;
+            for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
+            {
+                Arreglos::getFila(entrada, datosEntrenamiento, fila);
+                indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                aprendizaje(indiceNeuronaGanadora);
+                iteracion+=1;
+            }
+            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+            {
+                olvidoProgresivo(&alfas[i], beta);
+
+                //if(i == Configuracion::NUMERO_ENTRADAS-1)
+                //    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
+            }
+            ciclos +=1;
+            listoGuardar = true;
         }
-        for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-        {
-            olvidoProgresivo(&alfas[i], beta);
-        }
+
     }
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    terminoEntrenarse = true;
+}
+
+double** SOM::getRedNeuronal()
+{
+    return redNeuronal;
 }
 
 
+NeuronaHex** SOM::getMapaHex()
+{
+    return mapaHex;
+}
+
+void SOM::setRedNeuronal(double **red)
+{
+    redNeuronal = red;
+}
+
+void SOM::setPausar(bool pause)
+{
+    pausarEntrenamiento = pause;
+}
+
+bool SOM::getListoGuardar()
+{
+    return listoGuardar;
+}
+
+double SOM::getAlfa()
+{
+    return alfa;
+}
+double SOM::getBeta()
+{
+    return beta;
+}
+double SOM::setAlfa(double alfa1)
+{
+    alfa = alfa1;
+}
+double SOM::setBeta(double beta1)
+{
+    beta = beta1;
+}
+
+double *SOM::getAlfas()
+{
+    return alfas;
+}
+double *SOM::getBetas()
+{
+    return betas;
+}
+
+double SOM::setAlfas(double *alfa1)
+{
+    alfas=alfa1;
+}
+
+double SOM::setBetas(double *beta1)
+{
+    betas = beta1;
+}
+
+bool SOM::getTerminoEntrenarse()
+{
+    return terminoEntrenarse;
+}
+
+void SOM::setTerminoEntrenarse(bool valor)
+{
+    terminoEntrenarse = valor;
+}
