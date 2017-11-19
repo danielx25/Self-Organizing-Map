@@ -104,9 +104,9 @@ double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
     for(int i=0; i < numeroEntradas; i++)
     {
         if(i!=36)
-            sumatoria+= 0.021621621621621623*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= 0.025*pow(entrada[i]- pesos[i], 2);
         else{
-            sumatoria+= 0.22162162162162163*pow(entrada[i]- pesos[i], 2);
+            sumatoria+= 0.23125*pow(entrada[i]- pesos[i], 2);
         }
     }
     return sqrt(sumatoria);
@@ -361,6 +361,11 @@ void SOM::entrenamiento()
                         aprendizaje(indiceNeuronaGanadora);
                     }
 
+                }
+                else
+                {
+                    indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                        aprendizaje(indiceNeuronaGanadora);
                 }
                 iteracion+=1;
             }
