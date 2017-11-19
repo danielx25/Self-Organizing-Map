@@ -7,7 +7,7 @@ Validacion::Validacion()
     neurona = new double[Configuracion::NUMERO_ENTRADAS];
     numeroAciertos = 0;
     acertividad = 0;
-    radioMp10 = 0.125;//0.0625;//0.125;
+    radioMp10 = 0.0625;//0.0625;//0.125;
 }
 
 Validacion::~Validacion()
