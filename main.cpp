@@ -128,8 +128,8 @@ static void proceso_principal()
 int main()
 {
 
-    //proceso_principal();
-    validar_red();
+    proceso_principal();
+    //validar_red();
     return 0;
 }
 

@@ -352,8 +352,16 @@ void SOM::entrenamiento()
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
-                indiceNeuronaGanadora = seleccionNeuronaGanadora();
-                aprendizaje(indiceNeuronaGanadora);
+
+                if(entrada[Configuracion::NUMERO_ENTRADAS-1]*800<150)
+                {
+                    if(Arreglos::fRand(0, 1) > 0.7)
+                    {
+                        indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                        aprendizaje(indiceNeuronaGanadora);
+                    }
+
+                }
                 iteracion+=1;
             }
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
