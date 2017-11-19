@@ -103,7 +103,7 @@ double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
 
     for(int i=0; i < numeroEntradas; i++)
     {
-        if(i!=36)
+        if(i!=Configuracion::NUMERO_ENTRADAS-1)
             sumatoria+= 0.025*pow(entrada[i]- pesos[i], 2);
         else{
             sumatoria+= 0.23125*pow(entrada[i]- pesos[i], 2);
@@ -294,9 +294,9 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        distancia = distanciaEuclidea(entrada, neurona);
+        //distancia = distanciaEuclidea(entrada, neurona);
         //distancia = distanciaManhattan(entrada, neurona);
-        //distancia = distanciaEuclidea_1(entrada, neurona);
+        distancia = distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
@@ -352,7 +352,9 @@ void SOM::entrenamiento()
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
-
+                indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                aprendizaje(indiceNeuronaGanadora);
+                /*
                 if(entrada[Configuracion::NUMERO_ENTRADAS-1]*800<150)
                 {
                     if(Arreglos::fRand(0, 1) > 0.7)
@@ -367,6 +369,7 @@ void SOM::entrenamiento()
                     indiceNeuronaGanadora = seleccionNeuronaGanadora();
                         aprendizaje(indiceNeuronaGanadora);
                 }
+                */
                 iteracion+=1;
             }
             for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)

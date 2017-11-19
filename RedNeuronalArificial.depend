@@ -48,7 +48,7 @@
 	<sstream>
 	"NeuronaHex.h"
 
-1511113064 source:c:\users\danie\desktop\self-organizing-map\main.cpp
+1511128110 source:c:\users\danie\desktop\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -110,7 +110,7 @@
 1509769655 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
 	"neurona.h"
 
-1511113056 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
+1511125699 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 
@@ -133,6 +133,6 @@
 	<math.h>
 	<limits>
 
-1511110491 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
+1511124543 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
 	"Validacion.h"
 
