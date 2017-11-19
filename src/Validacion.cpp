@@ -80,6 +80,7 @@ void Validacion::iniciarValidacion()
         if(mp10Inferior<mp10Real && mp10Superior>mp10Real)
         {
             numeroAciertos+=1;
+            //printf("predecion: %f ---- real: %f \n", mp10Predecion, mp10Real);
         }
 
         //printf("predecion: %f ---- real: %f \n", mp10Predecion, mp10Real);
