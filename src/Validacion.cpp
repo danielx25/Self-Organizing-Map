@@ -7,7 +7,7 @@ Validacion::Validacion()
     neurona = new double[Configuracion::NUMERO_ENTRADAS];
     numeroAciertos = 0;
     acertividad = 0;
-    radioMp10 = 0.0125;//0.0625;//0.125;
+    radioMp10 = 0.0625;//0.0625;//0.125;
 }
 
 Validacion::~Validacion()
@@ -114,7 +114,7 @@ void Validacion::iniciarValidacion()
                 numeroAciertosM+=1;
         }
 
-        //printf("predecion: %f ---- real: %f \n", mp10Predecion, mp10Real);
+        printf("predecion: %f ---- real: %f \n", mp10Predecion*800, mp10Real*800);
     }
     printf("numero aciertos: %d\n", numeroAciertos);
     printf("numero alertas mayores   : %d\n", numeroAlertasM);
