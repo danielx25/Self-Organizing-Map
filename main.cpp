@@ -13,6 +13,7 @@
 #include <conio.h>
 #include <thread>         // std::thread
 #include "gestionadorsom.h"
+#include "Validacion.h"
 using namespace std;
 
 /*
@@ -47,6 +48,33 @@ double ** createByteMatrix(unsigned int rows, unsigned int cols)
 	for(int i = 0; i < rows; i++)
 		a[i] = new double[cols];
     return a;
+}
+
+static void validar_red()
+{
+    if(!FicheroRNA::leerConfiguracion())
+        FicheroRNA::crearConfiguracion();
+
+    double ** pesosRNA;
+    double ** datosEntrenamiento;
+	datosEntrenamiento = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
+    //pesosRNA = createByteMatrix(Configuracion::NUMERO_NEURONAS, Configuracion::NUMERO_ENTRADAS);
+
+    pesosRNA=new double*[Configuracion::NUMERO_ENTRADAS];
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+        pesosRNA[i] = new double[Configuracion::NUMERO_NEURONAS];
+
+    Validacion *validacion = new Validacion();
+
+    if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, datosEntrenamiento))
+    {
+
+        FicheroRNA::leerPesosRNA(pesosRNA);
+        validacion->setDatosEntrenamiento(datosEntrenamiento);
+        validacion->setPesosRNA(pesosRNA, Configuracion::NUMERO_NEURONAS);
+        validacion->iniciarValidacion();
+
+    }
 }
 
 static void proceso_principal()
@@ -97,11 +125,12 @@ static void proceso_principal()
     }
 }
 
+
 int main()
 {
 
-    proceso_principal();
-
+    //proceso_principal();
+    validar_red();
     return 0;
 }
 

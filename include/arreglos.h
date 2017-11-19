@@ -1,7 +1,8 @@
 #ifndef ARREGLOS_H
 #define ARREGLOS_H
 
-
+#include <stdlib.h>
+#include "configuracion.h"
 class Arreglos
 {
     public:
