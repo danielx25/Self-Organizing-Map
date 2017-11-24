@@ -4,6 +4,7 @@
 #include "configuracion.h"
 #include <math.h>
 #include <limits>
+#include "distancias.h"
 
 
 class Validacion
@@ -12,8 +13,6 @@ class Validacion
         Validacion();
         virtual ~Validacion();
 
-
-    double distanciaEuclidea(double *entrada, double *pesos);
     int seleccionNeuronaGanadora();
 	void setDatosEntrenamiento(double **datos);
 	void setPesosRNA(double **datos, int numeroN);

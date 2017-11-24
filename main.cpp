@@ -11,26 +11,10 @@
 #include <cstdlib>
 #include <windows.h>
 #include <conio.h>
-#include <thread>         // std::thread
 #include "gestionadorsom.h"
 #include "Validacion.h"
 using namespace std;
 
-/*
-
-#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-#define PBWIDTH 60
-
-void printProgress (double percentage, int totalIter, int iter)
-{
-    int val = (int) (percentage * 100);
-    int lpad = (int) (percentage * PBWIDTH);
-    int rpad = PBWIDTH - lpad;
-    printf("total: %d | iteracion: %d | por: %f", totalIter, iter, percentage);
-    printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
-    fflush (stdout);
-}
-*/
 void *proceso_hilos(void *funcion)
 {
     SOM *som1 = (SOM*)funcion;

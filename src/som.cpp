@@ -59,58 +59,6 @@ SOM::~SOM()
     delete []marcasMapa;
 }
 
-/**
-funciones de medicion de Diatancias entre dos puntos de n dimensiones
-*/
-double SOM::distanciaEuclidea(double *entrada, double *pesos)
-{
-    double sumatoria = 0;
-
-    for(int i=0; i < numeroEntradas; i++)
-    {
-        sumatoria+= pow(entrada[i]- pesos[i], 2);
-    }
-    return sqrt(sumatoria);
-}
-
-
-double SOM::distanciaManhattan(double *entrada, double *pesos)
-{
-    double sumatoria = 0;
-
-    for(int i=0; i < numeroEntradas; i++)
-    {
-        sumatoria+= abs(entrada[i]- pesos[i]);
-    }
-    return sumatoria;
-}
-
-double SOM::distanciaMinkowski(double *entrada, double *pesos, double p)
-{
-    double sumatoria = 0;
-
-    for(int i=0; i < numeroEntradas; i++)
-    {
-        sumatoria+= pow(entrada[i]- pesos[i], p);
-    }
-    return pow(sumatoria, 1/p);
-}
-
-/**establece un nivel de importancia mayor en algunas de la dimensiones*/
-double SOM::distanciaEuclidea_1(double *entrada, double *pesos)
-{
-    double sumatoria = 0;
-
-    for(int i=0; i < numeroEntradas; i++)
-    {
-        if(i!=Configuracion::NUMERO_ENTRADAS-1)
-            sumatoria+= 0.025*pow(entrada[i]- pesos[i], 2);
-        else{
-            sumatoria+= 0.23125*pow(entrada[i]- pesos[i], 2);
-        }
-    }
-    return sqrt(sumatoria);
-}
 /**-------------------------------------------------------------------------------*/
 
 
@@ -294,9 +242,7 @@ int SOM::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        //distancia = distanciaEuclidea(entrada, neurona);
-        //distancia = distanciaManhattan(entrada, neurona);
-        distancia = distanciaEuclidea_1(entrada, neurona);
+        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {

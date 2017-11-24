@@ -7,7 +7,7 @@
 #include "NeuronaHex.h"
 #include "configuracion.h"
 #include "arreglos.h"
-//#include "ficherorna.h"
+#include "distancias.h"
 
 
 class SOM
@@ -15,12 +15,6 @@ class SOM
     public:
         SOM(double **datos);
         virtual ~SOM();
-
-        double distanciaEuclidea(double *entrada, double *pesos);
-        double distanciaManhattan(double *entrada, double *pesos);
-        double distanciaMinkowski(double *entrada, double *pesos, double p);
-
-        double distanciaEuclidea_1(double *entrada, double *pesos);
 
         void olvidoProgresivo(double *alfa, double beta);
         void olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter);

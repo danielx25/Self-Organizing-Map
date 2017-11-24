@@ -32,12 +32,10 @@
 		<Unit filename="include/Validacion.h" />
 		<Unit filename="include/arreglos.h" />
 		<Unit filename="include/configuracion.h" />
+		<Unit filename="include/distancias.h" />
 		<Unit filename="include/ficherorna.h" />
 		<Unit filename="include/gestionadorsom.h" />
 		<Unit filename="include/som.h" />
-		<Unit filename="include/valores.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Validacion.cpp" />
 		<Unit filename="src/configuracion.cpp" />

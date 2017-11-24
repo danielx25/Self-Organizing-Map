@@ -15,35 +15,7 @@ Validacion::~Validacion()
     //dtor
 }
 
-/**establece un nivel de importancia mayor en algunas de la dimensiones*/
-double Validacion::distanciaEuclidea(double *entrada, double *pesos)
-{
-    double sumatoria = 0;
 
-    for(int i=0; i < Configuracion::NUMERO_ENTRADAS; i++)
-    {
-        if(i!=Configuracion::NUMERO_ENTRADAS-1)
-            sumatoria+= 0.025*pow(entrada[i]- pesos[i], 2);
-        else{
-            sumatoria+= 0.23125*pow(entrada[i]- pesos[i], 2);
-        }
-    }
-    return sqrt(sumatoria);
-}
-
-/*
-
-double Validacion::distanciaEuclidea(double *entrada, double *pesos)
-{
-    double sumatoria = 0;
-
-    for(int i=0; i < Configuracion::NUMERO_ENTRADAS-1; i++)
-    {
-        sumatoria+= pow(entrada[i]- pesos[i], 2);
-    }
-    return sqrt(sumatoria);
-}
-*/
 
 int Validacion::seleccionNeuronaGanadora()
 {
@@ -53,7 +25,7 @@ int Validacion::seleccionNeuronaGanadora()
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, pesosRNA, indiceNeu);
-        distancia = distanciaEuclidea(entrada, neurona);
+        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
