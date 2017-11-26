@@ -59,6 +59,7 @@ static void validar_red()
         validacion->iniciarValidacion();
 
     }
+    std::cin.get();
 }
 
 static void proceso_principal()

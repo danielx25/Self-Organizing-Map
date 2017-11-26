@@ -48,7 +48,7 @@
 	<sstream>
 	"NeuronaHex.h"
 
-1511481534 source:c:\users\danie\desktop\self-organizing-map\main.cpp
+1511665748 source:c:\users\danie\desktop\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -62,7 +62,6 @@
 	<cstdlib>
 	<windows.h>
 	<conio.h>
-	<thread>
 	"gestionadorsom.h"
 	"Validacion.h"
 
@@ -111,7 +110,7 @@
 1509769655 source:c:\users\danie\desktop\self-organizing-map\src\neurona.cpp
 	"neurona.h"
 
-1511485643 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
+1511660712 source:c:\users\danie\desktop\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 
@@ -135,7 +134,7 @@
 	<limits>
 	"distancias.h"
 
-1511485967 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
+1511665637 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
 	"Validacion.h"
 
 1511483335 c:\users\danie\desktop\self-organizing-map\include\distancias.h

@@ -86,11 +86,15 @@ void Validacion::iniciarValidacion()
                 numeroAciertosM+=1;
         }
 
-        printf("predecion: %f ---- real: %f \n", mp10Predecion*800, mp10Real*800);
+        //printf("predecion: %f ---- real: %f \n", mp10Predecion*800, mp10Real*800);
     }
-    printf("numero aciertos: %d\n", numeroAciertos);
-    printf("numero alertas mayores   : %d\n", numeroAlertasM);
-    printf("numero aciertos alertas M: %d\n", numeroAciertosM);
+    double porcenjate1 =
+    printf("numero total de casos: %d\n", Configuracion::NUMERO_DATOS);
+    printf("numero aciertos:       %d\n", numeroAciertos);
+    printf("%:                     %f\n\n", (numeroAciertos/(double)Configuracion::NUMERO_DATOS)*100);
+    printf("numero total alertas mayores   : %d\n", numeroAlertasM);
+    printf("numero total aciertos alertas M: %d\n", numeroAciertosM);
+    printf("%:                               %f\n", (numeroAciertosM/(double)numeroAlertasM)*100);
 
     int numeroNeuronasActivas = 0;
     for(int i=0; i<Configuracion::NUMERO_NEURONAS; i++)

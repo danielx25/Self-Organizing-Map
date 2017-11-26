@@ -89,6 +89,8 @@ void SOM::actualizarPesosNeurona(int distanciaVecin, int indiceNeurona)
     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
     {
         redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], distanciaVecin, entrada[i], redNeuronal[i][indiceNeurona]);
+        if(redNeuronal[i][indiceNeurona] < 0.00001)//problema de numero infinitamente chicos
+            redNeuronal[i][indiceNeurona] = 0;
     }
 }
 
@@ -215,11 +217,7 @@ void SOM::aprendizaje(int indiceNeurona)
 
     mapaHex[fila][columna].numero_activaciones+=1;
     marcasMapa[fila][columna] = true;
-
-    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-    {
-        redNeuronal[i][indiceNeurona]+=aprendizajeHebb(alfas[i], 1, entrada[i], redNeuronal[i][indiceNeurona]);
-    }
+    actualizarPesosNeurona(1, indiceNeurona);
     propagacionAprendizaje(2, fila, columna);
 }
 
