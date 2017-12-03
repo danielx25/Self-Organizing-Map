@@ -48,7 +48,7 @@
 	<sstream>
 	"NeuronaHex.h"
 
-1512260579 source:c:\users\danie\desktop\self-organizing-map\main.cpp
+1512273962 source:c:\users\danie\desktop\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -78,14 +78,14 @@
 	"configuracion.h"
 	<stdio.h>
 
-1509769655 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
+1512265156 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
 	<iostream>
 
 1511061992 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 	<stdlib.h>
 	"configuracion.h"
 
-1512240402 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1512280983 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>
@@ -114,7 +114,7 @@
 	"som.h"
 	<stdio.h>
 
-1512174469 source:c:\users\danie\desktop\self-organizing-map\src\configuracion.cpp
+1512265216 source:c:\users\danie\desktop\self-organizing-map\src\configuracion.cpp
 	"configuracion.h"
 	<iostream>
 
@@ -134,8 +134,8 @@
 	<limits>
 	"distancias.h"
 
-1512237656 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
+1512266956 source:c:\users\danie\desktop\self-organizing-map\src\validacion.cpp
 	"Validacion.h"
 
-1512237656 c:\users\danie\desktop\self-organizing-map\include\distancias.h
+1512265953 c:\users\danie\desktop\self-organizing-map\include\distancias.h
 

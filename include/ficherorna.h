@@ -298,6 +298,13 @@ class FicheroRNA
                                 field = RemoveChar(field, ' ');
                                 Configuracion::RANGO_VECINDAD = atof(field.c_str());
                             }
+
+                            if (line.find("PESO_DIMENSION_OBJ") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::PESO_DIMENSION_OBJ = atof(field.c_str());
+                            }
                         }
                         contador+=1;
                     }
@@ -348,6 +355,11 @@ class FicheroRNA
             ss2.str("");
             ss2<<Configuracion::RANGO_VECINDAD;
             cadena += "RANGO_VECINDAD = "+ss2.str()+"\n";
+
+            ss2.str("");
+            ss2<<Configuracion::PESO_DIMENSION_OBJ;
+            cadena += "PESO_DIMENSION_OBJ = "+ss2.str()+"\n";
+
 
 
             std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
@@ -461,7 +473,8 @@ class FicheroRNA
                                 {
                                     field1 = RemoveChar(field1, ' ');
                                     som1->getAlfas()[indice] =  atof(field1.c_str());
-                                    printf("alfa: %s\n", field1.c_str());
+                                    indice+=1;
+                                    //printf("alfa: %s\n", field1.c_str());
                                 }
 
                             }
@@ -477,6 +490,7 @@ class FicheroRNA
                                 {
                                     field1 = RemoveChar(field1, ' ');
                                     som1->getBetas()[indice] =  atof(field1.c_str());
+                                    indice+=1;
                                     //printf("beta: %s\n", field1.c_str());
                                 }
 

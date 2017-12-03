@@ -24,3 +24,5 @@ int Configuracion::LARGO = 40;
 double Configuracion::ALFA = 0.5;
 //decrecimiento de la tasa de aprendizaje
 double Configuracion::BETA = 0.005;
+
+double Configuracion::PESO_DIMENSION_OBJ = 0.0;

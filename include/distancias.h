@@ -50,13 +50,14 @@ class Distancias
         static double distanciaEuclidea_1(double *entrada, double *pesos)
         {
             double sumatoria = 0;
-
+            double peso_otras_dimensiones = (1/(double)Configuracion::NUMERO_ENTRADAS);
+            peso_otras_dimensiones-=(Configuracion::PESO_DIMENSION_OBJ/(double)Configuracion::NUMERO_ENTRADAS);
             for(int i=0; i < Configuracion::NUMERO_ENTRADAS; i++)
             {
                 if(i!=Configuracion::NUMERO_ENTRADAS-1)
-                    sumatoria+= 0.025*pow(entrada[i]- pesos[i], 2);
+                    sumatoria+= peso_otras_dimensiones*pow(entrada[i]- pesos[i], 2);
                 else{
-                    sumatoria+= 0.23125*pow(entrada[i]- pesos[i], 2);
+                    sumatoria+= (peso_otras_dimensiones+Configuracion::PESO_DIMENSION_OBJ)*pow(entrada[i]- pesos[i], 2);
                 }
             }
             return sqrt(sumatoria);

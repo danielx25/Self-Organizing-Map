@@ -88,7 +88,6 @@ void Validacion::iniciarValidacion()
 
         //printf("predecion: %f ---- real: %f \n", mp10Predecion*800, mp10Real*800);
     }
-    double porcenjate1 =
     printf("numero total de casos: %d\n", Configuracion::NUMERO_DATOS);
     printf("numero aciertos:       %d\n", numeroAciertos);
     printf("%:                     %f\n\n", (numeroAciertos/(double)Configuracion::NUMERO_DATOS)*100);

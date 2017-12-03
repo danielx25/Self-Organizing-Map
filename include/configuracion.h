@@ -18,6 +18,9 @@ class Configuracion
         static double ALFA;// = 0.5;
         //decrecimiento de la tasa de aprendizaje
         static double BETA;// = 0.005;
+
+        //peso en la dimension objetivo
+        static double PESO_DIMENSION_OBJ;
     public:
         Configuracion();
         virtual ~Configuracion();

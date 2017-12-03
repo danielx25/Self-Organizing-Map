@@ -59,7 +59,7 @@ static void validar_red()
         validacion->iniciarValidacion();
 
     }
-    std::cin.get();
+
 }
 
 static void proceso_principal()
@@ -90,7 +90,17 @@ static void proceso_principal()
         SOM *som1;//= new SOM(BitmapArray);
 
         if(leerPesosRNA  && leerStatus)
-            som1 = somAux;
+        {
+            int opcion = 0;
+            printf("Entrenar de inicio.\n");
+            printf("1.- SI.\n");
+            printf("2.- NO.\n");
+            scanf("%d", &opcion);
+            if(opcion == 1)
+                som1 = new SOM(BitmapArray);
+            else
+                som1 = somAux;
+        }
         else
         {
             som1 = new SOM(BitmapArray);
@@ -146,7 +156,9 @@ int main()
     proceso_principal();
     else
     validar_red();
-    return 0;
+
+    system("pause");
+    //return 0;
 }
 
 
