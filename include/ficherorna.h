@@ -477,7 +477,7 @@ class FicheroRNA
                                 {
                                     field1 = RemoveChar(field1, ' ');
                                     som1->getBetas()[indice] =  atof(field1.c_str());
-                                    printf("beta: %s\n", field1.c_str());
+                                    //printf("beta: %s\n", field1.c_str());
                                 }
 
                             }

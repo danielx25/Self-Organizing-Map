@@ -57,6 +57,16 @@ SOM::~SOM()
     for(int i=0; i<Configuracion::ANCHO; i++)
         delete[] marcasMapa[i];
     delete []marcasMapa;
+
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+        delete[] redNeuronal[i];
+    delete []redNeuronal;
+
+    for(int i=0; i<Configuracion::ANCHO; i++)
+        delete[] mapaHex[i];
+    delete []mapaHex;
+
+
 }
 
 /**-------------------------------------------------------------------------------*/
