@@ -119,7 +119,7 @@ static void proceso_principal()
             {
                 porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
                 printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion);
-                Sleep(2000);
+                Sleep(10000);
                 som1->setPausar(true);
                 while(som1->getListoGuardar() == false)
                 {

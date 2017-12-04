@@ -298,7 +298,7 @@ void SOM::entrenamiento()
 {
     printf("numero iter: %d\n", numeroIteraciones);
 
-    while(iteracion < numeroIteraciones*Configuracion::NUMERO_DATOS)
+    while(iteracion <= numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
         {

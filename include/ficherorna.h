@@ -124,8 +124,7 @@ class FicheroRNA
             }
             else
                 return false;
-            printf("fila: %d\n", fields.size());
-            printf("colm,: %d\n", fields[0].size());
+
             int fila = 0;
             int columna = 0;
             for (auto row : fields) {
@@ -188,15 +187,24 @@ class FicheroRNA
 
             int fila = 0;
             int columna = 0;
-            for (auto row : fields) {
 
-                columna = 0;
-                for (auto field : row) {
-                    datosEntrenamiento[fila][columna] = field;
-                    columna+=1;
+            printf("fila: %d\n", fields.size());
+            printf("colm,: %d\n", fields[0].size());
+            if(fields[0].size()==Configuracion::NUMERO_ENTRADAS)
+            {
+                for (auto row : fields)
+                {
+
+                    columna = 0;
+                    for (auto field : row) {
+                        datosEntrenamiento[fila][columna] = field;
+                        columna+=1;
+                    }
+                    fila+=1;
                 }
-                fila+=1;
             }
+            else
+                return false;
             return true;
         }
 
