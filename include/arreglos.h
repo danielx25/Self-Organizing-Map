@@ -30,13 +30,21 @@ class Arreglos
 
         static void getFila(double *arreglo1, double **matriz, int fila)
         {
-
             for(int columna=0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
             {
                 arreglo1[columna] =matriz[fila][columna];
             }
+        }
 
-
+        static double ** createByteMatrix(unsigned int rows, unsigned int cols)
+        {
+            // declaration
+            double ** a;
+            // allocation
+            a = new double*[rows];
+            for(int i = 0; i < rows; i++)
+                a[i] = new double[cols];
+            return a;
         }
 
 

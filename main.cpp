@@ -23,17 +23,6 @@ void *proceso_hilos(void *funcion)
 }
 
 
-double ** createByteMatrix(unsigned int rows, unsigned int cols)
-{
-    // declaration
-	double ** a;
-	// allocation
-	a = new double*[rows];
-	for(int i = 0; i < rows; i++)
-		a[i] = new double[cols];
-    return a;
-}
-
 static void validar_red()
 {
     if(!FicheroRNA::leerConfiguracion())
@@ -41,7 +30,7 @@ static void validar_red()
 
     double ** pesosRNA;
     double ** datosEntrenamiento;
-	datosEntrenamiento = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
+	//datosEntrenamiento = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     //pesosRNA = createByteMatrix(Configuracion::NUMERO_NEURONAS, Configuracion::NUMERO_ENTRADAS);
 
     pesosRNA=new double*[Configuracion::NUMERO_ENTRADAS];
@@ -70,7 +59,7 @@ static void proceso_principal()
 
     pthread_t hilo;
     double ** BitmapArray;
-	BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
+	//BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
 
     if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, BitmapArray))
     {
@@ -106,6 +95,14 @@ static void proceso_principal()
             som1 = new SOM(BitmapArray);
             delete somAux;
         }
+        printf("Config numero Datos: %d\n", Configuracion::NUMERO_DATOS);
+
+
+
+
+
+        //FicheroRNA::guardarCSV(BitmapArray);
+        system("pause");
 
         if(!som1->getTerminoEntrenarse())
         {
@@ -139,9 +136,7 @@ static void proceso_principal()
 
 
     }
-    else{
-        printf("fichero no encontrado\n");
-    }
+
 }
 
 

@@ -12,6 +12,7 @@
 #include "configuracion.h"
 #include "NeuronaHex.h"
 #include "som.h"
+#include "arreglos.h"
 
 const char NOMBRE_FICHERO[100] = "valores.js";
 class FicheroRNA
@@ -159,7 +160,7 @@ class FicheroRNA
                 }
                 cadena+="\n";
             }
-            std::ofstream fichero(Configuracion::RUTA_ARCHIVO, std::ios::ate);
+            std::ofstream fichero("aux.csv", std::ios::ate);//((Configuracion::RUTA_ARCHIVO, std::ios::ate);
             fichero << cadena;
             fichero.close();
         }
@@ -183,13 +184,20 @@ class FicheroRNA
                 in.close();
             }
             else
+            {
+                printf("Fichero no encontrado\n");
                 return false;
+            }
+
 
             int fila = 0;
             int columna = 0;
 
             printf("fila: %d\n", fields.size());
             printf("colm,: %d\n", fields[0].size());
+
+            Configuracion::NUMERO_DATOS = fields.size();
+            datosEntrenamiento = Arreglos::createByteMatrix(fields.size(), fields[0].size());
             if(fields[0].size()==Configuracion::NUMERO_ENTRADAS)
             {
                 for (auto row : fields)
@@ -202,9 +210,24 @@ class FicheroRNA
                     }
                     fila+=1;
                 }
+
+                for(int fila = 0;  fila<10; fila++)
+                {
+                    for(int columna = 0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
+                    {
+                        printf("| %3f |", datosEntrenamiento[fila][columna]);
+                    }
+                    printf("\n");
+                }
+
+
             }
             else
+            {
+                printf("Error Archivo Configuracion: El numero de columnas del archivo no coincide con el numero entrada.\n");
                 return false;
+            }
+
             return true;
         }
 
@@ -262,7 +285,7 @@ class FicheroRNA
                             {
                                 numeroEntrada = true;
                                 field = RemoveChar(field, ' ');
-                                Configuracion::NUMERO_DATOS = atof(field.c_str());
+                                //Configuracion::NUMERO_DATOS = atof(field.c_str());
                             }
 
                             if (line.find("NUMERO_NEURONAS") != std::string::npos)
