@@ -48,7 +48,7 @@
 	<sstream>
 	"NeuronaHex.h"
 
-1512927510 source:c:\users\danie\desktop\self-organizing-map\main.cpp
+1512937167 source:c:\users\danie\desktop\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -81,11 +81,11 @@
 1512358926 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
 	<iostream>
 
-1512921546 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
+1512937956 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 	<stdlib.h>
 	"configuracion.h"
 
-1512927548 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1512937166 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>

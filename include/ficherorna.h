@@ -193,11 +193,14 @@ class FicheroRNA
             int fila = 0;
             int columna = 0;
 
-            printf("fila: %d\n", fields.size());
-            printf("colm,: %d\n", fields[0].size());
+
 
             Configuracion::NUMERO_DATOS = fields.size();
-            datosEntrenamiento = Arreglos::createByteMatrix(fields.size(), fields[0].size());
+            printf("fila: %d\n", fields.size());
+            printf("colm,: %d\n", fields[0].size());
+            //Arreglos::createByteMatrix(fields.size(), fields[0].size(), datosEntrenamiento);
+
+
             if(fields[0].size()==Configuracion::NUMERO_ENTRADAS)
             {
                 for (auto row : fields)
@@ -210,17 +213,6 @@ class FicheroRNA
                     }
                     fila+=1;
                 }
-
-                for(int fila = 0;  fila<10; fila++)
-                {
-                    for(int columna = 0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
-                    {
-                        printf("| %3f |", datosEntrenamiento[fila][columna]);
-                    }
-                    printf("\n");
-                }
-
-
             }
             else
             {

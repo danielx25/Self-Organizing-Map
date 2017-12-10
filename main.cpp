@@ -58,12 +58,23 @@ static void proceso_principal()
         FicheroRNA::crearConfiguracion();
 
     pthread_t hilo;
-    double ** BitmapArray;
+    double ** BitmapArray = NULL;
 	//BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
-
+    Arreglos arreglo;
+    arreglo.createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS, BitmapArray);
     if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, BitmapArray))
     {
+        /*
+        for(int fila = 0;  fila<10; fila++)
+        {
+            for(int columna = 0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
+            {
+                printf("| %3f |", BitmapArray[fila][columna]);
+            }
+            printf("\n");
+        }*/
 
+        //printf("| %3f |", BitmapArray[0][0]);
 
         SOM *somAux = new SOM(BitmapArray);
 
