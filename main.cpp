@@ -59,7 +59,6 @@ static void proceso_principal()
 
     pthread_t hilo;
     double ** BitmapArray = NULL;
-    Configuracion::NUMERO_DATOS = FicheroRNA::numeroLineasFichero(Configuracion::RUTA_ARCHIVO);
 	BitmapArray = Arreglos::creandoMatrizDouble(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, BitmapArray))
     {

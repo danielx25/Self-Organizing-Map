@@ -208,14 +208,6 @@ class FicheroRNA
             int fila = 0;
             int columna = 0;
 
-
-
-            //Configuracion::NUMERO_DATOS = fields.size();
-            //printf("fila: %d\n", fields.size());
-            //printf("colm,: %d\n", fields[0].size());
-            //Arreglos::createByteMatrix(fields.size(), fields[0].size(), datosEntrenamiento);
-
-
             if(fields[0].size()==Configuracion::NUMERO_ENTRADAS)
             {
                 for (auto row : fields)
@@ -348,6 +340,7 @@ class FicheroRNA
                     }
                 }
                 in.close();
+                Configuracion::NUMERO_DATOS = FicheroRNA::numeroLineasFichero(Configuracion::RUTA_ARCHIVO);
                 return true;
             }
             else
@@ -364,9 +357,9 @@ class FicheroRNA
             ss2<<Configuracion::NUMERO_ENTRADAS;
             cadena += "NUMERO_ENTRADAS = "+ss2.str()+"\n";
 
-            ss2.str("");
-            ss2<<Configuracion::NUMERO_DATOS;
-            cadena += "NUMERO_DATOS = "+ss2.str()+"\n";
+            //ss2.str("");
+            //ss2<<Configuracion::NUMERO_DATOS;
+            //cadena += "NUMERO_DATOS = "+ss2.str()+"\n";
 
             ss2.str("");
             ss2<<Configuracion::NUMERO_NEURONAS;
