@@ -27,7 +27,22 @@ class FicheroRNA
           return std::string( result, GetModuleFileName( NULL, result, MAX_PATH ) );
         }
 
+        static int numeroLineasFichero(std::string nombreFichero)
+        {
+            int numeroLineas = 0;
+            std::ifstream f(nombreFichero);
+            if(f){
+                std::string line;
+                for (int i = 0; std::getline(f, line); ++i)
+                {
+                    numeroLineas+=1;
+                }
+                f.close();
+                return numeroLineas;
+            }
+            return 0;
 
+        }
 
         static void escribirJS(int ancho , int largo, NeuronaHex **mapaHex, double **redNeuronal)
         {
@@ -195,9 +210,9 @@ class FicheroRNA
 
 
 
-            Configuracion::NUMERO_DATOS = fields.size();
-            printf("fila: %d\n", fields.size());
-            printf("colm,: %d\n", fields[0].size());
+            //Configuracion::NUMERO_DATOS = fields.size();
+            //printf("fila: %d\n", fields.size());
+            //printf("colm,: %d\n", fields[0].size());
             //Arreglos::createByteMatrix(fields.size(), fields[0].size(), datosEntrenamiento);
 
 

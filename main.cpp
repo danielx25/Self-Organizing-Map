@@ -153,6 +153,15 @@ static void proceso_principal()
 
 int main()
 {
+    int numeroLineas = 0;
+    std::ifstream f("DatosEntrenamientov3.csv");
+    std::string line;
+    for (int i = 0; std::getline(f, line); ++i)
+    {
+        numeroLineas+=1;
+    }
+    printf("numero Lineas %d\n", numeroLineas);
+
     int opcion = 0;
 
     printf("1.- Entrenar.\n");

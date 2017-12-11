@@ -81,11 +81,11 @@
 1512358926 c:\users\danie\desktop\self-organizing-map\include\configuracion.h
 	<iostream>
 
-1512937956 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
+1512954523 c:\users\danie\desktop\self-organizing-map\include\arreglos.h
 	<stdlib.h>
 	"configuracion.h"
 
-1512937166 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
+1512954523 c:\users\danie\desktop\self-organizing-map\include\ficherorna.h
 	<string>
 	<iostream>
 	<fstream>
