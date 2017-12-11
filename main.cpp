@@ -59,23 +59,10 @@ static void proceso_principal()
 
     pthread_t hilo;
     double ** BitmapArray = NULL;
-	//BitmapArray = createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
-    Arreglos arreglo;
-    arreglo.createByteMatrix(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS, BitmapArray);
+    Configuracion::NUMERO_DATOS = FicheroRNA::numeroLineasFichero(Configuracion::RUTA_ARCHIVO);
+	BitmapArray = Arreglos::creandoMatrizDouble(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     if(FicheroRNA::leerCSV(Configuracion::RUTA_ARCHIVO, BitmapArray))
     {
-        /*
-        for(int fila = 0;  fila<10; fila++)
-        {
-            for(int columna = 0; columna<Configuracion::NUMERO_ENTRADAS; columna++)
-            {
-                printf("| %3f |", BitmapArray[fila][columna]);
-            }
-            printf("\n");
-        }*/
-
-        //printf("| %3f |", BitmapArray[0][0]);
-
         SOM *somAux = new SOM(BitmapArray);
 
         bool leerStatus = FicheroRNA::leerStatusRNA(somAux);
@@ -106,14 +93,6 @@ static void proceso_principal()
             som1 = new SOM(BitmapArray);
             delete somAux;
         }
-        printf("Config numero Datos: %d\n", Configuracion::NUMERO_DATOS);
-
-
-
-
-
-        //FicheroRNA::guardarCSV(BitmapArray);
-        system("pause");
 
         if(!som1->getTerminoEntrenarse())
         {
@@ -153,15 +132,6 @@ static void proceso_principal()
 
 int main()
 {
-    int numeroLineas = 0;
-    std::ifstream f("DatosEntrenamientov3.csv");
-    std::string line;
-    for (int i = 0; std::getline(f, line); ++i)
-    {
-        numeroLineas+=1;
-    }
-    printf("numero Lineas %d\n", numeroLineas);
-
     int opcion = 0;
 
     printf("1.- Entrenar.\n");

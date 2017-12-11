@@ -36,11 +36,15 @@ class Arreglos
             }
         }
 
-        void createByteMatrix(unsigned int rows, unsigned int cols, double **matriz)
+        static double ** creandoMatrizDouble(unsigned int rows, unsigned int cols)
         {
-            matriz = new double*[rows];
+            // declaration
+            double ** a;
+            // allocation
+            a = new double*[rows];
             for(int i = 0; i < rows; i++)
-                matriz[i] = new double[cols];
+                a[i] = new double[cols];
+            return a;
         }
 
 
