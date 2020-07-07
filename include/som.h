@@ -17,7 +17,7 @@ class SOM
         virtual ~SOM();
 
         void olvidoProgresivo(double *alfa, double beta);
-        void olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter);
+        void olvidoLogaritmico(double *alfa, double alfa0, double ciclo);
 
         /**actualizando lo peso de la neurona*/
         void actualizarPesosNeurona(int distanciaVecin, int indiceNeurona);

@@ -81,9 +81,9 @@ void SOM::olvidoProgresivo(double *alfa, double beta)
     *alfa = *alfa-beta;
 }
 
-void SOM::olvidoLogaritmico(double *alfa, double alfa0,int iteracion, int totalIter)
+void SOM::olvidoLogaritmico(double *alfa, double alfa0,double ciclo)
 {
-    *alfa = alfa0*exp(-4*iteracion/totalIter);
+    *alfa = alfa0*exp(-4*ciclo);
 
 }
 /**-------------------------------------------------------------------------------*/
@@ -297,7 +297,8 @@ void SOM::ejemplo1()
 void SOM::entrenamiento()
 {
     printf("numero iter: %d\n", numeroIteraciones);
-
+    bool flag_olvido_progresivo = Configuracion::NUMERO_LIMITE_ITERACIONES>0 &&
+    Configuracion::OLVIDO_LOGARITMICO;
     while(iteracion <= numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
@@ -324,15 +325,28 @@ void SOM::entrenamiento()
                         aprendizaje(indiceNeuronaGanadora);
                 }
                 */
+                if(flag_olvido_progresivo){
+                    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+                    {
+                        olvidoLogaritmico(&alfas[i], alfa, (fila/Configuracion::NUMERO_DATOS)*
+                                          Configuracion::NUMERO_LIMITE_ITERACIONES);
+                    }
+                }
                 iteracion+=1;
             }
-            for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
-            {
-                olvidoProgresivo(&alfas[i], beta);
-
-                //if(i == Configuracion::NUMERO_ENTRADAS-1)
-                //    olvidoLogaritmico(&alfas[i], alfa, ciclos, numeroIteraciones);
+            if(!flag_olvido_progresivo){
+                for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+                {
+                    olvidoProgresivo(&alfas[i], beta);
+                }
             }
+            if(ciclos<Configuracion::NUMERO_LIMITE_ITERACIONES &&
+               Configuracion::NUMERO_LIMITE_ITERACIONES>0){
+               listoGuardar = true;
+                break;
+           }
+
+
             ciclos +=1;
             listoGuardar = true;
         }

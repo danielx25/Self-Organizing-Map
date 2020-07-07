@@ -140,3 +140,95 @@
 
 1512358926 c:\users\danie\desktop\self-organizing-map\include\distancias.h
 
+1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\main.cpp
+	<iostream>
+	<stdio.h>
+	<limits>
+	"som.h"
+	"neurona.h"
+	"ficherorna.h"
+	"configuracion.h"
+	<stdlib.h>
+	<time.h>
+	<pthread.h>
+	<cstdlib>
+	<windows.h>
+	<conio.h>
+	"gestionadorsom.h"
+	"Validacion.h"
+
+1594095078 c:\users\danie\onedrive\escritorio\self-organizing-map\include\som.h
+	<stdlib.h>
+	<math.h>
+	<limits>
+	"NeuronaHex.h"
+	"configuracion.h"
+	"arreglos.h"
+	"distancias.h"
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\neuronahex.h
+	"configuracion.h"
+	<stdio.h>
+
+1594095226 c:\users\danie\onedrive\escritorio\self-organizing-map\include\configuracion.h
+	<iostream>
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\arreglos.h
+	<stdlib.h>
+	"configuracion.h"
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\distancias.h
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\neurona.h
+	"som.h"
+	"configuracion.h"
+	<stdio.h>
+
+1594095226 c:\users\danie\onedrive\escritorio\self-organizing-map\include\ficherorna.h
+	<string>
+	<iostream>
+	<fstream>
+	<vector>
+	<map>
+	<windows.h>
+	<stdlib.h>
+	<sstream>
+	<algorithm>
+	"configuracion.h"
+	"NeuronaHex.h"
+	"som.h"
+	"arreglos.h"
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\gestionadorsom.h
+	"som.h"
+	"ficherorna.h"
+	"configuracion.h"
+	<pthread.h>
+
+1594089624 c:\users\danie\onedrive\escritorio\self-organizing-map\include\validacion.h
+	"arreglos.h"
+	"configuracion.h"
+	<math.h>
+	<limits>
+	"distancias.h"
+
+1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\ficherorna.cpp
+	"ficherorna.h"
+
+1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\gestionadorsom.cpp
+	"gestionadorsom.h"
+
+1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\neurona.cpp
+	"neurona.h"
+
+1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\validacion.cpp
+	"Validacion.h"
+
+1594095226 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\som.cpp
+	"som.h"
+	<stdio.h>
+
+1594095594 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\configuracion.cpp
+	"configuracion.h"
+	<iostream>
+

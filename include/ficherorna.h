@@ -335,6 +335,20 @@ class FicheroRNA
                                 field = RemoveChar(field, ' ');
                                 Configuracion::PESO_DIMENSION_OBJ = atof(field.c_str());
                             }
+
+                            if (line.find("NUMERO_LIMITE_ITERACIONES") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_LIMITE_ITERACIONES = atof(field.c_str());
+                            }
+
+                            if (line.find("OLVIDO_LOGARITMICO") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::OLVIDO_LOGARITMICO = atof(field.c_str());
+                            }
                         }
                         contador+=1;
                     }
@@ -391,7 +405,13 @@ class FicheroRNA
             ss2<<Configuracion::PESO_DIMENSION_OBJ;
             cadena += "PESO_DIMENSION_OBJ = "+ss2.str()+"\n";
 
+            ss2.str("");
+            ss2<<Configuracion::NUMERO_LIMITE_ITERACIONES;
+            cadena += "NUMERO_LIMITE_ITERACIONES = "+ss2.str()+"\n";
 
+            ss2.str("");
+            ss2<<Configuracion::OLVIDO_LOGARITMICO;
+            cadena += "OLVIDO_LOGARITMICO = "+ss2.str()+"\n";
 
             std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
             fichero << cadena;

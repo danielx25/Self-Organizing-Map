@@ -21,6 +21,11 @@ class Configuracion
 
         //peso en la dimension objetivo
         static double PESO_DIMENSION_OBJ;
+
+        //numero maximo iteraciones
+        static int NUMERO_LIMITE_ITERACIONES;
+        //tasa de olvido logaritmico
+        static bool OLVIDO_LOGARITMICO;
     public:
         Configuracion();
         virtual ~Configuracion();

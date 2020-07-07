@@ -26,3 +26,6 @@ double Configuracion::ALFA = 0.5;
 double Configuracion::BETA = 0.005;
 
 double Configuracion::PESO_DIMENSION_OBJ = 0.0;
+bool Configuracion::OLVIDO_LOGARITMICO =false;
+int Configuracion::NUMERO_LIMITE_ITERACIONES=0;
+
