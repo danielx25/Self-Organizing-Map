@@ -4,11 +4,32 @@
 #include <stdlib.h>
 #include <math.h>
 #include <limits>
+#include <pthread.h>
+#include <ctime>
+#include <vector>
 #include "NeuronaHex.h"
 #include "configuracion.h"
 #include "arreglos.h"
 #include "distancias.h"
 
+class SOM;
+void *funcion_hilo_seleccion();
+
+typedef struct
+{
+    pthread_t hilo;
+    bool estado_calculo_finalizado = false;
+    int incide_hilo;
+    int limite_inferior;
+    int limite_superior;
+    int indice_neurona_ganadora;
+}HiloSeleccion;
+
+typedef struct
+{
+    SOM *som1 = NULL;
+    int indice_hilo=-1;
+}parametrosHIlo;
 
 class SOM
 {
@@ -24,6 +45,7 @@ class SOM
 
         void pesosAleatorios();
         int seleccionNeuronaGanadora();
+        int seleccionNeuronaGanadoraHilo(int indiceHilo);
         void entrenamiento();
 
 
@@ -64,6 +86,11 @@ class SOM
         /** ciclos de entrenamiento del dataset*/
         int ciclos;
 
+        /**terminar el entrenamiento forsozamente*/
+        bool terminoEntrenarse;
+        std::vector<HiloSeleccion> hilodeSeleccion;
+        bool inicio_calculo_hilos = false;
+        bool termino_calculos_hilos = false;
     protected:
 
     private:
@@ -97,8 +124,7 @@ class SOM
 
         /**pause*/
         bool pausarEntrenamiento;
-        /**terminar el entrenamiento forsozamente*/
-        bool terminoEntrenarse;
+
         /**señal para que guarde el estado de la red neuronal*/
         bool listoGuardar;
 

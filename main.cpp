@@ -117,7 +117,7 @@ static void proceso_principal()
                     FicheroRNA::guardarStatusRNA(som1);
                 }
                 som1->setPausar(false);
-            }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
+            }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS && !som1->terminoEntrenarse);
             printf("Termino de entrenarse!!!\n");
         }
         else

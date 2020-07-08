@@ -1,7 +1,21 @@
 #include "som.h"
 #include <stdio.h>
 
-
+void *funcion_hilo_seleccion(void *funcion)
+{
+    parametrosHIlo param = *(parametrosHIlo*)funcion;
+    int indice = param.indice_hilo;
+    SOM *som1 = param.som1;
+    int indice_neurona;
+    do{
+        if(som1->inicio_calculo_hilos && !som1->hilodeSeleccion[indice].estado_calculo_finalizado){
+            indice_neurona=som1->seleccionNeuronaGanadoraHilo(indice_hilo);
+            som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
+            som1->hilodeSeleccion[indice].indice_neurona_ganadora=indice_neurona;
+        }
+    }while(!som1->terminoEntrenarse);
+    pthread_exit(NULL);
+}
 
 static void iniciarMapa(bool **marcasMapa)
 {
@@ -48,6 +62,19 @@ SOM::SOM(double **datos)
     pesosAleatorios();
     ciclos = 0;
 
+    if(Configuracion::NUMERO_HILOS>1){
+        int tam_seccion = Configuracion::NUMERO_NEURONAS/Configuracion::NUMERO_HILOS;
+        int inf = tam_seccion;
+        for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+            HiloSeleccion h;
+            h.incide_hilo=i;
+            h.limite_inferior=inf;
+            h.limite_superior=(inf+tam_seccion<Configuracion::NUMERO_NEURONAS)?inf+tam_seccion:
+                Configuracion::NUMERO_NEURONAS;
+            inf+=tam_seccion;
+            hilodeSeleccion.push_back(h);
+        }
+    }
 }
 
 SOM::~SOM()
@@ -65,6 +92,8 @@ SOM::~SOM()
     for(int i=0; i<Configuracion::ANCHO; i++)
         delete[] mapaHex[i];
     delete []mapaHex;
+    terminoEntrenarse = false;
+    hilodeSeleccion.clear();
 
 
 }
@@ -261,6 +290,26 @@ int SOM::seleccionNeuronaGanadora()
     return indiceNeuronaGanadora;
 }
 
+int seleccionNeuronaGanadoraHilo(int indiceHilo);
+{
+    double distancia = 0;
+    double distanciaAux = std::numeric_limits<double>::infinity();
+    int indiceNeuronaGanadora = 0;
+    for(int indiceNeu=HiloSeleccion[indiceHilo].limite_inferior;
+    indiceNeu<HiloSeleccion[indiceHilo].limite_superior; indiceNeu++)
+    {
+        Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
+        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea_1(entrada, neurona);
+
+        if(distancia < distanciaAux)
+        {
+            distanciaAux = distancia;
+            indiceNeuronaGanadora = indiceNeu;
+        }
+    }
+    return indiceNeuronaGanadora;
+}
+
 void SOM::ejemplo1()
 {
     pesosAleatorios();
@@ -299,11 +348,14 @@ void SOM::entrenamiento()
     printf("numero iter: %d\n", numeroIteraciones);
     bool flag_olvido_progresivo = Configuracion::NUMERO_LIMITE_ITERACIONES>0 &&
     Configuracion::OLVIDO_LOGARITMICO;
+    std::clock_t start;
+    double duracion;
     while(iteracion <= numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
         {
             listoGuardar = false;
+            start = std::clock();
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
@@ -334,13 +386,15 @@ void SOM::entrenamiento()
                 }
                 iteracion+=1;
             }
+            duracion = ( std::clock() - start );
+                printf("tiempo seleccion neurona: %f\n", duracion);
             if(!flag_olvido_progresivo){
                 for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
                 {
                     olvidoProgresivo(&alfas[i], beta);
                 }
             }
-            if(ciclos<Configuracion::NUMERO_LIMITE_ITERACIONES &&
+            if(ciclos>Configuracion::NUMERO_LIMITE_ITERACIONES &&
                Configuracion::NUMERO_LIMITE_ITERACIONES>0){
                listoGuardar = true;
                 break;

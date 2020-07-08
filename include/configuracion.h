@@ -26,6 +26,8 @@ class Configuracion
         static int NUMERO_LIMITE_ITERACIONES;
         //tasa de olvido logaritmico
         static bool OLVIDO_LOGARITMICO;
+        //numeros de hilos
+        static int NUMERO_HILOS;
     public:
         Configuracion();
         virtual ~Configuracion();
