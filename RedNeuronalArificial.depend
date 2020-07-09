@@ -140,7 +140,7 @@
 
 1512358926 c:\users\danie\desktop\self-organizing-map\include\distancias.h
 
-1594146365 source:c:\users\danie\onedrive\escritorio\self-organizing-map\main.cpp
+1594268595 source:c:\users\danie\onedrive\escritorio\self-organizing-map\main.cpp
 	<iostream>
 	<stdio.h>
 	<limits>
@@ -157,7 +157,7 @@
 	"gestionadorsom.h"
 	"Validacion.h"
 
-1594183216 c:\users\danie\onedrive\escritorio\self-organizing-map\include\som.h
+1594270818 c:\users\danie\onedrive\escritorio\self-organizing-map\include\som.h
 	<stdlib.h>
 	<math.h>
 	<limits>
@@ -227,11 +227,11 @@
 1594089624 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\validacion.cpp
 	"Validacion.h"
 
-1594095226 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\som.cpp
+1594270046 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\som.cpp
 	"som.h"
 	<stdio.h>
 
-1594181140 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\configuracion.cpp
+1594270272 source:c:\users\danie\onedrive\escritorio\self-organizing-map\src\configuracion.cpp
 	"configuracion.h"
 	<iostream>
 

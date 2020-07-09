@@ -95,16 +95,16 @@ static void proceso_principal()
 
         if(!som1->getTerminoEntrenarse())
         {
-            pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
-
+            //pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
+            som1->entrenamiento();
             double porcentaje = 0;
-            system("cls");
+            //system("cls");
 
             //for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
             do
             {
                 porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
-                printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion);
+                //printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion);
                 Sleep(10000);
                 som1->setPausar(true);
                 while(som1->getListoGuardar() == false)

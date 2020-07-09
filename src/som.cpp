@@ -9,11 +9,12 @@ void *funcion_hilo_seleccion(void *funcion)
     int indice_neurona;
     do{
         if(som1->inicio_calculo_hilos && !som1->hilodeSeleccion[indice].estado_calculo_finalizado){
-            indice_neurona=som1->seleccionNeuronaGanadoraHilo(indice_hilo);
+            indice_neurona=som1->seleccionNeuronaGanadoraHilo(indice);
             som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
             som1->hilodeSeleccion[indice].indice_neurona_ganadora=indice_neurona;
         }
     }while(!som1->terminoEntrenarse);
+    printf("termino del hilo [%d]\n",indice);
     pthread_exit(NULL);
 }
 
@@ -64,13 +65,15 @@ SOM::SOM(double **datos)
 
     if(Configuracion::NUMERO_HILOS>1){
         int tam_seccion = Configuracion::NUMERO_NEURONAS/Configuracion::NUMERO_HILOS;
-        int inf = tam_seccion;
+        int inf = 0;
         for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
             HiloSeleccion h;
             h.incide_hilo=i;
             h.limite_inferior=inf;
             h.limite_superior=(inf+tam_seccion<Configuracion::NUMERO_NEURONAS)?inf+tam_seccion:
                 Configuracion::NUMERO_NEURONAS;
+            h.entrada= new double[Configuracion::NUMERO_ENTRADAS];
+            h.neurona= new double[Configuracion::NUMERO_ENTRADAS];
             inf+=tam_seccion;
             hilodeSeleccion.push_back(h);
         }
@@ -92,6 +95,13 @@ SOM::~SOM()
     for(int i=0; i<Configuracion::ANCHO; i++)
         delete[] mapaHex[i];
     delete []mapaHex;
+
+    for(int i=0; i<Configuracion::NUMERO_HILOS; i++)
+    {
+        delete hilodeSeleccion[i].entrada;
+        delete hilodeSeleccion[i].neurona;
+    }
+
     terminoEntrenarse = false;
     hilodeSeleccion.clear();
 
@@ -266,7 +276,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=Arreglos::fRand(0, 1);
+            redNeuronal[j][i]=0;//Arreglos::fRand(0, 1);
         }
     }
 }
@@ -290,16 +300,15 @@ int SOM::seleccionNeuronaGanadora()
     return indiceNeuronaGanadora;
 }
 
-int seleccionNeuronaGanadoraHilo(int indiceHilo);
+int SOM::seleccionNeuronaGanadoraHilo(int indiceHilo)
 {
     double distancia = 0;
     double distanciaAux = std::numeric_limits<double>::infinity();
     int indiceNeuronaGanadora = 0;
-    for(int indiceNeu=HiloSeleccion[indiceHilo].limite_inferior;
-    indiceNeu<HiloSeleccion[indiceHilo].limite_superior; indiceNeu++)
+    for(int indiceNeu=hilodeSeleccion[indiceHilo].limite_inferior; indiceNeu<hilodeSeleccion[indiceHilo].limite_superior; indiceNeu++)
     {
-        Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea_1(entrada, neurona);
+        Arreglos::getNeurona(hilodeSeleccion[indiceHilo].neurona, redNeuronal, indiceNeu);
+        distancia = Distancias::distanciaEuclidea_1(entrada, hilodeSeleccion[indiceHilo].neurona);//distanciaEuclidea_1(entrada, neurona);
 
         if(distancia < distanciaAux)
         {
@@ -307,6 +316,7 @@ int seleccionNeuronaGanadoraHilo(int indiceHilo);
             indiceNeuronaGanadora = indiceNeu;
         }
     }
+    hilodeSeleccion[indiceHilo].valor_neurona_ganadora=distanciaAux;
     return indiceNeuronaGanadora;
 }
 
@@ -345,6 +355,16 @@ void SOM::ejemplo1()
 
 void SOM::entrenamiento()
 {
+    terminoEntrenarse=false;
+    if(Configuracion::NUMERO_HILOS>1){
+        parametrosHIlo *param;
+         for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+            param = new parametrosHIlo();
+            param->indice_hilo=i;
+            param->som1=this;
+            pthread_create(&hilodeSeleccion[i].hilo, NULL, &funcion_hilo_seleccion, param);
+         }
+    }
     printf("numero iter: %d\n", numeroIteraciones);
     bool flag_olvido_progresivo = Configuracion::NUMERO_LIMITE_ITERACIONES>0 &&
     Configuracion::OLVIDO_LOGARITMICO;
@@ -359,7 +379,37 @@ void SOM::entrenamiento()
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
-                indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                if(Configuracion::NUMERO_HILOS>1){
+                    inicio_calculo_hilos = true;
+                    bool termino_calculo=false;
+                    while(!termino_calculo){
+                        termino_calculo = true;
+                        for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+                            if(!hilodeSeleccion[i].estado_calculo_finalizado){
+                                termino_calculo =false;
+                            }
+                        }
+                    }
+                    inicio_calculo_hilos = false;
+                    double distancia_menor = 99999999;
+                    int indice_ganador =-1;
+                    for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+                        if(distancia_menor<hilodeSeleccion[i].valor_neurona_ganadora){
+                            indice_ganador=hilodeSeleccion[i].indice_neurona_ganadora;
+                            distancia_menor=hilodeSeleccion[i].valor_neurona_ganadora;
+                        }
+                        printf("inf[%d]=sup[%d]=indice[%d] = valor[%f]\n",hilodeSeleccion[i].limite_inferior,
+                               hilodeSeleccion[i].limite_superior, hilodeSeleccion[i].indice_neurona_ganadora,
+                               hilodeSeleccion[i].valor_neurona_ganadora);
+
+                        distancia_menor=hilodeSeleccion[i].estado_calculo_finalizado=false;
+                    }
+                    indiceNeuronaGanadora = indice_ganador;
+                }else{
+                    indiceNeuronaGanadora = seleccionNeuronaGanadora();
+                }
+                printf("indice ganador = %d\n", indiceNeuronaGanadora);
+
                 aprendizaje(indiceNeuronaGanadora);
                 /*
                 if(entrada[Configuracion::NUMERO_ENTRADAS-1]*800<150)
@@ -387,7 +437,7 @@ void SOM::entrenamiento()
                 iteracion+=1;
             }
             duracion = ( std::clock() - start );
-                printf("tiempo seleccion neurona: %f\n", duracion);
+            printf("tiempo seleccion neurona: %f\n", duracion);
             if(!flag_olvido_progresivo){
                 for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
                 {
@@ -406,6 +456,7 @@ void SOM::entrenamiento()
         }
 
     }
+    printf("termino de entrenar????\n");
     terminoEntrenarse = true;
 }
 

@@ -22,7 +22,10 @@ typedef struct
     int incide_hilo;
     int limite_inferior;
     int limite_superior;
-    int indice_neurona_ganadora;
+    int indice_neurona_ganadora=-99;
+    double valor_neurona_ganadora=-99999;
+    double *entrada;
+    double *neurona;
 }HiloSeleccion;
 
 typedef struct
