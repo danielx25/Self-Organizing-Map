@@ -7,13 +7,27 @@ void *funcion_hilo_seleccion(void *funcion)
     int indice = param.indice_hilo;
     SOM *som1 = param.som1;
     int indice_neurona;
-    do{
-        if(som1->inicio_calculo_hilos && !som1->hilodeSeleccion[indice].estado_calculo_finalizado){
-            indice_neurona=som1->seleccionNeuronaGanadoraHilo(indice);
+    while(!som1->terminoEntrenarse){
+        if(som1->inicio_calculo_hilos && som1->hilodeSeleccion[indice].estado_calculo_finalizado==false){
+            double distancia = 0;
+            double distanciaAux = std::numeric_limits<double>::infinity();
+            int indiceNeuronaGanadora = 0;
+            for(int indiceNeu=som1->hilodeSeleccion[indice].limite_inferior; indiceNeu<som1->hilodeSeleccion[indice].limite_superior; indiceNeu++)
+            {
+                Arreglos::getNeurona(som1->hilodeSeleccion[indice].neurona, som1->redNeuronal, indiceNeu);
+                distancia = Distancias::distanciaEuclidea_1(som1->entrada, som1->hilodeSeleccion[indice].neurona);//distanciaEuclidea_1(entrada, neurona);
+
+                if(distancia < distanciaAux)
+                {
+                    distanciaAux = distancia;
+                    indiceNeuronaGanadora = indiceNeu;
+                }
+            }
+            som1->hilodeSeleccion[indice].valor_neurona_ganadora=distanciaAux;
             som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
-            som1->hilodeSeleccion[indice].indice_neurona_ganadora=indice_neurona;
+            som1->hilodeSeleccion[indice].indice_neurona_ganadora=indiceNeuronaGanadora;
         }
-    }while(!som1->terminoEntrenarse);
+    }
     printf("termino del hilo [%d]\n",indice);
     pthread_exit(NULL);
 }
@@ -276,7 +290,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=0;//Arreglos::fRand(0, 1);
+            redNeuronal[j][i]=i;//Arreglos::fRand(0, 1);
         }
     }
 }
@@ -382,27 +396,27 @@ void SOM::entrenamiento()
                 if(Configuracion::NUMERO_HILOS>1){
                     inicio_calculo_hilos = true;
                     bool termino_calculo=false;
-                    while(!termino_calculo){
+                    while(termino_calculo==false){
                         termino_calculo = true;
                         for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
-                            if(!hilodeSeleccion[i].estado_calculo_finalizado){
+                            if(hilodeSeleccion[i].estado_calculo_finalizado==false){
                                 termino_calculo =false;
                             }
                         }
                     }
                     inicio_calculo_hilos = false;
-                    double distancia_menor = 99999999;
+                    double distancia_menor = std::numeric_limits<double>::infinity();
                     int indice_ganador =-1;
                     for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
-                        if(distancia_menor<hilodeSeleccion[i].valor_neurona_ganadora){
+                        if(hilodeSeleccion[i].valor_neurona_ganadora<distancia_menor){
                             indice_ganador=hilodeSeleccion[i].indice_neurona_ganadora;
                             distancia_menor=hilodeSeleccion[i].valor_neurona_ganadora;
                         }
-                        printf("inf[%d]=sup[%d]=indice[%d] = valor[%f]\n",hilodeSeleccion[i].limite_inferior,
+                        /*printf("inf[%d]=sup[%d]=indice[%d] = valor[%f]\n",hilodeSeleccion[i].limite_inferior,
                                hilodeSeleccion[i].limite_superior, hilodeSeleccion[i].indice_neurona_ganadora,
-                               hilodeSeleccion[i].valor_neurona_ganadora);
+                               hilodeSeleccion[i].valor_neurona_ganadora);*/
 
-                        distancia_menor=hilodeSeleccion[i].estado_calculo_finalizado=false;
+                        hilodeSeleccion[i].estado_calculo_finalizado=false;
                     }
                     indiceNeuronaGanadora = indice_ganador;
                 }else{

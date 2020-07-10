@@ -94,11 +94,7 @@ class SOM
         std::vector<HiloSeleccion> hilodeSeleccion;
         bool inicio_calculo_hilos = false;
         bool termino_calculos_hilos = false;
-    protected:
 
-    private:
-        //malla de la red neuronal
-        //neurona redNeuronal[Configuracion::NUMERO_NEURONAS];
         double **datosEntrenamiento;
         double *entrada = new double[Configuracion::NUMERO_ENTRADAS];
         double *neurona = new double[Configuracion::NUMERO_ENTRADAS];
@@ -108,6 +104,12 @@ class SOM
         int rangoVecindad;
         int largo;
         int ancho;
+    protected:
+
+    private:
+        //malla de la red neuronal
+        //neurona redNeuronal[Configuracion::NUMERO_NEURONAS];
+
 
         //tasa de aprendizaje
         double alfa = Configuracion::ALFA;
