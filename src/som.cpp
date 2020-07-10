@@ -1,4 +1,4 @@
-#include "som.h"
+#include "../include/som.h"
 #include <stdio.h>
 
 void *funcion_hilo_seleccion(void *funcion)

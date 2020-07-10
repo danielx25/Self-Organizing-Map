@@ -1,0 +1,3 @@
+C:/Users/danie/OneDrive/Escritorio/Self-Organizing-Map/cmake-build-debug/CMakeFiles/som_.dir
+C:/Users/danie/OneDrive/Escritorio/Self-Organizing-Map/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/danie/OneDrive/Escritorio/Self-Organizing-Map/cmake-build-debug/CMakeFiles/rebuild_cache.dir

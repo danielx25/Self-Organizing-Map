@@ -1,4 +1,4 @@
-#include "ficherorna.h"
+#include "../include/ficherorna.h"
 
 FicheroRNA::FicheroRNA()
 {

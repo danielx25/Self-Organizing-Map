@@ -1,4 +1,4 @@
-#include "neurona.h"
+#include "../include/neurona.h"
 /*
 neurona::neurona()
 {
