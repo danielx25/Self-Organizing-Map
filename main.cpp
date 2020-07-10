@@ -1,18 +1,18 @@
 #include <iostream>
 #include <stdio.h>
 #include <limits>
-#include "som.h"
-#include "neurona.h"
-#include "ficherorna.h"
-#include "configuracion.h"
+#include "include/som.h"
+#include "include/neurona.h"
+#include "include/ficherorna.h"
+#include "include/configuracion.h"
 #include <stdlib.h>     /* atof */
 #include <time.h>
 #include <pthread.h>
 #include <cstdlib>
 #include <windows.h>
 #include <conio.h>
-#include "gestionadorsom.h"
-#include "Validacion.h"
+#include "include/gestionadorsom.h"
+#include "include/Validacion.h"
 using namespace std;
 
 void *proceso_hilos(void *funcion)

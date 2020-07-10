@@ -1,4 +1,4 @@
-#include "configuracion.h"
+#include "../include/configuracion.h"
 #include <iostream>
 Configuracion::Configuracion()
 {

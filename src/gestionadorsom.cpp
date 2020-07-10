@@ -1,4 +1,4 @@
-#include "gestionadorsom.h"
+#include "../include/gestionadorsom.h"
 
 GestionadorSOM::GestionadorSOM()
 {
