@@ -7,25 +7,41 @@ void *funcion_hilo_seleccion(void *funcion)
     int indice = param.indice_hilo;
     SOM *som1 = param.som1;
     int indice_neurona;
+    std::string cadena;
+    par_res par;
+    par.indice_hilo = indice;
     while(!som1->terminoEntrenarse){
         if(som1->inicio_calculo_hilos && som1->hilodeSeleccion[indice].estado_calculo_finalizado==false){
             double distancia = 0;
             double distanciaAux = std::numeric_limits<double>::infinity();
             int indiceNeuronaGanadora = 0;
-            for(int indiceNeu=som1->hilodeSeleccion[indice].limite_inferior; indiceNeu<som1->hilodeSeleccion[indice].limite_superior; indiceNeu++)
-            {
+            dato_neu dn;
+            par.registro.clear();
+            for(int indiceNeu=som1->hilodeSeleccion[indice].limite_inferior; indiceNeu<som1->hilodeSeleccion[indice].limite_superior; indiceNeu++) {
                 Arreglos::getNeurona(som1->hilodeSeleccion[indice].neurona, som1->redNeuronal, indiceNeu);
-                distancia = Distancias::distanciaEuclidea_1(som1->entrada, som1->hilodeSeleccion[indice].neurona);//distanciaEuclidea_1(entrada, neurona);
+                distancia = Distancias::distanciaEuclidea_1(som1->entrada,
+                                                            som1->hilodeSeleccion[indice].neurona);//distanciaEuclidea_1(entrada, neurona);
 
-                if(distancia < distanciaAux)
-                {
+                for (int i = 0; i <Configuracion::NUMERO_ENTRADAS ; ++i) {
+                    dn.neurona[i]=som1->hilodeSeleccion[indice].neurona[i];
+                }
+                dn.valor_distancia=distancia;
+                dn.indice_neurona=indiceNeu;
+                par.registro.push_back(dn);
+                if (distancia < distanciaAux) {
                     distanciaAux = distancia;
                     indiceNeuronaGanadora = indiceNeu;
                 }
             }
+            //som1->respaldo << "distancia: "<<distanciaAux<<" indice: "<<indiceNeuronaGanadora <<"\n";
+            par.indice_neurona=indiceNeuronaGanadora;
+            par.valor_distancia=distanciaAux;
+            par.fila_datos=som1->fila_dato;
+            som1->respaldo_td.push_back(par);
+            som1->sumatoria_distancias+=distanciaAux;
             som1->hilodeSeleccion[indice].valor_neurona_ganadora=distanciaAux;
-            som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
             som1->hilodeSeleccion[indice].indice_neurona_ganadora=indiceNeuronaGanadora;
+            som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
         }
     }
     printf("termino del hilo [%d]\n",indice);
@@ -76,8 +92,9 @@ SOM::SOM(double **datos)
     }
     pesosAleatorios();
     ciclos = 0;
-
+    respaldo.open ("respaldo_distancias.txt");
     if(Configuracion::NUMERO_HILOS>1){
+
         int tam_seccion = Configuracion::NUMERO_NEURONAS/Configuracion::NUMERO_HILOS;
         int inf = 0;
         for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
@@ -110,7 +127,7 @@ SOM::~SOM()
         delete[] mapaHex[i];
     delete []mapaHex;
 
-    for(int i=0; i<Configuracion::NUMERO_HILOS; i++)
+    for(int i=0; i<hilodeSeleccion.size(); i++)
     {
         delete hilodeSeleccion[i].entrada;
         delete hilodeSeleccion[i].neurona;
@@ -290,27 +307,44 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=i;//Arreglos::fRand(0, 1);
+            redNeuronal[j][i]=0.2;//Arreglos::fRand(0, 1);
         }
     }
 }
 
 int SOM::seleccionNeuronaGanadora()
 {
+    par_res par;
+    par.indice_hilo = -1;
+
     double distancia = 0;
     double distanciaAux = std::numeric_limits<double>::infinity();
     int indiceNeuronaGanadora = 0;
+    dato_neu dn;
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
         distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea_1(entrada, neurona);
 
+        for (int i = 0; i <Configuracion::NUMERO_ENTRADAS ; ++i) {
+            dn.neurona[i]=neurona[i];
+        }
+        dn.valor_distancia=distancia;
+        dn.indice_neurona=indiceNeu;
+        par.registro.push_back(dn);
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;
             indiceNeuronaGanadora = indiceNeu;
         }
     }
+
+
+    par.valor_distancia=distanciaAux;
+    par.indice_neurona=indiceNeuronaGanadora;
+    par.fila_datos=this->fila_dato;
+    respaldo_td.push_back(par);
+    sumatoria_distancias+=distanciaAux;
     return indiceNeuronaGanadora;
 }
 
@@ -392,6 +426,7 @@ void SOM::entrenamiento()
             start = std::clock();
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
+                this->fila_dato = fila;
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
                 if(Configuracion::NUMERO_HILOS>1){
                     inicio_calculo_hilos = true;
@@ -452,6 +487,7 @@ void SOM::entrenamiento()
             }
             duracion = ( std::clock() - start );
             printf("tiempo seleccion neurona: %f\n", duracion);
+            printf("distancia acumulado: %f\n", this->sumatoria_distancias);
             if(!flag_olvido_progresivo){
                 for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
                 {
@@ -470,7 +506,23 @@ void SOM::entrenamiento()
         }
 
     }
-    printf("termino de entrenar????\n");
+
+    for (int indice = 0; indice < respaldo_td.size(); ++indice) {
+        respaldo << "indice hilo: " << respaldo_td[indice].indice_hilo<<"\n";
+        respaldo << "indice fila: " << respaldo_td[indice].fila_datos<<"\n";
+        respaldo << "valor distancia: " << respaldo_td[indice].valor_distancia<<"\n";
+        respaldo << "indice neurona: " << respaldo_td[indice].indice_neurona<<"\n";
+        for (int indice_naurona = 0; indice_naurona < respaldo_td[indice].registro.size(); ++indice_naurona) {
+            dato_neu dn = respaldo_td[indice].registro[indice_naurona];
+            respaldo << "----- indice_neurona: " <<dn.indice_neurona << " valor_distancia: "<< dn.valor_distancia<<" neurona[";
+            for (int i = 0; i <Configuracion::NUMERO_ENTRADAS ; ++i) {
+                respaldo << dn.neurona[i] <<", ";
+            }
+            respaldo <<"]\n";
+        }
+    }
+    printf("termino de entrenar: %f\n", this->sumatoria_distancias);
+    respaldo.close();
     terminoEntrenarse = true;
 }
 

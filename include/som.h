@@ -6,6 +6,8 @@
 #include <limits>
 #include <pthread.h>
 #include <ctime>
+#include <iostream>
+#include <fstream>
 #include <vector>
 #include "NeuronaHex.h"
 #include "configuracion.h"
@@ -33,6 +35,23 @@ typedef struct
     SOM *som1 = NULL;
     int indice_hilo=-1;
 }parametrosHIlo;
+
+typedef struct
+{
+    int indice_neurona;
+    double valor_distancia;
+    double neurona[3];
+    double entrada[3];
+}dato_neu;
+
+typedef struct
+{
+    std::vector<dato_neu> registro;
+    int fila_datos;
+    int indice_hilo;
+    int indice_neurona;
+    double valor_distancia;
+}par_res;
 
 class SOM
 {
@@ -104,6 +123,10 @@ class SOM
         int rangoVecindad;
         int largo;
         int ancho;
+        int fila_dato;
+        std::ofstream respaldo;
+        std::vector<par_res> respaldo_td;
+        double sumatoria_distancias  = 0;
     protected:
 
     private:
@@ -130,7 +153,7 @@ class SOM
         /**pause*/
         bool pausarEntrenamiento;
 
-        /**señal para que guarde el estado de la red neuronal*/
+        /**seï¿½al para que guarde el estado de la red neuronal*/
         bool listoGuardar;
 
 };

@@ -77,11 +77,11 @@ static void proceso_principal()
 
         if(leerPesosRNA  && leerStatus)
         {
-            int opcion = 0;
+            int opcion = 1;
             printf("Entrenar de inicio.\n");
             printf("1.- SI.\n");
             printf("2.- NO.\n");
-            scanf("%d", &opcion);
+            //scanf("%d", &opcion);
             if(opcion == 1)
                 som1 = new SOM(BitmapArray);
             else
@@ -101,7 +101,7 @@ static void proceso_principal()
             //system("cls");
 
             //for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
-            do
+            /*do
             {
                 porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
                 //printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion);
@@ -117,7 +117,7 @@ static void proceso_principal()
                     FicheroRNA::guardarStatusRNA(som1);
                 }
                 som1->setPausar(false);
-            }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS && !som1->terminoEntrenarse);
+            }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS && !som1->terminoEntrenarse);*/
             printf("Termino de entrenarse!!!\n");
         }
         else
@@ -131,17 +131,17 @@ static void proceso_principal()
 
 int main()
 {
-    int opcion = 0;
+    int opcion = 1;
 
     printf("1.- Entrenar.\n");
     printf("2.- Validar.\n");
-    scanf("%d", &opcion);
+    //scanf("%d", &opcion);
     if(opcion == 1)
     proceso_principal();
     else
     validar_red();
 
-    system("pause");
+    //system("pause");
     //return 0;
 }
 
