@@ -20,7 +20,8 @@ void *funcion_hilo_seleccion(void *funcion)
     std::ofstream respaldo_hilo;
     respaldo_hilo.open ("hilo_respaldo_distancias"+ss.str()+".txt");
     while(!som1->terminoEntrenarse){
-        if(som1->inicio_calculo_hilos && som1->hilodeSeleccion[indice].estado_calculo_finalizado==false){
+        if(som1->inicio_calculo_hilos && !som1->hilodeSeleccion[indice].estado_calculo_finalizado
+        && som1->hilodeSeleccion[indice].estado_calculo_iniciado){
             //som1->respaldo<< "proceso hilo: "<<indice<<"\n";
             double distancia = 0;
             double distanciaAux = std::numeric_limits<double>::infinity();
@@ -71,6 +72,18 @@ void *funcion_hilo_seleccion(void *funcion)
             som1->hilodeSeleccion[indice].valor_neurona_ganadora=distanciaAux;
             som1->hilodeSeleccion[indice].indice_neurona_ganadora=indiceNeuronaGanadora;
             som1->hilodeSeleccion[indice].estado_calculo_finalizado=true;
+            bool esperar_otros_hilos = true;
+            while (esperar_otros_hilos){
+                bool termiron_otros_hilos = true;
+                for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+                    if(indice != i){
+                        if(som1->hilodeSeleccion[i].estado_calculo_finalizado == false){
+                            termiron_otros_hilos = false;
+                        }
+                    }
+                }
+                esperar_otros_hilos = !termiron_otros_hilos;
+            }
         }
     }
     printf("termino del hilo [%d]\n",indice);
@@ -470,19 +483,35 @@ void SOM::entrenamiento()
                 Arreglos::getFila(entrada, datosEntrenamiento, fila);
                 if(Configuracion::NUMERO_HILOS>1){
                     etapa_pos_seleccion = "etapa antes de la seleccion neurona";
-                    inicio_calculo_hilos = true;
-                    bool termino_calculo=false;
+
+
                     for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
                         hilodeSeleccion[i].estado_calculo_finalizado=false;
+                        hilodeSeleccion[i].estado_calculo_iniciado=true;
                     }
+                    /*bool termino_calculo=false;
                     while(termino_calculo==false){
                         termino_calculo = true;
                         for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
                             if(hilodeSeleccion[i].estado_calculo_finalizado==false){
                                 termino_calculo =false;
+                            } else{
+                                hilodeSeleccion[i].estado_calculo_iniciado=false;
                             }
                         }
+                    }*/
+                    inicio_calculo_hilos = true;
+                    bool esperar_otros_hilos = true;
+                    while (esperar_otros_hilos){
+                        bool termiron_otros_hilos = true;
+                        for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+                            if(hilodeSeleccion[i].estado_calculo_finalizado == false){
+                                termiron_otros_hilos = false;
+                            }
+                        }
+                        esperar_otros_hilos = !termiron_otros_hilos;
                     }
+
                     inicio_calculo_hilos = false;
                     etapa_pos_seleccion = "etapa depues de la seleccion neurona :D";
                     double distancia_menor = std::numeric_limits<double>::infinity();
@@ -495,8 +524,6 @@ void SOM::entrenamiento()
                         /*printf("inf[%d]=sup[%d]=indice[%d] = valor[%f]\n",hilodeSeleccion[i].limite_inferior,
                                hilodeSeleccion[i].limite_superior, hilodeSeleccion[i].indice_neurona_ganadora,
                                hilodeSeleccion[i].valor_neurona_ganadora);*/
-
-                        hilodeSeleccion[i_].estado_calculo_finalizado=false;
                     }
                     etapa_pos_seleccion = "despues de evaluar al ganador :/";
                     indiceNeuronaGanadora = indice_ganador;
@@ -556,6 +583,13 @@ void SOM::entrenamiento()
     printf("termino de entrenar: %f\n", this->sumatoria_distancias);
     respaldo.close();
     terminoEntrenarse = true;
+    if(Configuracion::NUMERO_HILOS>1){
+        for(int i=0; i<Configuracion::NUMERO_HILOS; i++){
+            pthread_join(hilodeSeleccion[i].hilo, NULL);
+        }
+    }
+    pthread_exit(NULL);
+
 }
 
 double** SOM::getRedNeuronal()

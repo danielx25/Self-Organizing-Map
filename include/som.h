@@ -21,6 +21,7 @@ typedef struct
 {
     pthread_t hilo;
     bool estado_calculo_finalizado = false;
+    bool estado_calculo_iniciado = false;
     int incide_hilo;
     int limite_inferior;
     int limite_superior;
