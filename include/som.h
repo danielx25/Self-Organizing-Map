@@ -127,6 +127,7 @@ class SOM
         std::ofstream respaldo;
         std::vector<par_res> respaldo_td;
         double sumatoria_distancias  = 0;
+        std::string etapa_pos_seleccion;
     protected:
 
     private:

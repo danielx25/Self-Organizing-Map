@@ -136,10 +136,13 @@ int main()
     printf("1.- Entrenar.\n");
     printf("2.- Validar.\n");
     //scanf("%d", &opcion);
-    if(opcion == 1)
-    proceso_principal();
-    else
-    validar_red();
+    if(opcion == 1){
+        proceso_principal();
+    }
+    else{
+        validar_red();
+    }
+
 
     //system("pause");
     //return 0;
