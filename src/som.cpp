@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <sstream>
 
+static bool deteniendo_hilos = false;
+
 void *funcion_hilo_seleccion(void *funcion)
 {
     parametrosHIlo param = *(parametrosHIlo*)funcion;
@@ -85,6 +87,10 @@ void *funcion_hilo_seleccion(void *funcion)
                 esperar_otros_hilos = !termiron_otros_hilos;
             }
         }
+
+        if(deteniendo_hilos){
+            break;
+        }
     }
     printf("termino del hilo [%d]\n",indice);
     printf("sumatoria distancia [%d]: %f\n", indice, sumatoria_distancia);
@@ -147,6 +153,9 @@ SOM::SOM(double **datos)
             h.limite_inferior=inf;
             h.limite_superior=(inf+tam_seccion<Configuracion::NUMERO_NEURONAS)?inf+tam_seccion:
                 Configuracion::NUMERO_NEURONAS;
+            if(i==Configuracion::NUMERO_HILOS-1 && inf+tam_seccion<Configuracion::NUMERO_NEURONAS){
+                h.limite_superior=Configuracion::NUMERO_NEURONAS;
+            }
             h.entrada= new double[Configuracion::NUMERO_ENTRADAS];
             h.neurona= new double[Configuracion::NUMERO_ENTRADAS];
             inf+=tam_seccion;
@@ -176,10 +185,12 @@ SOM::~SOM()
         delete hilodeSeleccion[i].entrada;
         delete hilodeSeleccion[i].neurona;
     }
-
+    if(terminoEntrenarse && hilodeSeleccion.size()>0){
+        //pthread_exit(NULL);
+    }
     terminoEntrenarse = false;
     hilodeSeleccion.clear();
-
+    deteniendo_hilos=true;
 
 }
 
@@ -351,7 +362,7 @@ void SOM::pesosAleatorios()
     {
         for(int j=0; j<numeroEntradas; j++)
         {
-            redNeuronal[j][i]=0.2;//Arreglos::fRand(0, 1);
+            redNeuronal[j][i]=Arreglos::fRand(0, 1);
         }
     }
 }
@@ -448,7 +459,7 @@ void SOM::ejemplo1()
 void SOM::entrenamiento()
 {
     terminoEntrenarse=false;
-
+    deteniendo_hilos=false;
     if (remove("respaldo_distancias.txt") !=0){
         printf("removido el archivo respaldo_distancias.txt\n");
     }
@@ -532,7 +543,7 @@ void SOM::entrenamiento()
                 }
                 printf("indice ganador = %d\n", indiceNeuronaGanadora);
 
-                //aprendizaje(indiceNeuronaGanadora);
+                aprendizaje(indiceNeuronaGanadora);
 
                 if(flag_olvido_progresivo){
                     for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
@@ -565,6 +576,7 @@ void SOM::entrenamiento()
         }
 
     }
+    //deteniendo_hilos=true;
 
     for (int indice = 0; indice < respaldo_td.size(); ++indice) {
         respaldo << "indice hilo: " << respaldo_td[indice].indice_hilo<<"\n";

@@ -118,6 +118,7 @@ static void proceso_principal()
                 }
                 som1->setPausar(false);
             }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS && !som1->terminoEntrenarse);*/
+            delete som1;
             printf("Termino de entrenarse!!!\n");
         }
         else
