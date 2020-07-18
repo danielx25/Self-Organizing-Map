@@ -97,6 +97,9 @@ static void proceso_principal()
         {
             //pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
             som1->entrenamiento();
+            //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
+            FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
+            printf("por que no guardar\n");
             double porcentaje = 0;
             //system("cls");
 
@@ -126,6 +129,7 @@ static void proceso_principal()
 
 
     }
+    pthread_exit(NULL);
 
 }
 
