@@ -11,12 +11,12 @@
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
 #define PBWIDTH 60
 
-static void printProgress (double percentage, int totalIter, int iter)
+static void printProgress (double percentage, int totalIter, int iter, int ciclo)
 {
     int val = (int) (percentage * 100);
     int lpad = (int) (percentage * PBWIDTH);
     int rpad = PBWIDTH - lpad;
-    printf("total: %d | iteracion: %d | por: %f", totalIter, iter, percentage);
+    printf("total: %d | iteracion: %d | por: %f| ciclo: %d", totalIter, iter, percentage,ciclo);
     printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
     fflush (stdout);
 }

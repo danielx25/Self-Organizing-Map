@@ -77,12 +77,12 @@ static void proceso_principal()
 
         if(leerPesosRNA  && leerStatus)
         {
-            int opcion = 0;
+            int opcion = 1;
             printf("Entrenar de inicio.\n");
             printf("1.- SI.\n");
             printf("2.- NO.\n");
-            scanf("%d", &opcion);
-            if(opcion == 1)
+            //scanf("%d", &opcion);
+            if(opcion == 2)
                 som1 = new SOM(BitmapArray);
             else
                 som1 = somAux;
@@ -95,29 +95,55 @@ static void proceso_principal()
 
         if(!som1->getTerminoEntrenarse())
         {
-            //pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
-            som1->entrenamiento();
+            //som1->entrenamiento();
+            pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
+            //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
+            //FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
+            //printf("por que no guardar\n");
             double porcentaje = 0;
-            //system("cls");
+            system("cls");
 
             //for(int i=0; i<som1.numeroIteraciones*Configuracion::NUMERO_DATOS+10;i++)
+            bool entro_espera=false;
             do
             {
-                porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
-                //printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion);
-                Sleep(10000);
-                som1->setPausar(true);
+                /*if(Configuracion::NUMERO_LIMITE_ITERACIONES>0){
+                    porcentaje = (som1->iteracion)/(double)(Configuracion::NUMERO_LIMITE_ITERACIONES*Configuracion::NUMERO_DATOS);
+                    printProgress(porcentaje, Configuracion::NUMERO_LIMITE_ITERACIONES*Configuracion::NUMERO_DATOS, som1->iteracion, som1->ciclos);
+                    Sleep(5000);
+                }else{
+                    porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
+                    printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion, som1->ciclos);
+                    Sleep(10000);
+                }*/
+
+                //som1->setPausar(true);
+                entro_espera=false;
                 while(som1->getListoGuardar() == false)
                 {
+                    entro_espera = true;
+                    if(Configuracion::NUMERO_LIMITE_ITERACIONES>0){
+                        porcentaje = (som1->iteracion)/(double)(Configuracion::NUMERO_LIMITE_ITERACIONES*Configuracion::NUMERO_DATOS);
+                        printProgress(porcentaje, Configuracion::NUMERO_LIMITE_ITERACIONES*Configuracion::NUMERO_DATOS, som1->iteracion, som1->ciclos);
+                    }else{
+                        porcentaje = (som1->iteracion)/(double)(som1->numeroIteraciones*Configuracion::NUMERO_DATOS);
+                        printProgress(porcentaje, som1->numeroIteraciones*Configuracion::NUMERO_DATOS, som1->iteracion, som1->ciclos);
+                    }
+                    Sleep(5000);
                 }
-                if(som1->getListoGuardar())
-                {
-                    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
-                    FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
-                    FicheroRNA::guardarStatusRNA(som1);
+                if(!entro_espera){
+                    Sleep(5000);
                 }
-                som1->setPausar(false);
-            }while(som1->iteracion<=som1->numeroIteraciones*Configuracion::NUMERO_DATOS && !som1->terminoEntrenarse);
+                //if(som1->getListoGuardar())
+                //{
+                FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getBackupRedNeuronal());
+                FicheroRNA::guardarPesosRNA(som1->getBackupRedNeuronal());
+                FicheroRNA::guardarStatusRNA(som1);
+                som1->esperarGuardar();
+                //}
+                //som1->setPausar(false);
+            }while(!som1->getTerminoEntrenarse());
+            delete som1;
             printf("Termino de entrenarse!!!\n");
         }
         else
@@ -125,23 +151,27 @@ static void proceso_principal()
 
 
     }
+    pthread_exit(NULL);
 
 }
 
 
 int main()
 {
-    int opcion = 0;
+    int opcion = 1;
 
     printf("1.- Entrenar.\n");
     printf("2.- Validar.\n");
-    scanf("%d", &opcion);
-    if(opcion == 1)
-    proceso_principal();
-    else
-    validar_red();
+    //scanf("%d", &opcion);
+    if(opcion == 1){
+        proceso_principal();
+    }
+    else{
+        validar_red();
+    }
 
-    system("pause");
+
+    //system("pause");
     //return 0;
 }
 

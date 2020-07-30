@@ -2,6 +2,16 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
+	<File name="include\Validacion.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="251" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="include\arreglos.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="89" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="include\configuracion.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="885" topLine="0" />
@@ -12,19 +22,9 @@
 			<Cursor1 position="1982" topLine="34" />
 		</Cursor>
 	</File>
-	<File name="src\configuracion.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="959" topLine="13" />
-		</Cursor>
-	</File>
 	<File name="include\ficherorna.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="14793" topLine="391" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2917" topLine="92" />
+			<Cursor1 position="14793" topLine="406" />
 		</Cursor>
 	</File>
 	<File name="include\som.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,28 +32,27 @@
 			<Cursor1 position="2915" topLine="88" />
 		</Cursor>
 	</File>
-	<File name="src\som.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1372" topLine="12" />
+			<Cursor1 position="2795" topLine="92" />
 		</Cursor>
-		<Folding>
-			<Collapse line="35" />
-			<Collapse line="160" />
-		</Folding>
+	</File>
+	<File name="src\configuracion.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="959" topLine="19" />
+		</Cursor>
 	</File>
 	<File name="src\Validacion.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2676" topLine="80" />
 		</Cursor>
 	</File>
-	<File name="include\Validacion.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\som.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="251" topLine="10" />
+			<Cursor1 position="17931" topLine="517" />
 		</Cursor>
-	</File>
-	<File name="include\arreglos.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="89" topLine="0" />
-		</Cursor>
+		<Folding>
+			<Collapse line="317" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>

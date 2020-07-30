@@ -6,6 +6,8 @@
 #include <limits>
 #include <pthread.h>
 #include <ctime>
+#include <iostream>
+#include <fstream>
 #include <vector>
 #include "NeuronaHex.h"
 #include "configuracion.h"
@@ -19,6 +21,7 @@ typedef struct
 {
     pthread_t hilo;
     bool estado_calculo_finalizado = false;
+    bool estado_calculo_iniciado = false;
     int incide_hilo;
     int limite_inferior;
     int limite_superior;
@@ -33,6 +36,23 @@ typedef struct
     SOM *som1 = NULL;
     int indice_hilo=-1;
 }parametrosHIlo;
+
+typedef struct
+{
+    int indice_neurona;
+    double valor_distancia;
+    double neurona[3];
+    double entrada[3];
+}dato_neu;
+
+typedef struct
+{
+    std::vector<dato_neu> registro;
+    int fila_datos;
+    int indice_hilo;
+    int indice_neurona;
+    double valor_distancia;
+}par_res;
 
 class SOM
 {
@@ -61,11 +81,13 @@ class SOM
 
         void ejemplo1();
         double **getRedNeuronal();
+        double **getBackupRedNeuronal();
         NeuronaHex **getMapaHex();
 
         void setRedNeuronal(double **red);
         void setPausar(bool pause);
         bool getListoGuardar();
+        void esperarGuardar();
 
         double getAlfa();
         double getBeta();
@@ -99,11 +121,17 @@ class SOM
         double *entrada = new double[Configuracion::NUMERO_ENTRADAS];
         double *neurona = new double[Configuracion::NUMERO_ENTRADAS];
         double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+        double **backup_redNeuronal;
         int numeroNeuronas;
         int numeroEntradas;
         int rangoVecindad;
         int largo;
         int ancho;
+        int fila_dato;
+        std::ofstream respaldo;
+        std::vector<par_res> respaldo_td;
+        double sumatoria_distancias  = 0;
+        std::string etapa_pos_seleccion;
     protected:
 
     private:
@@ -130,7 +158,7 @@ class SOM
         /**pause*/
         bool pausarEntrenamiento;
 
-        /**señal para que guarde el estado de la red neuronal*/
+        /**seï¿½al para que guarde el estado de la red neuronal*/
         bool listoGuardar;
 
 };
