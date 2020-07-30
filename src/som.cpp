@@ -79,8 +79,12 @@ SOM::SOM(double **datos)
         mapaHex[i] = new NeuronaHex[Configuracion::LARGO];
 
     redNeuronal=new double*[Configuracion::NUMERO_ENTRADAS];
-    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    backup_redNeuronal =new double*[Configuracion::NUMERO_ENTRADAS];
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++){
         redNeuronal[i] = new double[Configuracion::NUMERO_NEURONAS];
+        backup_redNeuronal[i] = new double[Configuracion::NUMERO_NEURONAS];
+    }
+
 
     marcasMapa = new bool*[Configuracion::ANCHO];
     for(int i=0; i<Configuracion::ANCHO; i++)
@@ -132,9 +136,12 @@ SOM::~SOM()
         delete[] marcasMapa[i];
     delete []marcasMapa;
 
-    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
+    for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++){
         delete[] redNeuronal[i];
+        delete[] backup_redNeuronal[i];
+    }
     delete []redNeuronal;
+    delete []backup_redNeuronal;
 
     for(int i=0; i<Configuracion::ANCHO; i++)
         delete[] mapaHex[i];
@@ -323,37 +330,20 @@ void SOM::pesosAleatorios()
 
 int SOM::seleccionNeuronaGanadora()
 {
-    par_res par;
-    par.indice_hilo = -1;
-
     double distancia = 0;
     double distanciaAux = std::numeric_limits<double>::infinity();
     int indiceNeuronaGanadora = 0;
-    dato_neu dn;
     for(int indiceNeu=0; indiceNeu<numeroNeuronas; indiceNeu++)
     {
         Arreglos::getNeurona(neurona, redNeuronal, indiceNeu);
-        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);//distanciaEuclidea_1(entrada, neurona);
+        distancia = Distancias::distanciaEuclidea_1(entrada, neurona);
         sumatoria_distancias+=distancia;
-        for (int i = 0; i <Configuracion::NUMERO_ENTRADAS ; ++i) {
-            dn.neurona[i]=neurona[i];
-        }
-        dn.valor_distancia=distancia;
-        dn.indice_neurona=indiceNeu;
-        par.registro.push_back(dn);
         if(distancia < distanciaAux)
         {
             distanciaAux = distancia;
             indiceNeuronaGanadora = indiceNeu;
         }
     }
-
-
-    par.valor_distancia=distanciaAux;
-    par.indice_neurona=indiceNeuronaGanadora;
-    par.fila_datos=this->fila_dato;
-    respaldo_td.push_back(par);
-
     return indiceNeuronaGanadora;
 }
 
@@ -436,11 +426,11 @@ void SOM::entrenamiento()
     Configuracion::OLVIDO_LOGARITMICO;
     std::clock_t start;
     double duracion;
+    listoGuardar = false;
     while(iteracion <= numeroIteraciones*Configuracion::NUMERO_DATOS)
     {
         if(!pausarEntrenamiento)
         {
-            listoGuardar = false;
             start = std::clock();
             for(int fila = 0; fila < Configuracion::NUMERO_DATOS; fila++)
             {
@@ -495,7 +485,7 @@ void SOM::entrenamiento()
                 iteracion+=1;
             }
             duracion = ( std::clock() - start );
-            printf("tiempo seleccion neurona: %f\n", duracion);
+            //printf("tiempo seleccion neurona: %f\n", duracion);
             //printf("distancia acumulado: %f\n", this->sumatoria_distancias);
             if(!flag_olvido_progresivo){
                 for(int i=0; i<Configuracion::NUMERO_ENTRADAS; i++)
@@ -504,17 +494,20 @@ void SOM::entrenamiento()
                 }
             }
 
-            ciclos +=1;
+            for (int j = 0; j < Configuracion::NUMERO_ENTRADAS; ++j) {
+                for (int i = 0; i <Configuracion::NUMERO_NEURONAS ; ++i) {
+                    backup_redNeuronal[j][i] = redNeuronal[j][i];
+                }
+            }
 
+            ciclos +=1;
+            listoGuardar = true;
             if(ciclos>=Configuracion::NUMERO_LIMITE_ITERACIONES &&
                Configuracion::NUMERO_LIMITE_ITERACIONES>0){
                listoGuardar = true;
                 break;
            }
-
-            listoGuardar = true;
         }
-
     }
     //deteniendo_hilos=true;
     /*
@@ -548,6 +541,10 @@ double** SOM::getRedNeuronal()
     return redNeuronal;
 }
 
+double **SOM::getBackupRedNeuronal(){
+    return backup_redNeuronal;
+}
+
 
 NeuronaHex** SOM::getMapaHex()
 {
@@ -567,6 +564,10 @@ void SOM::setPausar(bool pause)
 bool SOM::getListoGuardar()
 {
     return listoGuardar;
+}
+
+void SOM::esperarGuardar(){
+    listoGuardar = false;
 }
 
 double SOM::getAlfa()

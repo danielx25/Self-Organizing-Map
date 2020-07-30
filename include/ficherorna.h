@@ -349,6 +349,13 @@ class FicheroRNA
                                 field = RemoveChar(field, ' ');
                                 Configuracion::OLVIDO_LOGARITMICO = atof(field.c_str());
                             }
+
+                            if (line.find("NUMERO_HILOS") != std::string::npos)
+                            {
+                                numeroEntrada = true;
+                                field = RemoveChar(field, ' ');
+                                Configuracion::NUMERO_HILOS = atof(field.c_str());
+                            }
                         }
                         contador+=1;
                     }
@@ -406,12 +413,19 @@ class FicheroRNA
             cadena += "PESO_DIMENSION_OBJ = "+ss2.str()+"\n";
 
             ss2.str("");
+            cadena +="#funciona si el numero de iteraciones es mayor que 0\n";
             ss2<<Configuracion::NUMERO_LIMITE_ITERACIONES;
             cadena += "NUMERO_LIMITE_ITERACIONES = "+ss2.str()+"\n";
 
             ss2.str("");
+            cadena +="#0: sin olvido logaritmico 1: con olvido logaritmico\n";
             ss2<<Configuracion::OLVIDO_LOGARITMICO;
             cadena += "OLVIDO_LOGARITMICO = "+ss2.str()+"\n";
+
+            ss2.str("");
+            cadena +="#funciona si el numero de hilos es mayor a 1\n";
+            ss2<<Configuracion::NUMERO_HILOS;
+            cadena += "NUMERO_HILOS = "+ss2.str()+"\n";
 
             std::ofstream fichero("ConfiguracionRNA.conf", std::ios::ate);
             fichero << cadena;

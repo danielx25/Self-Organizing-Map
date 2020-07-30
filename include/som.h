@@ -81,11 +81,13 @@ class SOM
 
         void ejemplo1();
         double **getRedNeuronal();
+        double **getBackupRedNeuronal();
         NeuronaHex **getMapaHex();
 
         void setRedNeuronal(double **red);
         void setPausar(bool pause);
         bool getListoGuardar();
+        void esperarGuardar();
 
         double getAlfa();
         double getBeta();
@@ -119,6 +121,7 @@ class SOM
         double *entrada = new double[Configuracion::NUMERO_ENTRADAS];
         double *neurona = new double[Configuracion::NUMERO_ENTRADAS];
         double **redNeuronal;//[Configuracion::NUMERO_ENTRADAS][Configuracion::NUMERO_NEURONAS];
+        double **backup_redNeuronal;
         int numeroNeuronas;
         int numeroEntradas;
         int rangoVecindad;
