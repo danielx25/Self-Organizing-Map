@@ -13,6 +13,7 @@
 #include <conio.h>
 #include "include/gestionadorsom.h"
 #include "include/Validacion.h"
+#include "include/Visualizacion.h"
 using namespace std;
 
 void *proceso_hilos(void *funcion)
@@ -156,9 +157,9 @@ static void proceso_principal()
 }
 
 
-int main()
+int main(int argv, char ** args)
 {
-    int opcion = 1;
+    /*int opcion = 1;
 
     printf("1.- Entrenar.\n");
     printf("2.- Validar.\n");
@@ -168,7 +169,10 @@ int main()
     }
     else{
         validar_red();
-    }
+    }*/
+
+    Visualizacion * v = new Visualizacion();
+    v->loop();
 
 
     //system("pause");
