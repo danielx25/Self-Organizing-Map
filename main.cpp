@@ -170,9 +170,15 @@ int main(int argv, char ** args)
     else{
         validar_red();
     }*/
+    if(!FicheroRNA::leerConfiguracion())
+        FicheroRNA::crearConfiguracion();
+    double ** BitmapArray = NULL;
+    BitmapArray = Arreglos::creandoMatrizDouble(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
+    SOM *s = new SOM(BitmapArray);
 
-    Visualizacion * v = new Visualizacion();
-    v->loop();
+    Visualizacion * v = new Visualizacion(s);
+    //v->loop();
+    v->calcularPosicionesHex(4,4);
 
 
     //system("pause");

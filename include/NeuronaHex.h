@@ -9,6 +9,7 @@
 
 struct conexion
 {
+    double distancia;
     bool conectado;
     int fila;
     int columna;
@@ -19,7 +20,8 @@ typedef struct
     int id;
     double numero_activaciones;
     double *pesos = new double[Configuracion::NUMERO_ENTRADAS];
-
+    int x;
+    int y;
     conexion lado1;//derecha
     conexion lado2;//derecha-abajo
     conexion lado3;//izquier-abajo
@@ -59,7 +61,7 @@ static void mostrarConxHex(NeuronaHex **mapaHex)
 }
 
 
-//“odd-r” horizontal layout
+//ï¿½odd-rï¿½ horizontal layout
 static void crearMatrizConexionHex(NeuronaHex **mapaHex)
 {
     /*

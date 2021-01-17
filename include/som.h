@@ -132,6 +132,11 @@ class SOM
         std::vector<par_res> respaldo_td;
         double sumatoria_distancias  = 0;
         std::string etapa_pos_seleccion;
+
+        /**Estructura hexagonal del mapa de kohonen*/
+        NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
+        /**marcar los hexagonos de la neuronas que ya aprendieron en una iteracion*/
+        bool **marcasMapa;
     protected:
 
     private:
@@ -150,10 +155,7 @@ class SOM
 
         int indiceNeuronaGanadora;
 
-        /**Estructura hexagonal del mapa de kohonen*/
-        NeuronaHex **mapaHex;//[Configuracion::ANCHO][Configuracion::LARGO];
-        /**marcar los hexagonos de la neuronas que ya aprendieron en una iteracion*/
-        bool **marcasMapa;
+
 
         /**pause*/
         bool pausarEntrenamiento;

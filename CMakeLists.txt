@@ -15,8 +15,11 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(${SDL2_INCLUDE_PATH} ${SDL2_IMAGE_INCLUDE_PATH} ${SDL2_MIXER_INCLUDE_PATH} ${SDL2_TTF_INCLUDE_PATH})
 link_directories(${SDL2_LIB_PATH} ${SDL2_IMAGE_LIB_PATH} ${SDL2_MIXER_LIB_PATH} ${SDL2_TTF_LIB_PATH})
 
-add_executable(som_ main.cpp include/arreglos.h include/configuracion.h include/CriterioSupervision.h include/distancias.h include/ficherorna.h
-        include/gestionadorsom.h include/neurona.h include/NeuronaHex.h include/som.h include/Validacion.h include/valores.h include/Visualizacion.h
-        src/configuracion.cpp src/ficherorna.cpp src/gestionadorsom.cpp src/neurona.cpp src/som.cpp src/Validacion.cpp src/Visualizacion.cpp)
+add_executable(som_ main.cpp include/arreglos.h include/configuracion.h include/CriterioSupervision.h include/distancias.h
+        include/ficherorna.h
+        include/gestionadorsom.h include/neurona.h include/NeuronaHex.h include/som.h include/Validacion.h include/valores.h
+        include/Visualizacion.h include/dibujarfiguras.h
+        src/configuracion.cpp src/ficherorna.cpp src/gestionadorsom.cpp src/neurona.cpp src/som.cpp src/Validacion.cpp
+        src/Visualizacion.cpp src/dibujarfiguras.cpp)
 
 target_link_libraries(som_ mingw32 SDL2main SDL2 SDL2_image SDL2_mixer SDL2_ttf pthread)
