@@ -175,11 +175,18 @@ int main(int argv, char ** args)
     double ** BitmapArray = NULL;
     BitmapArray = Arreglos::creandoMatrizDouble(Configuracion::NUMERO_DATOS, Configuracion::NUMERO_ENTRADAS);
     SOM *s = new SOM(BitmapArray);
+    bool leerPesosRNA = FicheroRNA::leerPesosRNA(s->getRedNeuronal());
+    if(!leerPesosRNA)
+        printf("No se pudo leer los pesos RNA :( \n");
+
 
     Visualizacion * v = new Visualizacion(s);
-    //v->loop();
-    v->calcularPosicionesHex(4,4);
+    //v->calcularPosicionesHex(4,4);
+    //double x = 0, y =0;
+    //v->calcularTercerPunto(&x, &y, 0,0,5,0,5,5);
+    v->loop();
 
+    delete s;
 
     //system("pause");
     //return 0;

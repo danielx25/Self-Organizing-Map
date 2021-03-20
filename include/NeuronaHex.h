@@ -20,8 +20,8 @@ typedef struct
     int id;
     double numero_activaciones;
     double *pesos = new double[Configuracion::NUMERO_ENTRADAS];
-    int x;
-    int y;
+    double x;
+    double y;
     conexion lado1;//derecha
     conexion lado2;//derecha-abajo
     conexion lado3;//izquier-abajo

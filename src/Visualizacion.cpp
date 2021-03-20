@@ -95,12 +95,22 @@ void Visualizacion::imprimirMalla() {
     desc_figura df;
     int x_ = 10;
     int y_;
-    for (int i = 0; i < Configuracion::ANCHO ; ++i) {
+    /*for (int i = 0; i < Configuracion::ANCHO ; ++i) {
         x_+= 10;
         y_ = 10;
         for (int j = 0; j < Configuracion::LARGO; ++j) {
             y_+=10;
             f_aux = DibujarFiguras::crearPunto(i+x_, j+y_);
+            df.fg = &f_aux;
+            DibujarFiguras::mostrarFigura(screen, df);
+        }
+    }*/
+
+    for (int i = 0; i < Configuracion::ANCHO ; ++i) {
+
+        for (int j = 0; j < Configuracion::LARGO; ++j) {
+
+            f_aux = DibujarFiguras::crearPunto(som->getMapaHex()[i][j].x+100, som->getMapaHex()[i][j].y+100);
             df.fg = &f_aux;
             DibujarFiguras::mostrarFigura(screen, df);
         }
@@ -193,10 +203,11 @@ void Visualizacion::calcularPosicionesHex(int fila, int columna) {
     int numero_neurona_lado = 1;
     int total_neuronas_ciclo;
     int cont_num_neurxlado ;
+    bool salir = false;
 
     mapaHex[fila][columna].x = mapaHex[fila][columna].y = 0;
 
-    while (contador_neuronas < Configuracion::NUMERO_NEURONAS) {
+    while (contador_neuronas < Configuracion::NUMERO_NEURONAS && salir == false) {
         contador_lado = 0;
         total_neuronas_ciclo = 6 * iter;
         numero_neurona_lado = total_neuronas_ciclo/6;
@@ -225,11 +236,48 @@ void Visualizacion::calcularPosicionesHex(int fila, int columna) {
                             mapaHex[columna][fila].lado6.columna;
                     Arreglos::getNeurona(neuronaOrigen, som->redNeuronal, indice_neu_l1);
                     double ladoa = Distancias::distanciaEuclidea_1(neuronaOrigen, neuronaVecino);
-                    double p = (ladoa +ladob+ ladoc)/2;
-                    double alfa = 2*sqrt(p*(p-ladoa)(p-ladob)(p-ladoc));
-                    double h = alfa/ladoc;
-                    mapaHex[fila_v][columna_v].y = mapaHex[fila][columna].y - h;
-                    mapaHex[fila_v][columna_v].x = mapaHex[fila][columna].x+ sqrt(pow(h, 2) - pow(ladob, 2));
+                    double *x =  &mapaHex[fila_v][columna_v].x;
+                    double *y =  &mapaHex[fila_v][columna_v].y;
+                    double px1 = mapaHex[fila][columna].x;
+                    double py1 = mapaHex[fila][columna].y;
+                    double px2 = mapaHex[mapaHex[fila][columna].lado1.fila][mapaHex[fila][columna].lado1.columna].x;
+                    double py2 = mapaHex[mapaHex[fila][columna].lado1.fila][mapaHex[fila][columna].lado1.columna].y;
+                    this->calcularTercerPunto(x, y, px1, py1, px2, py2, ladob, ladoc);
+                    mapaHex[fila][columna].lado2.distancia=ladob;
+                    mapaHex[fila_v][columna_v].y = *y;
+                    mapaHex[fila_v][columna_v].x = *x;
+                    mapaHex[fila_v][columna_v].lado6.distancia=ladoa;
+                    if(iter>1){
+                        fila=mapaHex[fila][columna].lado3.fila;
+                        columna=mapaHex[fila][columna].lado3.columna;
+                    }
+
+                    fila_v=mapaHex[fila_v][columna_v].lado3.fila;
+                    columna_v=mapaHex[fila_v][columna_v].lado3.columna;
+                }
+                if(contador_lado + 1 == 3){
+                    double ladoc = mapaHex[fila][columna].lado2.distancia;
+                    double ladob = distancia;
+                    int indice_neu_l1 = Configuracion::LARGO * mapaHex[fila_v][columna_v].lado1.fila +
+                                        mapaHex[columna][fila].lado1.columna;
+                    Arreglos::getNeurona(neuronaOrigen, som->redNeuronal, indice_neu_l1);
+                    double ladoa = Distancias::distanciaEuclidea_1(neuronaOrigen, neuronaVecino);
+                    double *x =  &mapaHex[fila_v][columna_v].x;
+                    double *y =  &mapaHex[fila_v][columna_v].y;
+                    double px1 = mapaHex[fila][columna].x;
+                    double py1 = mapaHex[fila][columna].y;
+                    double px2 = mapaHex[mapaHex[fila][columna].lado2.fila][mapaHex[fila][columna].lado2.columna].x;
+                    double py2 = mapaHex[mapaHex[fila][columna].lado2.fila][mapaHex[fila][columna].lado2.columna].y;
+                    this->calcularTercerPunto(x, y, px1, py1, px2, py2, ladob, ladoc);
+                    mapaHex[fila_v][columna_v].y = *y;
+                    mapaHex[fila_v][columna_v].x = *x;
+                    mapaHex[fila_v][columna_v].lado6.distancia=ladoa;
+                    fila=mapaHex[fila][columna].lado3.fila;
+                    columna=mapaHex[fila][columna].lado3.columna;
+                    fila_v=mapaHex[fila_v][columna_v].lado3.fila;
+                    columna_v=mapaHex[fila_v][columna_v].lado3.columna;
+                    salir = true;
+                    break;
                 }
                 cont_num_neurxlado++;
             } else {
@@ -270,4 +318,30 @@ void Visualizacion::calcularPosicionesHex(int fila, int columna) {
     }
     delete neuronaOrigen;
     delete neuronaVecino;
+}
+
+void Visualizacion::calcularTercerPunto(double *x, double *y, double p1x, double p1y, double p2x, double p2y, double lp1,
+                                        double lp2) {
+    double lp1p2 = this->distanciaEntreDosPuntos(p1x, p1y, p2x, p2y);
+    double angulo_deseado = this->angulo_recta(p1x, p1y, p2x, p2y);
+    double p = (lp1p2+lp1+lp2)/2;
+    double f = p*(p-lp1p2)*(p-lp1)*(p-lp2);
+    double h =(2*sqrt(abs(f)))/lp1p2;
+
+    *x = sqrt(pow(lp1,2)-pow(h,2));
+    *y = h*-1;
+
+    double angulo_ant = angulo_recta(0,0, lp1p2,0);
+    double newxp1 = cos(anguleToRadian(angulo_deseado+angulo_ant))*lp1p2;
+    double newyp1 = sin(anguleToRadian(angulo_deseado+angulo_ant))*lp1p2;
+
+    angulo_ant = angulo_recta(0,0, *x,*y);
+    double newxp2 = cos(anguleToRadian(angulo_deseado+angulo_ant))*lp1;
+    double newyp2 = sin(anguleToRadian(angulo_deseado+angulo_ant))*lp1;
+
+    double newxp3 = p1x+newxp2;
+    double newyp3 = p1y+newyp2;
+    *x = newxp3;
+    *y = newyp3;
+    printf("(%f, %f)\n", *x,*y);
 }
