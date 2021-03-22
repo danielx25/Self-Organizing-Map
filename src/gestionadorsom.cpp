@@ -98,7 +98,7 @@ void GestionadorSOM::reanudarEntrenamiento()
 
 void GestionadorSOM::guardarEstadoRNA()
 {
-    FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
+    FicheroRNA::escribirActivacionRNA(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
     FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
     FicheroRNA::guardarStatusRNA(som1);
 }

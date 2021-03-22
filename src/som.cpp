@@ -397,7 +397,7 @@ void SOM::ejemplo1()
         contador+=1;
         printf("|\n");
     }
-    //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
+    //FicheroRNA::escribirActivacionRNA(Configuracion::ANCHO, Configuracion::LARGO, mapaHex, redNeuronal);
 }
 
 void SOM::entrenamiento()

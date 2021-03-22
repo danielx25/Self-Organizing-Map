@@ -55,8 +55,12 @@ static void validar_red()
 static void proceso_principal()
 {
     //iniciando la configuracion desde el archivo
-    if(!FicheroRNA::leerConfiguracion())
+    if(!FicheroRNA::leerConfiguracion()){
         FicheroRNA::crearConfiguracion();
+    }
+    FicheroRNA::crearConfiguracionXML();
+
+
 
     pthread_t hilo;
     double ** BitmapArray = NULL;
@@ -98,7 +102,7 @@ static void proceso_principal()
         {
             //som1->entrenamiento();
             pthread_create(&hilo, NULL, proceso_hilos, (void*)som1);
-            //FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
+            //FicheroRNA::escribirActivacionRNA(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getRedNeuronal());
             //FicheroRNA::guardarPesosRNA(som1->getRedNeuronal());
             //printf("por que no guardar\n");
             double porcentaje = 0;
@@ -137,7 +141,7 @@ static void proceso_principal()
                 }
                 //if(som1->getListoGuardar())
                 //{
-                FicheroRNA::escribirJS(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getBackupRedNeuronal());
+                FicheroRNA::escribirActivacionRNA(Configuracion::ANCHO, Configuracion::LARGO, som1->getMapaHex(), som1->getBackupRedNeuronal());
                 FicheroRNA::guardarPesosRNA(som1->getBackupRedNeuronal());
                 FicheroRNA::guardarStatusRNA(som1);
                 som1->esperarGuardar();
@@ -159,6 +163,7 @@ static void proceso_principal()
 
 int main(int argv, char ** args)
 {
+    proceso_principal();
     /*int opcion = 1;
 
     printf("1.- Entrenar.\n");
@@ -169,7 +174,7 @@ int main(int argv, char ** args)
     }
     else{
         validar_red();
-    }*/
+    }
     if(!FicheroRNA::leerConfiguracion())
         FicheroRNA::crearConfiguracion();
     double ** BitmapArray = NULL;
@@ -178,15 +183,15 @@ int main(int argv, char ** args)
     bool leerPesosRNA = FicheroRNA::leerPesosRNA(s->getRedNeuronal());
     if(!leerPesosRNA)
         printf("No se pudo leer los pesos RNA :( \n");
+    */
 
-
-    Visualizacion * v = new Visualizacion(s);
+    //Visualizacion * v = new Visualizacion(s);
     //v->calcularPosicionesHex(4,4);
     //double x = 0, y =0;
     //v->calcularTercerPunto(&x, &y, 0,0,5,0,5,5);
-    v->loop();
+    //v->loop();
 
-    delete s;
+    //delete s;
 
     //system("pause");
     //return 0;

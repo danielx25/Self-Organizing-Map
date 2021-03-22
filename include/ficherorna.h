@@ -14,7 +14,7 @@
 #include "som.h"
 #include "arreglos.h"
 
-const char NOMBRE_FICHERO[100] = "valores.js";
+const char NOMBRE_FICHERO[100] = "activacion_rna.csv";
 class FicheroRNA
 {
     public:
@@ -44,18 +44,18 @@ class FicheroRNA
 
         }
 
-        static void escribirJS(int ancho , int largo, NeuronaHex **mapaHex, double **redNeuronal)
+        static void escribirActivacionRNA(int ancho , int largo, NeuronaHex **mapaHex, double **redNeuronal)
         {
             std::string cadena;
             std::stringstream ss2;
 
-            ss2 << ancho;
+            /*ss2 << ancho;
             cadena =  "var ancho = "+ss2.str()+ ";\n";
             ss2.str("");
             ss2<<largo;
             cadena += "var largo = "+ss2.str()+ ";\n\n";
 
-            cadena+="var lista_red = [";
+            cadena+="var lista_red = [";*/
 
             for(int fila = 0; fila <ancho; fila++)
             {
@@ -64,12 +64,12 @@ class FicheroRNA
                     //printf("ancho: %d largo: %d\n", fila, columna);
                     ss2.str("");
                     ss2<<mapaHex[fila][columna].numero_activaciones;
-                    cadena+= ss2.str()+", ";
+                    cadena+= ss2.str()+"\n";
 
                 }
-                cadena+="\n";
+                //cadena+="\n";
             }
-            cadena+="];\n\n";
+            /*cadena+="];\n\n";
             ss2.str("");
             ss2<<Configuracion::NUMERO_NEURONAS;
             cadena+="var numeroNeurona= "+ss2.str()+"\n";
@@ -89,7 +89,7 @@ class FicheroRNA
                 }
                 cadena+="],\n";
             }
-            cadena+="];\n";
+            cadena+="];\n";*/
             std::ofstream fichero(NOMBRE_FICHERO, std::ios::ate);
             fichero << cadena;
             fichero.close();
@@ -431,6 +431,56 @@ class FicheroRNA
             fichero << cadena;
             fichero.close();
         }
+
+    static void crearConfiguracionXML()
+    {
+        std::string cadena;
+        std::stringstream ss2;
+        std::string espacio ="     ";
+
+        cadena = "<configuracion>\n";
+        ss2.str("");
+        ss2<<Configuracion::NUMERO_ENTRADAS;
+        cadena += espacio+"<numero-entradas>"+ss2.str()+"</numero-entradas>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::NUMERO_NEURONAS;
+        cadena += espacio+"<numero-neuronas>"+ss2.str()+"</numero-neuronas>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::LARGO;
+        cadena += espacio+"<largo>"+ss2.str()+"</largo>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::ANCHO;
+        cadena += espacio+"<ancho>"+ss2.str()+"</ancho>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::ALFA;
+        cadena += espacio+"<alfa>"+ss2.str()+"</alfa>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::BETA;
+        cadena += espacio+"<beta>"+ss2.str()+"</beta>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::RANGO_VECINDAD;
+        cadena += espacio+"<rango-vecindad>"+ss2.str()+"</rango-vecindad>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::PESO_DIMENSION_OBJ;
+        cadena += espacio+"<peso-dimension>"+ss2.str()+"</peso-dimension>\n";
+
+        ss2.str("");
+        ss2<<Configuracion::OLVIDO_LOGARITMICO;
+        cadena += espacio+"<olvido-logaritmico>"+ss2.str()+"</olvido-logaritmico>\n";
+
+        cadena+= "</configuracion>\n";
+
+        std::ofstream fichero("ConfiguracionRNAXML.conf", std::ios::ate);
+        fichero << cadena;
+        fichero.close();
+    }
 
         static void guardarStatusRNA(SOM *som1)
         {
