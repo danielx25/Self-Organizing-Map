@@ -477,7 +477,7 @@ class FicheroRNA
 
         cadena+= "</configuracion>\n";
 
-        std::ofstream fichero("ConfiguracionRNAXML.conf", std::ios::ate);
+        std::ofstream fichero("ConfiguracionRNA.xml", std::ios::ate);
         fichero << cadena;
         fichero.close();
     }
