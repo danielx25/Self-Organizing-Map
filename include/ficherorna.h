@@ -448,6 +448,10 @@ class FicheroRNA
         cadena += espacio+"<numero-neuronas>"+ss2.str()+"</numero-neuronas>\n";
 
         ss2.str("");
+        ss2<<Configuracion::NUMERO_DATOS;
+        cadena += espacio+"<numero-datos>"+ss2.str()+"</numero-datos>\n";
+
+        ss2.str("");
         ss2<<Configuracion::LARGO;
         cadena += espacio+"<largo>"+ss2.str()+"</largo>\n";
 
