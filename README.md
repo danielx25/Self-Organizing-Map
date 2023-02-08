@@ -9,3 +9,5 @@ La no supervisión consiste en que la red descubra por sí sola características
   
   
 [Proyecto asociado](https://portafolio.dbarraza4.cl/project/classification/digit-recognizer)
+
+![](page_som.gif)
